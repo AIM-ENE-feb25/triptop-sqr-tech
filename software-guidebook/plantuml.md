@@ -1,19 +1,27 @@
-To make the diagram more advanced and reduce line crossings, we can rearrange the elements and use different types of connectors. Here is an updated version of the PlantUML diagram:
-
-```plantuml
 @startuml
+skinparam backgroundColor #F5F5F5
+skinparam rectangle {
+BackgroundColor<<Triptop>> #ADD8E6
+BackgroundColor<<Services>> #FFEB3B
+BackgroundColor<<Accommodation>> #FFCDD2
+BackgroundColor<<Transport>> #C8E6C9
+BackgroundColor<<CarRental>> #D1C4E9
+BackgroundColor<<Activities>> #FFF9C4
+BackgroundColor<<Food>> #FFECB3
+BackgroundColor<<Payment>> #B3E5FC
+}
 
 actor "Reiziger" as User
 actor "Tweede-lijns Reisagent" as Agent
 actor "Identity Provider" as IDP
 
-rectangle "Triptop Vakantieplan App" {
-  (Reis Samenstellen) as CreateTrip
-  (Boeken) as BookTrip
-  (Annuleren) as CancelTrip
-  (Wijzigen) as ModifyTrip
-  (Betalen) as PayTrip
-  (Reisstatus Bekijken) as ViewStatus
+rectangle "Triptop Vakantieplan App" <<Triptop>> {
+(Reis Samenstellen) as CreateTrip
+(Boeken) as BookTrip
+(Annuleren) as CancelTrip
+(Wijzigen) as ModifyTrip
+(Betalen) as PayTrip
+(Reisstatus Bekijken) as ViewStatus
 }
 
 User --> IDP : "Login via Google, Microsoft, Airbnb"
@@ -26,36 +34,36 @@ User --> ViewStatus
 
 Agent --> ViewStatus : "Ondersteuning bij reisplanning"
 
-database "Externe Services" as Services {
-  rectangle "Overnachtingen" as Accommodation {
-    [Booking]
-    [Airbnb]
-    [Eigen beheer]
-  }
-  rectangle "Vervoer" as Transport {
-    [NS]
-    [Deutsche Bahn]
-    [KLM]
-    [Google Maps]
-    [Veerdienst]
-  }
-  rectangle "Autohuur" as CarRental {
-    [Sixt]
-    [Hertz]
-  }
-  rectangle "Excursies" as Activities {
-    [GetYourGuide]
-    [Tripadvisor]
-  }
-  rectangle "Eten & Drinken" as Food {
-    [Takeaway]
-    [Eet.nu]
-  }
-  rectangle "Betaalsysteem" as Payment {
-    [iDEAL]
-    [Creditcard]
-    [PayPal]
-  }
+database "Externe Services" as Services <<Services>> {
+rectangle "Overnachtingen" as Accommodation <<Accommodation>> {
+[Booking]
+[Airbnb]
+[Eigen beheer]
+}
+rectangle "Vervoer" as Transport <<Transport>> {
+[NS]
+[Deutsche Bahn]
+[KLM]
+[Google Maps]
+[Veerdienst]
+}
+rectangle "Autohuur" as CarRental <<CarRental>> {
+[Sixt]
+[Hertz]
+}
+rectangle "Excursies" as Activities <<Activities>> {
+[GetYourGuide]
+[Tripadvisor]
+}
+rectangle "Eten & Drinken" as Food <<Food>> {
+[Takeaway]
+[Eet.nu]
+}
+rectangle "Betaalsysteem" as Payment <<Payment>> {
+[iDEAL]
+[Creditcard]
+[PayPal]
+}
 }
 
 CreateTrip --> Accommodation
@@ -73,6 +81,3 @@ BookTrip --> Food
 PayTrip --> Payment
 
 @enduml
-```
-
-This version organizes the external services into nested rectangles to reduce line crossings and improve readability.
