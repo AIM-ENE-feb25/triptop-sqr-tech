@@ -1,0 +1,14 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+SHOW_PERSON_OUTLINE()
+Person(personAlias, "Label", "Optional Description")
+
+System_Ext(containerAlias2, "NS", "Technology")
+System_Ext(containerAlias3, "Takeaway", "Technology")
+System_Ext(containerAlias4, "Airbnb", "Technology")
+
+System(systemAlias, "Triptop", "Optional Description")
+
+Rel(personAlias, containerAlias, "Label", "Optional Technology")
+@enduml
