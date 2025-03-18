@@ -25,12 +25,12 @@ rectangle "Triptop Vakantieplan App" <<Triptop>> {
 }
 
 User --> IDP : "Login via Google, Microsoft, Airbnb"
-User --> CreateTrip
-User --> BookTrip
-User --> CancelTrip
-User --> ModifyTrip
-User --> PayTrip
-User --> ViewStatus
+User --> CreateTrip : "Stelt een reis samen"
+User --> BookTrip : "Boekt een reis"
+User --> CancelTrip : "Annuleert een reis"
+User --> ModifyTrip : "Wijzigt een reis"
+User --> PayTrip : "Betaalt voor reis"
+User --> ViewStatus : "Bekijkt reisstatus"
 
 Agent --> ViewStatus : "Ondersteuning bij reisplanning"
 
@@ -66,18 +66,18 @@ rectangle "Betaalsysteem" as Payment <<Payment>> {
 }
 }
 
-CreateTrip --> Accommodation
-CreateTrip --> Transport
-CreateTrip --> CarRental
-CreateTrip --> Activities
-CreateTrip --> Food
+CreateTrip --> Accommodation : "Zoekt & selecteert verblijf"
+CreateTrip --> Transport : "Selecteert transportopties"
+CreateTrip --> CarRental : "Selecteert huurauto"
+CreateTrip --> Activities : "Kiest excursies"
+CreateTrip --> Food : "Selecteert eetopties"
 
-BookTrip --> Accommodation
-BookTrip --> Transport
-BookTrip --> CarRental
-BookTrip --> Activities
-BookTrip --> Food
+BookTrip --> Accommodation : "Boekt verblijf"
+BookTrip --> Transport : "Boekt transport"
+BookTrip --> CarRental : "Boekt huurauto"
+BookTrip --> Activities : "Boekt excursies"
+BookTrip --> Food : "Boekt eetopties"
 
-PayTrip --> Payment
+PayTrip --> Payment : "Verwerkt betaling"
 
 @enduml
