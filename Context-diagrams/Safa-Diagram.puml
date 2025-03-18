@@ -1,0 +1,47 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+SHOW_PERSON_OUTLINE()
+
+title Context Diagram For Trip Top
+
+Person(reiziger, "Reiziger", "Een persoon die een reis plant en beheert")
+Person(reizigerA, "Reiziger Agent", "Biedt ondersteuning voor de reiziger")
+
+
+System(tts, "Trip Top", "Kernsysteem voor reisplanning en beheer")
+
+System_Boundary(accommodatie, "Overnachting Provider") {
+    System_Ext(bookingCom, "Booking.com", "Externe accommodatie boekingsservice")
+    System_Ext(airbnb, "Airbnb", "Externe accommodatie boekingsservice")
+}
+
+System_Boundary(vervoer, "Vervoer Provider") {
+    System_Ext(googleMaps, "Google Maps", "Routeplanning service")
+    System_Ext(ns, "NS", "Treinreizen service")
+}
+
+System_Boundary(act, "Activiteit Provider") {
+    System_Ext(tripAdvisor, "Trip Advisor", "Activiteiten service")
+    System_Ext(gyg, "Get Your Guide", "Activiteiten service")
+}
+
+System_Boundary(autoVerhuur, "Autoverhuur Provider") {
+    System_Ext(sixt, "Sixt", "Autoverhuur service")
+    System_Ext(hertz, "Hertz", "Autoverhuur service")
+}
+
+System_Ext(ip, "Identity Provider", "Authenticatie dienst om ervoor te zorgen dat de reiziger niet overal een account voor nodig heeft")
+
+Rel(reiziger, tts, "Maakt gebruik van om reizen te plannen en beheren")
+Rel(reizigerA, tts, "")
+Rel(tts, bookingCom, "Boekt accommodatie via")
+Rel(tts, airbnb, "Boekt accommodatie via")
+Rel(tts, googleMaps, "Verkrijgt routeinformatie van")
+Rel(tts, ns, "Boekt treinreizen via")
+Rel(tts, ip, "Verifieert de identiteit van de reiziger")
+Rel(tts, tripAdvisor, "Zoekt activiteiten via")
+Rel(tts, gyg, "Zoekt activiteiten via")
+Rel(tts, sixt, "Huur auto's via")
+Rel(tts, hertz, "Huur auto's via")
+
+@enduml
