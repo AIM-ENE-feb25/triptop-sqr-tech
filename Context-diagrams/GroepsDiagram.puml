@@ -10,44 +10,44 @@ Person(reisA, "Reis Agent", "Biedt ondersteuning voor de reiziger")
 System(tts, "Trip Top", "Kernsysteem voor reisplanning en beheer")
 
 System_Boundary(accommodatie, "Overnachting Provider") {
-    System_Ext(bookingCom, "Booking.com", "Externe accommodatie boekingsservice")
-    System_Ext(airbnb, "Airbnb", "Externe accommodatie boekingsservice")
+    System_Ext(bookingCom, "Booking.com", "Boekkingsservice voor accommodatie")
+    System_Ext(airbnb, "Airbnb", "Boekkingsservice voor accommodatie")
 }
 
 System_Boundary(vervoer, "Vervoer Provider") {
-    System_Ext(googleMaps, "Google Maps", "Routeplanning service")
-    System_Ext(ns, "NS", "Treinreizen service")
+    System_Ext(googleMaps, "Google Maps", "Hulpmiddel voor routeplanning")
+    System_Ext(ns, "NS", "Hulpmiddel voor treinreizen te boeken")
 }
 
 System_Boundary(exc, "Excursie Provider") {
-    System_Ext(tripAdvisor, "Trip Advisor", "Activiteiten service")
-    System_Ext(gyg, "Get Your Guide", "Activiteiten service")
+    System_Ext(tripAdvisor, "Trip Advisor", "Bied opties voor excursies")
+    System_Ext(gyg, "Get Your Guide", "Bied opties voor excursies")
 }
 
 System_Boundary(autoVerhuur, "Autoverhuur Provider") {
-    System_Ext(sixt, "Sixt", "Autoverhuur service")
-    System_Ext(hertz, "Hertz", "Autoverhuur service")
+    System_Ext(sixt, "Sixt", "Bied autos aan om te verhuren")
+    System_Ext(hertz, "Hertz", "Bied autos aan om te verhuren")
 }
 
 System_Boundary(eNd, "Eten en Drinken Provider") {
-    System_Ext(takeaway, "Takeaway", "Eten en drinken service")
-    System_Ext(eet.nu, "Eet.nu", "Eten en drinken service")
+    System_Ext(takeaway, "Takeaway", "Geeft opties voor eten- en drinkgelegenheden")
+    System_Ext(eet.nu, "Eet.nu", "Geeft opties voor eten- en drinkgelegenheden")
 }
 
 System_Ext(ip, "Identity Provider", "Authenticatie dienst om ervoor te zorgen dat de reiziger niet overal een account voor nodig heeft")
 
 Rel(reiziger, tts, "Maakt gebruik van om reizen te plannen en beheren")
 Rel(reisA, tts, "Biedt ondersteuning voor de reisplannen")
-Rel(tts, bookingCom, "Boekt accommodatie via")
-Rel(tts, airbnb, "Boekt accommodatie via")
+Rel(tts, bookingCom, "Haalt informatie op en boekt accommodatie via")
+Rel(tts, airbnb, "Haalt informatie op en boekt accommodatie via")
 Rel(tts, googleMaps, "Verkrijgt routeinformatie van")
-Rel(tts, ns, "Boekt treinreizen via")
+Rel(tts, ns, "Haalt informatie op en boekt treinreizen via")
 Rel(tts, ip, "Verifieert de identiteit van de reiziger")
-Rel(tts, tripAdvisor, "Zoekt activiteiten via")
-Rel(tts, gyg, "Zoekt activiteiten via")
-Rel(tts, sixt, "Huur auto's via")
-Rel(tts, hertz, "Huur auto's via")
+Rel(tts, tripAdvisor, "Haalt activiteiten op en zoekt activiteiten via")
+Rel(tts, gyg, "Haalt activiteiten op en zoekt activiteiten via")
+Rel(tts, sixt, "Haalt informatie op en huurt auto's via")
+Rel(tts, hertz, "Haalt informatie op en huurt auto's via")
 Rel(tts, takeaway, "Bestelt eten en drinken via")
-Rel(tts, eet.nu, "Zoekt eten en drinken via")
+Rel(tts, eet.nu, "Bestelt eten en drinken via")
 
 @enduml
