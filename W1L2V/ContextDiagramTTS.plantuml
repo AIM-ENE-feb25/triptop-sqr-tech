@@ -5,7 +5,7 @@ title Context Diagram For Trip Top
 
 Person(reiziger, "Reiziger", "Een persoon die een reis plant en beheert")
 
-System(tts, "Trip Top Ssytem", "Kernsysteem voor reisplanning en beheer")
+System(tts, "Trip Top", "Kernsysteem voor reisplanning en beheer")
 
 System_Boundary(accommodatie, "Overnachting") {
     System_Ext(bookingCom, "Booking.com", "Externe accommodatie boekingsservice")
@@ -27,7 +27,7 @@ System_Boundary(autoVerhuur, "Autoverhuur") {
     System_Ext(hertz, "Hertz", "Autoverhuur service")
 }
 
-System_Ext(ip, "Identity Provider", "Authenticatie dienst")
+System_Ext(ip, "Identity Provider", "Authenticatie dienst om ervoor te zorgen dat de reiziger niet overal een account voor nodig heeft")
 
 Rel(reiziger, tts, "Maakt gebruik van om reizen te plannen en beheren")
 Rel(tts, bookingCom, "Boekt accommodatie via")
