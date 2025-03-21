@@ -1,0 +1,39 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+SHOW_PERSON_OUTLINE()
+Person(GebruikerAlias, "Gebruiker", "Een gebruiker van de app die een reis wil boeken")
+Container_Boundary("Triptop", "Triptop app") {
+System(APIAlias, "Web Applicatie", "regelt de api calls")
+System(database, " Database", "Slaat gebruikers en reisinformatie op")
+}
+System_Ext(containerAlias, "Reisdata API", "Haal reisdata op")
+System_Ext(containerAlias2, "Boekings-API", "Verantwoordelijk voor boekingen")
+System_Ext(containerAlias3, "Betaal-API", "Verantwoordelijk voor betalingen")
+System_Ext(containerAlias4, "E-mail API", "Verantwoordelijk voor het versturen van e-mails")
+System_Ext(containerAlias5, "SMS API", "Verantwoordelijk voor het versturen van SMS berichten")
+System_Ext(containerAlias6, "Push-notificatie API", "Verantwoordelijk voor het versturen van push-notificaties")
+System_Ext(containerAlias7, "IdentityProvider API", "Beheert authenticatie en gebruikersidentiteit")
+System_Ext(containerAlias8, "Weer API", "Verstrekken van actuele weersinformatie")
+System_Ext(containerAlias9, "Locatie API", "Verstrekken van locatie-informatie")
+
+
+Rel(containerAlias4, GebruikerAlias, "Stuurt mail naar")
+Rel(containerAlias5, GebruikerAlias, "Stuurt SMS bericht naar")
+Rel(containerAlias6, GebruikerAlias, "Stuurt push melding naar")
+
+Rel(APIAlias, database, "Leest en haalt data op")
+Rel(GebruikerAlias, APIAlias, "Bezoekt de app")
+Rel(APIAlias, containerAlias4, "Stuurt een mail via")
+Rel(APIAlias, containerAlias5, "Stuurt SMS via")
+Rel(APIAlias, containerAlias6, "Stuurt een push melding via")
+Rel(APIAlias, containerAlias7, "Verstuurt authenticatieverzoek naar")
+Rel(containerAlias7, GebruikerAlias, "Verstuurd gebruikersauthenticatie naar")
+Rel(APIAlias, containerAlias2, "Verstuurt boekingsverzoek naar")
+Rel(APIAlias, containerAlias3, "Verstuurt betaalverzoek naar")
+Rel(APIAlias, containerAlias, "Verstuurt verzoek voor reisdata naar")
+Rel(APIAlias, containerAlias8, "Verstuurt verzoek voor weersinformatie naar")
+Rel(APIAlias, containerAlias9, "Verstuurt locatieverzoek naar")
+
+Rel(APIAlias, containerAlias4, "Stuurt een mail via")
+@enduml
