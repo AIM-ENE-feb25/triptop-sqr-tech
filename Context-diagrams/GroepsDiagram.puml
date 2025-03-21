@@ -36,7 +36,7 @@ System_Boundary(eNd, "Eten en Drinken Provider") {
 
 System_Ext(ip, "Identity Provider", "Authenticatie dienst om ervoor te zorgen dat de reiziger niet overal een account voor nodig heeft")
 
-Rel(reiziger, tts, "Maakt gebruik van om reizen te plannen en beheren")
+Rel(reiziger, tts, "Maakt er gebruik van om reizen te plannen en beheren")
 Rel(reisA, tts, "Biedt ondersteuning voor de reisplannen")
 Rel(tts, bookingCom, "Haalt informatie op en boekt accommodatie via")
 Rel(tts, airbnb, "Haalt informatie op en boekt accommodatie via")
