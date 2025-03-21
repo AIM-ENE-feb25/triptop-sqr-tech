@@ -1,0 +1,24 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+title Dynamic Container Diagram - Login Flow (Trip Top System)
+
+actor "Reiziger" as reiziger
+participant "Front-End\n<b>Statische html</b>" as fe
+participant "Back-End\n<b>Spring Boot</b>" as be
+database "User Database\n<b>???</b>" as user_db
+participant "Identity Provider\n<b>Wiremock API</b>" as ip
+
+autonumber
+reiziger -> fe: Bezoekt login pagina
+fe -> reiziger: Toont login formulier
+reiziger -> fe: Vult inloggegevens in en verstuurt
+fe -> be: POST /api/auth/login {username, password}
+be -> ip: Verifieert inloggegevens
+ip --> be: Retourneert JWT token bij succesvolle authenticatie
+user_db --> be: Retourneert gebruikersgegevens
+be --> fe: Retourneert JWT token en gebruikersgegevens
+fe --> reiziger: Toont dashboard met welkomstbericht
+@enduml
+

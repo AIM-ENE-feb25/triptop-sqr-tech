@@ -1,0 +1,44 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+LAYOUT_WITH_LEGEND()
+SHOW_PERSON_OUTLINE()
+
+title Container Diagram voor het Trip Top System
+
+Person(reiziger, "Reiziger", "Een persoon die een reis plant en beheert")
+Person(reizigerA, "Reiziger Agent", "Biedt ondersteuning voor de reiziger")
+
+System_Boundary(tts, "Trip Top System") {
+    Container(fe, "Front-End", "Statische html", "Biedt reisplanningsfunctionaliteit via webbrowser")
+    Container(fea, "Front-End", "Statische html", "Biedt admin functionaliteit tot de reisplanningsfunctionaliteit via webbrowser")
+
+    Container(be, "Back-End", "Spring Boot", "Biedt reisplanningsfunctionaliteit via webbrowser")
+
+    Container(db, "Database", "???", "Slaat reisinformatie op")
+}
+
+System_Ext(email_api, "Send Bulk Emails/SendGrid", "johnmfula/sendgrid API op RapidAPI")
+System_Ext(sms_api, "SMS77io", "sms77io API op RapidAPI")
+System_Ext(push_api, "Web Pusher", "supertoha API op RapidAPI")
+System_Ext(ip, "Identity Provider", "Wiremock API")
+
+Rel(reiziger, fe, "Gebruikt", "HTTPS")
+Rel(reizigerA, fea, "Gebruikt", "HTTPS")
+Rel(fe, be, "Roept aan", "JSON/HTTPS")
+Rel(fea, be, "Roept aan", "JSON/HTTPS")
+Rel(be, db, "Leest van en schrijft naar", "JDBC")
+
+Rel(be, email_api, "Verstuurt emails via", "JSON/HTTPS")
+Rel(be, sms_api, "Verstuurt sms'jes via", "JSON/HTTPS")
+Rel(be, push_api, "Verstuurt notificaties via", "JSON/HTTPS")
+Rel(be, ip, "Authenticatie via", "JSON/HTTPS")
+
+Rel(email_api, reiziger, "Verstuurt emails naar")
+Rel(sms_api, reiziger, "Verstuurt sms'jes naar")
+Rel(push_api, reiziger, "Verstuurt notificaties naar")
+}
+
+
+
+
+@enduml
