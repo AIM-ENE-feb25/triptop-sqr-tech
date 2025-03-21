@@ -2,7 +2,7 @@
 
 - Ophalen reisdata
     - https://rapidapi.com/DataCrawler/api/booking-com15
-      en https://rapidapi.com/tipsters/api/booking-com
+      en https://rapidapi.com/tipsters/api/booking-com en voor route https://rapidapi.com/Distance.to/api/distance
 - Opslaan reisdata
     - ??? Niks gevonden
 - Versturen e-mails
@@ -20,6 +20,3 @@
     - ??? Niks gevonden 
 
 Honorable mention: https://rapidapi.com/guru4goro/api/temp-mail-api3
-
-
-
