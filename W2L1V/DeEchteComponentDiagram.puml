@@ -1,0 +1,31 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram for TravelExpensePro System
+
+
+Container(frontend, "Web Application", "React", "Hey i'm an UI for Travel Expense Pro")
+
+Container_Boundary(backend, "API Application") {
+        Component(expenseComponent, "Expense Component", "Spring Component", "Handles expense creation and management")
+        Component(userComponent, "User Component", "Spring Component", "Manages user profiles")
+        Component(overviewComponent, "Overview Component", "Spring Component", "Summarizes all the expenses")
+        Component(authComponent, "Authentication Component", "Spring Component", "Handles security, JWT tokens and authorization")
+}
+
+ContainerDb(database, "Database", "H2", "Stores users, expenses and reports")
+
+
+Rel(frontend, expenseComponent, "CRUD expenses via API")
+Rel(frontend, userComponent, "Manages account via API")
+Rel(frontend, overviewComponent, "Retrieves overview via API")
+Rel(frontend, authComponent, "Authenticates via API")
+
+Rel(expenseComponent, database, "Reads/Writes expense data")
+Rel(userComponent, database, "Reads/Writes user data")
+Rel(overviewComponent, database, "Reads expense data")
+Rel(authComponent, database, "Reads user credentials")
+
+@enduml
