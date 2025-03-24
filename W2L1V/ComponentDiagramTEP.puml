@@ -1,0 +1,75 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram for TravelExpensePro Backend
+
+Container_Boundary(backend, "TravelExpensePro Backend") {
+    Component(controllers, "Controllers", "Spring RestController", "Handles HTTP requests and responses")
+    Component(services, "Services", "Spring Service", "Implements business logic")
+    Component(daos, "Data Access Objects", "Spring Repository", "Handles database operations")
+    Component(security, "Security", "Spring Security", "Authentication and authorization")
+    Component(exceptions, "Exceptions", "Spring ControllerAdvice", "Global exception handling")
+    Component(domain, "Domain", "", "Business entities")
+    Component(config, "Config", "H2 Config", "H2 Database Configuration")
+}
+
+Container(frontend, "Frontend Client", "React", "Page Travel Expense Pro")
+ContainerDb(database, "Database", "H2", "Stores user and expense data")
+
+Rel(frontend, controllers, "Makes API calls to", "JSON/HTTPS")
+Rel(controllers, services, "Uses")
+Rel(services, daos, "Uses")
+Rel(controllers, exceptions, "Throws/Handles")
+Rel(services, exceptions, "Throws")
+Rel(daos, domain, "Creates/Updates")
+Rel(services, domain, "Processes")
+Rel(daos, database, "Reads/Writes", "Spring JPA")
+Rel(security, controllers, "Secures")
+Rel(security, services, "Authenticates")
+
+Boundary(controllersBoundary, "Controllers") {
+    Component(userController, "UserController", "RestController", "User management & authentication")
+    Component(expenseController, "ExpenseController", "RestController", "Expense CRUD operations")
+}
+
+Boundary(servicesBoundary, "Services") {
+    Component(userService, "UserService", "Service", "User management")
+    Component(expenseService, "ExpenseService", "Service", "Expense creation")
+    Component(overviewService, "OverviewService", "Service", "Expense listing")
+    Component(authService, "AuthenticationService", "Service", "Authentication logic")
+    Component(userDetailsService, "MyUserDetailsService", "UserDetailsService", "User authentication")
+}
+
+Boundary(securityBoundary, "Security") {
+    Component(jwtTokenProvider, "JwtTokenProvider", "Component", "JWT generation and validation")
+    Component(jwtFilter, "JwtAuthenticationFilter", "Filter", "JWT authentication filter")
+    Component(securityConfig, "SecurityConfig", "Configuration", "Security configuration")
+    Component(authEntryPoint, "JwtAuthenticationEntryPoint", "EntryPoint", "Unauthorized handling")
+}
+
+Boundary(daoBoundary, "Data Access") {
+    Component(userDao, "UserDao", "Repository", "User queries")
+    Component(userRepository, "UserRepository", "Repository", "User authentication queries")
+    Component(expenseDao, "ExpenseDao", "Repository", "Expense creation")
+    Component(overviewDao, "OverviewDao", "Repository", "Expense queries")
+}
+
+Rel(userController, userService, "Uses")
+Rel(userController, authService, "Uses")
+Rel(expenseController, expenseService, "Uses")
+Rel(expenseController, overviewService, "Uses")
+
+Rel(userService, userDao, "Uses")
+Rel(authService, userRepository, "Uses")
+Rel(authService, jwtTokenProvider, "Uses")
+Rel(expenseService, expenseDao, "Uses")
+Rel(overviewService, overviewDao, "Uses")
+Rel(userDetailsService, userRepository, "Uses")
+
+Rel(jwtFilter, jwtTokenProvider, "Uses")
+Rel(jwtFilter, userDetailsService, "Uses")
+Rel(expenseDao, jwtTokenProvider, "Uses")
+Rel(overviewDao, jwtTokenProvider, "Uses")
+@enduml
