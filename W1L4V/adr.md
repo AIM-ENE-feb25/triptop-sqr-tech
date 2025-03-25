@@ -1,0 +1,69 @@
+# API-verbindingsstrategie
+
+**Date:** 2025-03-21  
+**Status:** Accepted
+
+## Context
+Bij het integreren van externe APIs in een applicatie is het essentieel om te bepalen of deze aanroepen vanuit de **frontend**, **backend**, of beide moeten plaatsvinden. Dit beïnvloedt de beveiliging, prestaties en architectuur van de applicatie. Beveiligingsrisico's zoals het blootstellen van API-sleutels en het omgaan met CORS-beperkingen spelen hierbij een belangrijke rol.
+
+## Considered Options
+### 1. API-aanroepen direct vanuit de frontend
+- **Voordelen:** Snellere interactie, minder belasting op de backend.
+- **Nadelen:** Beveiligingsrisico’s door blootgestelde API-sleutels, CORS-beperkingen.
+
+### 2. API-aanroepen via de backend
+- **Voordelen:** Beveiliging van API-sleutels, controle over API-verzoeken, betere logging en validatie.
+- **Nadelen:** Extra netwerkverkeer en latency.
+
+## Decision
+Voor deze casus is besloten dat **alle API-aanroepen via de backend verlopen**. Dit zorgt voor een betere beveiliging en controle over de data, voorkomt CORS-problemen en zorgt ervoor dat API-sleutels niet in de frontend beschikbaar zijn.
+
+## Consequences
+- **Verbeterde beveiliging:** API-sleutels blijven verborgen en gevoelige data wordt niet blootgesteld aan de client.
+- **Betere controle:** De backend kan verzoeken valideren, API-limieten beheren en foutafhandeling implementeren.
+- **Hogere belasting op de backend:** Extra netwerkverkeer en verwerkingstijd kunnen invloed hebben op prestaties.
+- **Mogelijke vertraging in respons:** Omdat alle API-verzoeken via de backend gaan, kan er enige vertraging optreden in de verwerking.
+
+Over het algemeen weegt de verhoogde beveiliging en controle op tegen de extra belasting, waardoor deze aanpak de voorkeur krijgt.
+
+## Conclusion
+Door alle API-aanroepen via de backend te laten verlopen, wordt de applicatie veiliger en beter beheersbaar. Hoewel dit een extra belasting voor de server kan betekenen, zijn de voordelen op het gebied van beveiliging en controle doorslaggevend. Dit besluit zorgt voor een robuustere en duurzamere architectuur.
+
+
+
+# API Data Validatie en Opslagstrategie
+
+**Date:** 2025-03-21  
+**Status:** Accepted
+
+## Context
+Bij het integreren van externe APIs is het belangrijk om te verifiëren of de data die we ontvangen overeenkomt met de verwachtingen uit ons domeindiagram. Daarnaast willen we bepalen welke data opgeslagen moet worden in onze database, om dubbele opslag te vermijden en efficiëntie te behouden.
+
+## Considered Options
+### 1. Alle data opslaan in de database
+- **Voordelen:** Volledige dataset beschikbaar voor offline gebruik en analyses.
+- **Nadelen:** Onnodige redundantie en opslagkosten.
+
+### 2. Alleen essentiële data opslaan
+- **Voordelen:** Efficiënter gebruik van opslagruimte, minder dataduplicatie.
+- **Nadelen:** Mogelijke afhankelijkheid van externe APIs voor ontbrekende data.
+
+### 3. Data cachen in plaats van opslaan
+- **Voordelen:** Snellere toegang tot veelgebruikte data zonder permanente opslag.
+- **Nadelen:** Tijdelijke opslag kan leiden tot dataverlies bij cache-verversing.
+
+## Decision
+Na analyse is besloten om **alleen essentiële data op te slaan** in de database. Dit betekent:
+- **Reisdata (Booking.com API’s)**: Alleen unieke identificatoren, naam, locatie en prijs opslaan. Gedetailleerde info kan op aanvraag via de API worden opgehaald.
+- **E-mail en SMS-logboeken**: Uitsluitend transactielogs opslaan, geen inhoudelijke berichten.
+- **Push-notificaties**: Geen opslag, slechts tijdelijke verwerking.
+- **Gebruikersgegevens**: Alleen basisgegevens opslaan en authenticatie via een externe provider (zoals OAuth) beheren.
+
+## Consequences
+- **Efficiënte opslag**: Minder data-redundantie en optimalisatie van databaseprestaties.
+- **Externe afhankelijkheid**: Sommige data moet real-time uit de API worden opgehaald, wat vertraging kan veroorzaken.
+- **Veiligheidswinst**: Minder gevoelige data in de database vermindert risico’s bij een datalek.
+
+## Conclusion
+Door alleen essentiële data op te slaan en andere informatie via externe APIs op te vragen, wordt de applicatie schaalbaar, veilig en efficiënt. Deze strategie minimaliseert onnodige opslag terwijl de toegang tot belangrijke data behouden blijft.
+
