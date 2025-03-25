@@ -1,0 +1,9 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+SHOW_PERSON_OUTLINE()
+Person(GebruikerAlias, "Gebruiker", "Een gebruiker van de app die declaraties wil beheren")
+ System(LoginController, "LoginController", "Beheert de gebruikersauthenticatie")
+    System(OverzichtController, "OverzichtController", "Toont het overzicht van de declaraties")
+    System(ToevoegController, "ToevoegController", "Beheert het toevoegen van nieuwe declaraties")
+@enduml
