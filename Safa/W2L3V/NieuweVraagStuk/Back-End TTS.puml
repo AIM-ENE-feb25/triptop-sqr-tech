@@ -1,0 +1,66 @@
+@startuml
+title Component Diagram for Trip Top System
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User", "Application user")
+
+Container_Boundary(tts, "Trip Top System") {
+    Component(web_app, "Web Application", "???", "User interface for planning trips")
+
+    Component(booking_controller, "Booking Controller", "Spring Boot", "Handles accommodation bookings")
+    Component(transport_controller, "Transport Controller", "Spring Boot", "Handles transport arrangements")
+    Component(activity_controller, "Activity Controller", "Spring Boot", "Handles activity bookings")
+    Component(car_rental_controller, "Car Rental Controller", "Spring Boot", "Handles car rentals")
+
+    Component(booking_service, "Booking Service", "Spring Boot", "Manages accommodation bookings")
+    Component(transport_service, "Transport Service", "Spring Boot", "Manages transport arrangements")
+    Component(activity_service, "Activity Service", "Spring Boot", "Manages activity bookings")
+    Component(car_rental_service, "Car Rental Service", "Spring Boot", "Manages car rentals")
+
+    Component(notification_service, "Notification Service", "Spring Boot", "Sends notifications via email, SMS, and push")
+
+    Component(booking_repository, "Booking Repository", "Spring Boot")
+    'TODO REPOSITORIES'
+
+    ComponentDb(trip_db, "Trip Database", "???", "Stores trip information")
+    ComponentDb(user_db, "User Database", "???", "Stores user information")
+
+    Component(identity_service, "Identity Service", "Spring Boot", "Own service that talks to external identity provider")
+}
+
+System_Ext(email_api, "SendGrid", "External email service")
+System_Ext(sms_api, "SMS77io", "External SMS service")
+System_Ext(push_api, "Web Pusher", "External push notification service")
+System_Ext(ip, "Identity Provider", "External identity provider")
+
+Rel(user, web_app, "Uses")
+
+Rel(web_app, booking_controller, "Routes requests to")
+Rel(web_app, transport_controller, "Routes requests to")
+Rel(web_app, activity_controller, "Routes requests to")
+Rel(web_app, car_rental_controller, "Routes requests to")
+
+Rel(booking_controller, booking_service, "Routes requests to")
+Rel(transport_controller, transport_service, "Routes requests to")
+Rel(activity_controller, activity_service, "Routes requests to")
+Rel(car_rental_controller, car_rental_service, "Routes requests to")
+
+Rel(booking_service, trip_db, "Reads from and writes to")
+Rel(transport_service, trip_db, "Reads from and writes to")
+Rel(activity_service, trip_db, "Reads from and writes to")
+Rel(car_rental_service, trip_db, "Reads from and writes to")
+
+Rel(booking_service, notification_service, "Sends booking events to")
+Rel(transport_service, notification_service, "Sends transport events to")
+Rel(activity_service, notification_service, "Sends activity events to")
+
+Rel(notification_service, email_api, "Sends emails via", "POST /send/mail")
+Rel(notification_service, sms_api, "Sends SMS via", "POST /sms")
+Rel(notification_service, push_api, "Sends push notifications via", "POST /push")
+
+Rel(identity_service, ip, "Uses for authentication")
+Rel(identity_service, user_db, "Stores username... in")
+@enduml

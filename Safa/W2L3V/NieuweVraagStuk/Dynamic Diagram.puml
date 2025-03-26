@@ -1,0 +1,7 @@
+@startuml
+Title Dynamic Diagram  - Sequence Style
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+actor "User" as User
+@enduml

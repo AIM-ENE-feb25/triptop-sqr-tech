@@ -16,10 +16,9 @@
 - **Kwetsbare basisklasse-probleem**: Wijzigingen in de parent class kunnen child classes breken
 - **Opgeblazen overervingshiërarchie**: Complexe hiërarchieën worden moeilijk te begrijpen
 
-## Voorbeeld in het Nederlands
+## Voorbeeld
 
 ```java
-// OVERERVING AANPAK (PROBLEMATISCH)
 abstract class Voertuig {
     public void starten() { /* ... */ }
     public void rijden() { /* ... */ }
@@ -30,7 +29,6 @@ class Auto extends Voertuig {
 }
 
 class Raceauto extends Auto {
-    // Extra functionaliteit voor raceauto's
     public void turboAanzetten() { /* ... */ }
 }
 

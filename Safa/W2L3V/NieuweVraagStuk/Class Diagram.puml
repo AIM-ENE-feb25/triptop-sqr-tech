@@ -1,0 +1,8 @@
+@startuml
+
+title Vraagstuk les 3 - Class Diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+
+@enduml
