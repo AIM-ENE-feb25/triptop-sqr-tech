@@ -1,0 +1,27 @@
+@startuml
+Title Dynamic Diagram - Sequence Style
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+actor "User" as User
+participant "AuthenticationManager" as authManager
+participant "IdentityProvider" as iProvider
+participant "TokenProvider" as tokenProvider
+participant "UserManager" as userManager
+
+User -> authManager: login(username, password)
+
+authManager -> iProvider: getProviderID()
+iProvider --> authManager: return providerID
+
+authManager -> iProvider: authenticate(username, password)
+iProvider --> authManager: authentication success/failure
+
+authManager -> tokenProvider: createToken(username, password)
+tokenProvider --> authManager: return token
+
+authManager -> userManager: getUser(token)
+userManager --> authManager: return user
+
+authManager --> User: return token
+@enduml
