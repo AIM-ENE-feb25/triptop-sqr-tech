@@ -23,18 +23,13 @@ interface AuthenticationManager {
 }
 
 interface TokenProvider {
-
   String createToken(String username);
-
   boolean validateToken(String token);
 }
 
 interface UserManager {
-
 User getUser(String userId);
-
 void addUser(String username, String password);
-
 void removeUser(String username);
 }
 ```
