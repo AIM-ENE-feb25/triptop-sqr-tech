@@ -14,10 +14,12 @@ Container(frontend, "Web Application", "???", "User interface")
 
 Container_Boundary(authSystem, "Authentication System") {
     Component(authManager, "Authentication Manager", "Spring Component", "Authenticates users")
-    Component(idProviderInterface, "Identity Provider", "Wiremock API", "????")
     Component(tokenProvider, "Token Provider", "Spring Component", "Creates and validates JWT tokens")
     Component(userManager, "User Manager", "Spring Component", "Manages user accounts")
 }
+
+System_Ext(idProviderInterface, "Identity Provider", "Dit zijn dan b.v. Google, Facebook, etc.")
+
 
 ContainerDb(database, "Database", "H2", "Stores user credentials and profiles")
 
