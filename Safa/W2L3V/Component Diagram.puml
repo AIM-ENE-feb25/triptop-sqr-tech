@@ -1,0 +1,32 @@
+@startuml
+
+title Component Diagram Pressure Cooker
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Authentication System Component Diagram
+
+Person(user, "User", "Application user")
+
+Container(frontend, "Web Application", "???", "User interface")
+
+Container_Boundary(authSystem, "Authentication System") {
+    Component(authManager, "Authentication Manager", "Spring Component", "Authenticates users")
+    Component(idProviderInterface, "Identity Provider", "Wiremock API", "????")
+    Component(tokenProvider, "Token Provider", "Spring Component", "Creates and validates JWT tokens")
+    Component(userManager, "User Manager", "Spring Component", "Manages user accounts")
+}
+
+ContainerDb(database, "Database", "H2", "Stores user credentials and profiles")
+
+Rel(user, frontend, "Uses")
+Rel(frontend, authManager, "Uses")
+Rel(authManager, idProviderInterface, "Uses")
+Rel(authManager, tokenProvider, "Uses")
+Rel(authManager, userManager, "Uses")
+
+Rel(authManager, database, "Reads from")
+
+@enduml
