@@ -14,7 +14,7 @@ User -> authManager: login(username, password)
 authManager -> iProvider: getProviderID()
 iProvider --> authManager: return providerID
 
-authManager -> iProvider: authenticate(username, password)
+authManager -> iProvider: authenticate(username, password, providerID)
 iProvider --> authManager: authentication success/failure
 
 authManager -> tokenProvider: createToken(username, password)

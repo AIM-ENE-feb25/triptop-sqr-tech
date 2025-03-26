@@ -1,12 +1,10 @@
 @startuml
 
-title Component Diagram Pressure Cooker
+title Component Diagram Pressure Cooker ()voor les 4 kies factory method als design pattern)
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 LAYOUT_WITH_LEGEND()
-
-title Authentication System Component Diagram
 
 Person(user, "User", "Application user")
 

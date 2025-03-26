@@ -1,0 +1,70 @@
+@startuml
+
+title Vraagstuk les 3 - Class Diagram
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+interface IdentityProvider {
+  +String getProviderID()
+  +void authenticate(String username, String password)
+}
+
+interface AuthenticationManager {
+  +String login(String username, String password)
+}
+
+interface TokenProvider {
+  +String createToken(String username)
+  +boolean validateToken(String token)
+}
+
+interface UserManager {
+  +User getUser(String userId)
+  +void addUser(String username, String password)
+  +void removeUser(String username)
+}
+
+class AuthenticationManagerImpl implements AuthenticationManager {
+  -Map<String, IdentityProvider> providers
+  -TokenProvider tokenProvider
+  -UserManager userManager
+  +String login(String username, String password)
+  -IdentityProvider getProviderById(String providerID)
+}
+
+class JwtTokenProvider implements TokenProvider {
+  -String secretKey
+  -long validityInMilliseconds
+  +String createToken(String username)
+  +boolean validateToken(String token)
+}
+
+class UserManagerImpl implements UserManager {
+  -UserRepository userRepository
+  +User getUser(String userId)
+  +void addUser(String username, String password)
+  +void removeUser(String username)
+}
+
+abstract class IdentityProviderFactory implements IdentityProvider {
+  -String providerId
+  +String getProviderID()
+}
+
+class ExternalProvider extends IdentityProviderFactory {
+  -externalProvider
+}
+
+class User {
+  -String userId
+  -String username
+  -String password
+  -Map<String, Object> profile
+}
+
+class LoginController {
+  -AuthenticationManager authManager
+  +TokenResponse login(LoginRequest request)
+}
+
+@enduml
