@@ -1,0 +1,36 @@
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+' Define the components
+Person(admin, "Admin", "An administrator of the system")
+
+System_Boundary(backEnd, "Backend") {
+  Container(controller, "ExpenseController", "Java", "Handles expense-related requests and responses")
+  Container(controller, "LoginController", "Java", "Handles user login requests")
+  Container(controller, "LogoutController", "Java", "Handles user logout requests")
+  Container(controller, "NewExpenseController", "Java", "Handles new expense creation requests")
+
+  Container(service, "AuthService", "Java", "Handles user authentication logic")
+  Container(service, "ExpenseService", "Java", "Handles business logic for expenses")
+  Container(service, "LoginService", "Java", "Handles login-specific logic")
+  Container(service, "LogoutService", "Java", "Handles logout-specific logic")
+
+  Container(repository, "ExpenseDAO", "Java", "Interacts with the expense database table")
+  Container(repository, "ExpenseRepository", "Java", "Handles database operations for expenses")
+  Container(repository, "UserDAO", "Java", "Interacts with the user database table")
+
+  Container(security, "JwtTokenService", "Java", "Handles JWT token generation and validation")
+
+  Container(model, "Expenses", "Java", "Represents an expense entity")
+  Container(model, "User", "Java", "Represents a user entity")
+
+  Container(util, "CookieUtils", "Java", "Contains utility methods for cookie management")
+}
+
+' Relationships
+Rel(admin, controller, "Uses")
+Rel(controller, service, "Calls business logic")
+Rel(service, repository, "Interacts with")
+Rel(repository, model, "Saves and retrieves data for")
+Rel(service, security, "Uses token validation from")
+Rel(controller, security, "Validates user JWT")
+Rel(service, util, "Uses utilities for session management")

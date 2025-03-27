@@ -1,0 +1,27 @@
+@startuml
+
+interface TransportOption {
+    +getRoute(): List<Location>
+    +getPrice(): float
+    +book(): boolean
+}
+
+class TransportPlanner {
+    +planTransport(from: Location, to: Location): TransportOption
+}
+
+class CarTransport implements TransportOption
+class TrainTransport implements TransportOption
+
+class TransportTracker {
+    +setStatus(id: string, status: string): void
+    +getStatus(id: string): string
+}
+
+TransportPlanner --> TransportOption : uses
+TransportOption <|.. CarTransport
+TransportOption <|.. TrainTransport
+
+TransportPlanner --> TransportTracker : updates status
+
+@enduml
