@@ -4,65 +4,52 @@ LAYOUT_WITH_LEGEND()
 
 Person(reiziger, "Reiziger", "Gebruikt Triptop om reizen te plannen en boeken")
 
-System_Boundary(triptop, "Triptop Systeem") {
+System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
 
-  ' Controllers
-  Component(boeking_controller, "BoekingController", "Spring Boot", "Regelt welke API moet worden aangeroepen")
-  Component(bouwsteen_controller, "Bouwsteen Controller", "Spring Boot", "Handelt verzoeken af voor domeinklassen")
-  Component(transport_controller, "TransportPlanner Controller", "Java", "Plant vervoersopties tussen overnachtingen")
+  Component(boeking_controller, "BookingController", "Spring Boot Rest Controller", "Regelt welke API moet worden aangeroepen")
+  Component(bouwsteen_controller, "Bouwsteen Controller", "Spring Boot Rest Controller", "Handelt verzoeken af voor domeinklassen")
+  Component(transport_controller, "TransportPlanner Controller", "Spring Boot Rest Controller", "Plant vervoersopties tussen overnachtingen")
 
-  ' Services
-  Component(boeking_service, "BoekingService", "Spring Boot", "Beheert de verschillende API's")
+  Component(boeking_service, "BookingService", "Spring Boot", "Beheert de verschillende API's")
   Component(bouwsteen_service, "Bouwsteen Service", "Spring Component", "Beheert domeinklassen")
-  Component(boeking_repo, "BoekingRepository", "Spring Boot", "Roept database aan")
+  Component(boeking_repo, "BookingRepository", "Spring Boot", "Roept database aan")
   Component(factory, "Bouwsteen Factory", "Spring Component", "Maakt domeinklassen aan")
 
-  Component(transport_tracker, "TransportTracker Service", "Java", "Beheert status van transport: gepland, geboekt, betaald")
+  Component(transport_tracker, "TransportTracker Service", "Spring Component", "Beheert status van transport: gepland, geboekt, betaald")
 
-  ' Transportopties
-  Component(car_transport, "CarTransport", "Java", "Auto vervoer: route, prijs, boeking")
-  Component(train_transport, "TrainTransport", "Java", "Trein vervoer: route, prijs, boeking")
-  Component(boat_transport, "BootTransport", "Java", "Boot vervoer: route, prijs, boeking")
+  Component(car_transport, "CarTransport", "Spring Component", "Auto vervoer: route, prijs, boeking")
+  Component(train_transport, "TrainTransport", "Spring Component", "Trein vervoer: route, prijs, boeking")
+  Component(boat_transport, "BootTransport", "Spring Component", "Boot vervoer: route, prijs, boeking")
   Component(transport_interface, "TransportOption Interface", "Java Interface", "getRoute(), getPrice(), book()")
 
-  ' Voorbeeldbouwstenen
-  Boundary(bouwstenen, "Voorbeeld Bouwstenen") {
-    Component(bs_booking, "Booking Service", "Spring Boot", "Manages accommodation bookings")
-    Component(bs_transport, "Transport Service", "Spring Boot", "Manages transport arrangements")
-    Component(bs_activity, "Activity Service", "Spring Boot", "Manages activity bookings")
-    Component(bs_car_rental, "Car Rental Service", "Spring Boot", "Manages car rentals")
-  }
-
-  ' Databases
-  ComponentDb(trip_db, "Trip Database", "Database", "Slaat trip-informatie op")
-  ComponentDb(boeking_db, "Database", "Database", "Database voor de Triptop")
-
-  ' Externe API
-  Component(api_booking, "APIBooking", "", "API voor Booking.com")
-
+Boundary(bouwstenen, "Voorbeeld Bouwstenen") {
+  Component(bs_booking, "BookingService", "Spring Boot", "Beheert accommodatieboekingen")
+  Component(bs_transport, "TransportService", "Spring Boot", "Beheert transportregelingen")
+  Component(bs_activity, "ActivityService", "Spring Boot", "Beheert activiteitenboekingen")
+  Component(bs_car_rental, "CarRentalService", "Spring Boot", "Beheert autoverhuur")
+}
+  ComponentDb(db, "Database", "???", "Database voor de Triptop")
 }
 
-' Relaties gebruiker
+  System_Ext(api_booking, "APIBooking", "API voor Booking.com")
+
 Rel(reiziger, boeking_controller, "Boekt via API")
 Rel(reiziger, bouwsteen_controller, "Stelt trips samen")
 Rel(reiziger, transport_controller, "Plant vervoer tussen locaties")
 
-' Boeking systeem
 Rel(boeking_controller, boeking_service, "Gebruikt service")
 Rel(boeking_service, boeking_repo, "Roept repository aan")
-Rel(boeking_repo, boeking_db, "Haalt en slaat data op")
+Rel(boeking_repo, db, "Haalt en slaat data op")
 Rel(boeking_service, api_booking, "Legt connectie met externe API")
 
-' Bouwsteen systeem
 Rel(bouwsteen_controller, factory, "Gebruikt om domeinklassen te maken")
 Rel(bouwsteen_controller, bouwsteen_service, "Gebruikt om domeinklassen te beheren")
-Rel(factory, trip_db, "Slaat aanmaak op in", "JDBC")
+Rel(factory, db, "Slaat aanmaak op in", "JDBC")
 Rel(factory, bs_booking, "Maakt voor Booking")
 Rel(factory, bs_transport, "Maakt voor Transport")
 Rel(factory, bs_activity, "Maakt voor Activity")
 Rel(factory, bs_car_rental, "Maakt voor Car Rental")
 
-' Transport systeem
 Rel(transport_controller, transport_interface, "Gebruikt interface voor opties")
 Rel(transport_controller, car_transport, "Gebruikt concrete optie")
 Rel(transport_controller, train_transport, "Gebruikt concrete optie")
