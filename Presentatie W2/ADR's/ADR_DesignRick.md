@@ -3,7 +3,7 @@
 **Titel:** Verkenning van het Strategy Pattern voor vervoer tussen overnachtingen  
 **Status:** In onderzoek  
 **Datum:** 28 maart 2025  
-**Auteur:** [Jouw naam]  
+**Auteur:** Rick Schoenmaker  
 **Onderdeel van:** Les 3 – Vervoer tussen Overnachtingen (Triptop)
 
 ---
