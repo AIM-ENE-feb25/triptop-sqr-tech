@@ -23,7 +23,7 @@ Container_Boundary(tts, "Trip Top System") {
     Component(notification_service, "Notification Service", "Spring Boot", "Sends notifications via email, SMS, and push")
 
     Component(booking_repository, "Booking Repository", "Spring Boot Repository", "Uses JDBC to store booking information in the db")
-    Component(transport_repository, "Transport Repository", "Spring Boot Repository", "Uses JDBC to store transport information in the db")
+    Component(transport_repository, "Transport Repository", "Sprin+g Boot Repository", "Uses JDBC to store transport information in the db")
     Component(activity_repository, "Activity Repository", "Spring Boot Repository", "Uses JDBC to store activity information in the db")
     Component(car_rental_repository, "Car Rental Repository", "Spring Boot Repository", "Uses JDBC to store car rental information in the db")
 

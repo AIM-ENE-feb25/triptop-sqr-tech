@@ -20,7 +20,7 @@ Container_Boundary(tts, "Trip Top System") {
 
     Component(controller, "Bouwsteen Controller", "Spring Boot", "Handles requests for domain classes")
 
-    ComponentDb(trip_db, "Trip Database", "PostgreSQL", "Stores trip information")
+    ComponentDb(trip_db, "Trip Database", "???", "Stores trip information")
 }
 
 Rel(factory, repository, "Stores created domain classes in")

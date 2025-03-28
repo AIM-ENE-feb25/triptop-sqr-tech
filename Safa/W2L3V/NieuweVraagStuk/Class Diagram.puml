@@ -1,8 +1,14 @@
 @startuml
 
-title Vraagstuk les 3 - Class Diagram
+title Nieuwe Vraagstuk - Class Diagram
 
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+
+
+
 
 
 @enduml
