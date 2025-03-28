@@ -1,0 +1,33 @@
+
+@startuml
+title Class Diagram for Transport System
+
+class TransportPlanner {
+    +planTransport()
+}
+
+class CarTransport {
+    +getRoute()
+    +getPrice()
+    +book()
+}
+
+class TrainTransport {
+    +getRoute()
+    +getPrice()
+    +book()
+}
+
+class TransportTracker {
+    +setStatus()
+    +getStatus()
+}
+
+
+
+TransportPlanner --> CarTransport : uses
+TransportPlanner --> TrainTransport : uses
+CarTransport --> TransportTracker : updates
+TrainTransport --> TransportTracker : updates
+
+@enduml
