@@ -1,0 +1,51 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+SHOW_PERSON_OUTLINE()
+
+title Context Diagram Voor Trip Top
+
+Person(reiziger, "Reiziger", "Een persoon die een reis plant en beheert")
+Person(reisA, "Reis Agent", "Biedt ondersteuning voor de reiziger")
+
+System(tts, "Trip Top", "Kernsysteem voor reisplanning en beheer")
+
+System_Boundary(accommodatie, "Overnachting Provider") {
+    System_Ext(bookingCom, "Booking.com", "Boekkingsservice voor accommodatie")
+}
+
+System_Boundary(vervoer, "Vervoer Provider") {
+    System_Ext(dapi, "Distance API", "API voor data om afstanden te krijgen")
+    System_Ext(ns, "NS", "Hulpmiddel voor treinreizen te boeken")
+}
+
+System_Boundary(exc, "Excursie Provider") {
+    System_Ext(tripAdvisor, "Trip Advisor", "Bied opties voor excursies")
+    System_Ext(gyg, "Get Your Guide", "Bied opties voor excursies")
+}
+
+System_Boundary(autoVerhuur, "Autoverhuur Provider") {
+    System_Ext(sixt, "Sixt", "Bied autos aan om te verhuren")
+    System_Ext(hertz, "Hertz", "Bied autos aan om te verhuren")
+}
+
+System_Boundary(eNd, "Eten en Drinken Provider") {
+    System_Ext(takeaway, "Takeaway", "Geeft opties voor eten- en drinkgelegenheden")
+    System_Ext(eet.nu, "Eet.nu", "Geeft opties voor eten- en drinkgelegenheden")
+}
+
+System_Ext(ip, "Identity Provider", "Authenticatie dienst om ervoor te zorgen dat de reiziger niet overal een account voor nodig heeft")
+
+Rel(reiziger, tts, "Maakt gebruik van om reizen te plannen en beheren")
+Rel(reisA, tts, "Biedt ondersteuning voor de reisplannen")
+Rel(tts, bookingCom, "Haalt informatie op en boekt accommodatie via")
+Rel(tts, dapi, "Verkrijgt routeinformatie van")
+Rel(tts, ns, "Haalt informatie op en boekt treinreizen via")
+Rel(tts, ip, "Verifieert de identiteit van de reiziger")
+Rel(tts, tripAdvisor, "Haalt activiteiten op en zoekt activiteiten via")
+Rel(tts, gyg, "Haalt activiteiten op en zoekt activiteiten via")
+Rel(tts, sixt, "Haalt informatie op en huurt auto's via")
+Rel(tts, hertz, "Haalt informatie op en huurt auto's via")
+Rel(tts, takeaway, "Bestelt eten en drinken via")
+Rel(tts, eet.nu, "Bestelt eten en drinken via")
+
+@enduml
