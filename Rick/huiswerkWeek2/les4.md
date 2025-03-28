@@ -45,47 +45,30 @@ We gebruiken de **Strategy Pattern** om het vervoer flexibel te maken door versc
 
 ```plantuml
 @startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-interface TransportOption {
-    +getRoute(): List<Location>
-    +getPrice(): float
-    +book(): boolean
+' Define the components for the Transport System
+Person(user, "User", "A person using the transport system")
+
+System_Boundary(transportSystem, "Transport System") {
+    Container(transportPlanner, "TransportPlanner", "Java", "Plans the transport routes based on origin and destination")
+    Container(carTransport, "CarTransport", "Java", "Handles car transport details")
+    Container(trainTransport, "TrainTransport", "Java", "Handles train transport details")
+    Container(bootTransport, "BootTransport", "Java", "Handles boat transport details")
+    Container(transportTracker, "TransportTracker", "Java", "Tracks the transport status")
 }
 
-class TransportPlanner {
-    +planTransport(from: Location, to: Location): TransportOption
-}
-
-class CarTransport implements TransportOption {
-    +getRoute(): List<Location>
-    +getPrice(): float
-    +book(): boolean
-}
-
-class TrainTransport implements TransportOption {
-    +getRoute(): List<Location>
-    +getPrice(): float
-    +book(): boolean
-}
-
-class BootTransport implements TransportOption {
-    +getRoute(): List<Location>
-    +getPrice(): float
-    +book(): boolean
-}
-
-class TransportTracker {
-    +setStatus(id: string, status: string): void
-    +getStatus(id: string): string
-}
-
-TransportPlanner --> TransportOption : uses
-TransportOption <|.. CarTransport
-TransportOption <|.. TrainTransport
-TransportOption <|.. BootTransport
-TransportPlanner --> TransportTracker : updates status
+' Define relationships
+Rel(user, transportPlanner, "Uses")
+Rel(transportPlanner, carTransport, "Plans car transport")
+Rel(transportPlanner, trainTransport, "Plans train transport")
+Rel(transportPlanner, bootTransport, "Plans boat transport")
+Rel(transportPlanner, transportTracker, "Updates transport status")
 
 @enduml
+
+```
+
 # Conclusie: Vervoer tussen Overnachtingen
 
 Met de **Strategy Pattern** kunnen we het vervoer tussen overnachtingen flexibel en uitbreidbaar maken. Door de **TransportOption** interface te gebruiken, kunnen verschillende vervoersopties zoals **CarTransport**, **TrainTransport** en **BootTransport** worden geïmplementeerd. Het systeem blijft eenvoudig uitbreidbaar, wat betekent dat we in de toekomst snel nieuwe vervoersopties kunnen toevoegen zonder de bestaande code aan te passen.

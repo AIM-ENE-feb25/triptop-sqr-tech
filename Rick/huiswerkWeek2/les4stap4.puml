@@ -1,27 +1,22 @@
 @startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-interface TransportOption {
-    +getRoute(): List<Location>
-    +getPrice(): float
-    +book(): boolean
+' Define the components for TransportSystem
+Person(user, "User", "A person using the transport system")
+
+System_Boundary(transportSystem, "Transport System") {
+    Container(transportPlanner, "TransportPlanner", "Java", "Plans the transport routes based on origin and destination")
+    Container(carTransport, "CarTransport", "Java", "Handles car transport details")
+    Container(trainTransport, "TrainTransport", "Java", "Handles train transport details")
+    Container(planeTransport, "PlaneTransport", "Java", "Handles plane transport details")
+    Container(transportTracker, "TransportTracker", "Java", "Tracks the transport status")
 }
 
-class TransportPlanner {
-    +planTransport(from: Location, to: Location): TransportOption
-}
-
-class CarTransport implements TransportOption
-class TrainTransport implements TransportOption
-
-class TransportTracker {
-    +setStatus(id: string, status: string): void
-    +getStatus(id: string): string
-}
-
-TransportPlanner --> TransportOption : uses
-TransportOption <|.. CarTransport
-TransportOption <|.. TrainTransport
-
-TransportPlanner --> TransportTracker : updates status
+' Define relationships
+Rel(user, transportPlanner, "Uses")
+Rel(transportPlanner, carTransport, "Plans car transport")
+Rel(transportPlanner, trainTransport, "Plans train transport")
+Rel(transportPlanner, planeTransport, "Plans plane transport")
+Rel(transportPlanner, transportTracker, "Updates transport status")
 
 @enduml

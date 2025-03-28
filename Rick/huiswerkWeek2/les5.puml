@@ -1,0 +1,35 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+' Actor
+Person(user, "User", "A person using the transport system")
+
+System_Boundary(transportSystem, "Transport System") {
+
+    ' Transport flow
+    Container(transportPlanner, "TransportPlanner", "Java", "Plans the transport routes based on origin and destination")
+    Container(carTransport, "CarTransport", "Java", "Handles transport by car, includes route, price and booking")
+    Container(trainTransport, "TrainTransport", "Java", "Handles transport by train, includes route, price and booking")
+    Container(transportTracker, "TransportTracker", "Java", "Tracks status of transport (planned, paid, etc.)")
+
+    ' Messaging flow
+    Container(messagingService, "MessagingService", "Interface", "Abstract messaging interface")
+    Container(emailService, "EmailService", "Java", "Concrete implementation of MessagingService via Email")
+    Container(userRegistration, "UserRegistration", "Java", "Registers users and sends confirmation messages")
+}
+
+' Relationships
+Rel(user, transportPlanner, "Requests transport planning")
+
+Rel(transportPlanner, carTransport, "Uses for car options")
+Rel(transportPlanner, trainTransport, "Uses for train options")
+
+Rel_L(carTransport, transportTracker, "Updates status")
+Rel_L(trainTransport, transportTracker, "Updates status")
+
+Rel(userRegistration, messagingService, "Sends messages via")
+Rel(messagingService, emailService, "Implemented by")
+
+Rel(user, userRegistration, "Registers")
+
+@enduml

@@ -1,3 +1,5 @@
+@startuml
+
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
 ' Define the components
@@ -34,3 +36,4 @@ Rel(repository, model, "Saves and retrieves data for")
 Rel(service, security, "Uses token validation from")
 Rel(controller, security, "Validates user JWT")
 Rel(service, util, "Uses utilities for session management")
+@enduml
