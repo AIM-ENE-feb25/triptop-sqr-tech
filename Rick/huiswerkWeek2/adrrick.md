@@ -13,17 +13,17 @@
 Triptop is een applicatie waarmee gebruikers zelf hun vakantietrip kunnen plannen. Een belangrijk onderdeel hiervan is het plannen van vervoer tussen overnachtingen. Reizigers moeten kunnen kiezen uit meerdere vervoersopties zoals auto, trein of boot, en deze moeten afzonderlijk kunnen worden gepland, geboekt en gevolgd.
 
 Elke vervoersvorm heeft:
-- een eigen manier van route bepalen (`getRoute()`)
-- een eigen prijsbepaling (`getPrice()`)
-- en een specifieke boekingslogica (`book()`)
+- een eigen manier van route bepalen
+- een eigen prijsbepaling 
+- en een specifieke boekingslogica 
 
-Het systeem moet uitbreidbaar zijn, makkelijk te onderhouden, en goed te testen. We verkennen daarom architectuurpatronen die deze eigenschappen ondersteunen.
+Het systeem moet uitbreidbaar zijn, makkelijk te onderhouden, en goed te testen. We kijken daarom naar architectuur opties die deze eigenschappen ondersteunen.
 
 ---
 
 ## 2. Ontwerpvraag
 
-**Hoe zorgen we ervoor dat `TransportPlanner` flexibel omgaat met verschillende vormen van vervoer, zonder directe afhankelijkheid van concrete implementaties zoals `CarTransport` of `TrainTransport`?**
+**Hoe zorgen we ervoor dat `TransportPlanner` flexibel omgaat met verschillende vormen van vervoer, zonder directe afhankelijkheid van concrete implementaties zoals `CarTransport` of `TrainTransport`? etc**
 
 ---
 
@@ -43,7 +43,7 @@ Het systeem moet uitbreidbaar zijn, makkelijk te onderhouden, en goed te testen.
 
 **Nadelen:**
 - Extra abstractielaag.
-- Strategie-keuze moet elders worden opgelost (bijv. via Factory of configuratie).
+- Strategie-keuze moet elders worden opgelost (bijv. via configuratie).
 
 ---
 
@@ -79,3 +79,40 @@ Het systeem moet uitbreidbaar zijn, makkelijk te onderhouden, en goed te testen.
 ## 4. Class/Component Diagram (Illustratie van Optie 1)
 
 Onderstaande diagram toont hoe het Strategy Pattern wordt toegepast in het transportontwerp van Triptop:
+
+```plantuml
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person(user, "Gebruiker", "Gebruikt Triptop om vervoer tussen overnachtingen te plannen")
+
+System_Boundary(transportSystem, "Transport System") {
+
+  Container(controller, "TransportPlanner Controller", "Java", 
+    "Plant vervoersopties tussen overnachtingen en coördineert strategieën")
+
+  Container(service, "CarTransport", "Java", 
+    "Implementeert vervoer per auto: route, prijs en boeking")
+
+  Container(service, "TrainTransport", "Java", 
+    "Implementeert vervoer per trein: route, prijs en boeking")
+
+  Container(service, "BootTransport", "Java", 
+    "Implementeert vervoer per boot: route, prijs en boeking")
+
+  Container(interface, "TransportOption Interface", "Java Interface", 
+    "Interface met getRoute(), getPrice(), book()")
+
+  Container(service, "TransportTracker Service", "Java", 
+    "Beheert de status van transport: gepland, geboekt, betaald")
+}
+
+Rel(user, controller, "Vraagt vervoer aan via planTransport(from, to)")
+Rel(controller, interface, "Gebruikt als interface voor opties")
+Rel(controller, service, "Roept concrete optie aan (Car/Train/Boot)")
+Rel(service, service, "Stelt status in via TransportTracker")
+@enduml
+## 5. Resultaat en vervolgstappen
+   Deze oplossingsverkenning laat zien dat het Strategy Pattern de best passende optie is voor het plannen van vervoer binnen Triptop, dankzij zijn uitbreidbaarheid, testbaarheid en onderhoudsgemak.
+
+ Deze optie is technisch haalbaar en sluit aan op ontwerpprincipes, maar de definitieve keuze wordt in een volgende fase vastgelegd.
