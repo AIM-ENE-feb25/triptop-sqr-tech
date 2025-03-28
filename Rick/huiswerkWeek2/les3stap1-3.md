@@ -39,5 +39,3 @@
 3. **Gebruiker** kiest de beste **TransportOption**.
 
 4. **TransportOption** (bijvoorbeeld **CarTransport** of **TrainTransport**) roept **book()** aan om het transport te boeken.
-
-5. **T
