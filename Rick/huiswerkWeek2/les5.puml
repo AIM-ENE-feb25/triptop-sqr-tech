@@ -1,35 +1,46 @@
+
 @startuml
-!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+title Class Diagram for Transport System
 
-' Actor
-Person(user, "User", "A person using the transport system")
-
-System_Boundary(transportSystem, "Transport System") {
-
-    ' Transport flow
-    Container(transportPlanner, "TransportPlanner", "Java", "Plans the transport routes based on origin and destination")
-    Container(carTransport, "CarTransport", "Java", "Handles transport by car, includes route, price and booking")
-    Container(trainTransport, "TrainTransport", "Java", "Handles transport by train, includes route, price and booking")
-    Container(transportTracker, "TransportTracker", "Java", "Tracks status of transport (planned, paid, etc.)")
-
-    ' Messaging flow
-    Container(messagingService, "MessagingService", "Interface", "Abstract messaging interface")
-    Container(emailService, "EmailService", "Java", "Concrete implementation of MessagingService via Email")
-    Container(userRegistration, "UserRegistration", "Java", "Registers users and sends confirmation messages")
+class TransportPlanner {
+    +planTransport()
 }
 
-' Relationships
-Rel(user, transportPlanner, "Requests transport planning")
+class CarTransport {
+    +getRoute()
+    +getPrice()
+    +book()
+}
 
-Rel(transportPlanner, carTransport, "Uses for car options")
-Rel(transportPlanner, trainTransport, "Uses for train options")
+class TrainTransport {
+    +getRoute()
+    +getPrice()
+    +book()
+}
 
-Rel_L(carTransport, transportTracker, "Updates status")
-Rel_L(trainTransport, transportTracker, "Updates status")
+class TransportTracker {
+    +setStatus()
+    +getStatus()
+}
 
-Rel(userRegistration, messagingService, "Sends messages via")
-Rel(messagingService, emailService, "Implemented by")
+interface MessagingService {
+    +sendMessage()
+}
 
-Rel(user, userRegistration, "Registers")
+class EmailService {
+    +sendMessage()
+}
+
+class UserRegistration {
+    +registerUser()
+}
+
+UserRegistration --> MessagingService : uses
+MessagingService <|-- EmailService
+
+TransportPlanner --> CarTransport : uses
+TransportPlanner --> TrainTransport : uses
+CarTransport --> TransportTracker : updates
+TrainTransport --> TransportTracker : updates
 
 @enduml
