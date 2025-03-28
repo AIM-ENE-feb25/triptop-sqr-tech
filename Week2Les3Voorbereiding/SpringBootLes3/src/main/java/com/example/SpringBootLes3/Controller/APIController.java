@@ -25,7 +25,7 @@ public class APIController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/crypto")
+    @GetMapping("/route")
     public ResponseEntity<String> getRoute() {
         String response = apiService.fetchData(
                 "https://cryptoapi.p.rapidapi.com",
