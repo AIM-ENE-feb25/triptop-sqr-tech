@@ -10,20 +10,22 @@ Person(user, "User", "Application user")
 Container_Boundary(tts, "Trip Top System") {
     Component(web_app, "Web Application", "???", "User interface for planning trips")
 
-    Component(booking_controller, "Booking Controller", "Spring Boot", "Handles accommodation bookings")
-    Component(transport_controller, "Transport Controller", "Spring Boot", "Handles transport arrangements")
-    Component(activity_controller, "Activity Controller", "Spring Boot", "Handles activity bookings")
-    Component(car_rental_controller, "Car Rental Controller", "Spring Boot", "Handles car rentals")
+    Component(booking_controller, "Booking Controller", "Spring Boot Rest Controller", "Handles accommodation bookings")
+    Component(transport_controller, "Transport Controller", "Spring Boot Controller", "Handles transport arrangements")
+    Component(activity_controller, "Activity Controller", "Spring Boot Controller", "Handles activity bookings")
+    Component(car_rental_controller, "Car Rental Controller", "Spring Boot Controller", "Handles car rentals")
 
-    Component(booking_service, "Booking Service", "Spring Boot", "Manages accommodation bookings")
-    Component(transport_service, "Transport Service", "Spring Boot", "Manages transport arrangements")
-    Component(activity_service, "Activity Service", "Spring Boot", "Manages activity bookings")
-    Component(car_rental_service, "Car Rental Service", "Spring Boot", "Manages car rentals")
+    Component(booking_service, "Booking Service", "Spring Boot Service", "Manages accommodation bookings")
+    Component(transport_service, "Transport Service", "Spring Boot Service", "Manages transport arrangements")
+    Component(activity_service, "Activity Service", "Spring Boot Service", "Manages activity bookings")
+    Component(car_rental_service, "Car Rental Service", "Spring Boot Service", "Manages car rentals")
 
     Component(notification_service, "Notification Service", "Spring Boot", "Sends notifications via email, SMS, and push")
 
-    Component(booking_repository, "Booking Repository", "Spring Boot")
-    'TODO REPOSITORIES'
+    Component(booking_repository, "Booking Repository", "Spring Boot Repository", "Uses JDBC to store booking information in the db")
+    Component(transport_repository, "Transport Repository", "Spring Boot Repository", "Uses JDBC to store transport information in the db")
+    Component(activity_repository, "Activity Repository", "Spring Boot Repository", "Uses JDBC to store activity information in the db")
+    Component(car_rental_repository, "Car Rental Repository", "Spring Boot Repository", "Uses JDBC to store car rental information in the db")
 
     ComponentDb(trip_db, "Trip Database", "???", "Stores trip information")
     ComponentDb(user_db, "User Database", "???", "Stores user information")
@@ -34,7 +36,10 @@ Container_Boundary(tts, "Trip Top System") {
 System_Ext(email_api, "SendGrid", "External email service")
 System_Ext(sms_api, "SMS77io", "External SMS service")
 System_Ext(push_api, "Web Pusher", "External push notification service")
-System_Ext(ip, "Identity Provider", "External identity provider")
+System_Ext(ip, "Identity Provider", "Wire Mock API")
+
+System_Ext(bapi, Booking API, "External API for booking accommodations")
+System_Ext(dapi, Distance API, "External API for distance calculations/transport")
 
 Rel(user, web_app, "Uses")
 
@@ -48,11 +53,6 @@ Rel(transport_controller, transport_service, "Routes requests to")
 Rel(activity_controller, activity_service, "Routes requests to")
 Rel(car_rental_controller, car_rental_service, "Routes requests to")
 
-Rel(booking_service, trip_db, "Reads from and writes to")
-Rel(transport_service, trip_db, "Reads from and writes to")
-Rel(activity_service, trip_db, "Reads from and writes to")
-Rel(car_rental_service, trip_db, "Reads from and writes to")
-
 Rel(booking_service, notification_service, "Sends booking events to")
 Rel(transport_service, notification_service, "Sends transport events to")
 Rel(activity_service, notification_service, "Sends activity events to")
@@ -60,6 +60,19 @@ Rel(activity_service, notification_service, "Sends activity events to")
 Rel(notification_service, email_api, "Sends emails via", "POST /send/mail")
 Rel(notification_service, sms_api, "Sends SMS via", "POST /sms")
 Rel(notification_service, push_api, "Sends push notifications via", "POST /push")
+
+Rel(booking_service, booking_repository, "Uses")
+Rel(transport_service, transport_repository, "Uses")
+Rel(activity_service, activity_repository, "Uses")
+Rel(car_rental_service, car_rental_repository, "Uses")
+
+Rel(booking_service, bapi, "Calls for booking accommodations")
+Rel(transport_service, dapi, "Calls for distance calculations/transport")
+
+Rel(booking_repository, trip_db, "Stores booking information in", "JDBC")
+Rel(transport_repository, trip_db, "Stores transport information in", "JDBC")
+Rel(activity_repository, trip_db, "Stores activity information in", "JDBC")
+Rel(car_rental_repository, trip_db, "Stores car rental information in", "JDBC")
 
 Rel(identity_service, ip, "Uses for authentication")
 Rel(identity_service, user_db, "Stores username... in")
