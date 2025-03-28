@@ -4,7 +4,7 @@
 title Class diagram voor ontwerpvraag Quinn
 
 
-@startuml
+
 interface IBoekingAdapter {
     + maakBoeking(boeking: Boeking): bool
     + getNaam(): String
@@ -54,4 +54,3 @@ BoekingService <-- BoekingController
 
 
 
-@enduml
