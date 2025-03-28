@@ -1,0 +1,25 @@
+@startuml
+
+@startuml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+
+Container_Boundary("Triptop", "Backend Applicatie") {
+Component(BoekingService, "BoekingService", "Spring boot","Service die de verschillende API's beheerd")
+Component(BoekingController, "BoekingController", "Spring boot","Controller die regelt welke API er moet worden aangeroepen")
+Component(BoekingRepository, "BoekingRepository", "Spring boot","Roept aan")
+
+}
+ComponentDb(Database, "Database", "Database voor de Triptop")
+Component(APIBooking, "APIBooking", "", "API voor de Booking.com")
+
+
+Rel(BoekingService, APIBooking, "Legt connectie met")
+Rel(BoekingController, BoekingService, "Gebruikt om classes te managen")
+Rel(BoekingService, "BoekingRepository", "Roept aan")
+Rel(BoekingRepository, Database, "Haalt en slaat data op")
+@enduml
+
+
+@enduml
