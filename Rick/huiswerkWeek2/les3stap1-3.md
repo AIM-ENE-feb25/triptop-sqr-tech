@@ -1,4 +1,4 @@
-# Huiswerk Les 3: Vervoer tussen Overnachtingen
+# Huiswerk Les 3: Hoe regel ik het Vervoer tussen de Overnachtingen
 
 ## **Stap 1: Componenten en Verantwoordelijkheden**
 
