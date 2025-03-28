@@ -18,6 +18,17 @@ class TrainTransport {
     +book()
 }
 
+class BoatTransport {
+    +getRoute()
+    +getPrice()
+    +book()
+}
+
+class planeTransport {
+    +getRoute()
+    +getPrice()
+    +book()
+}
 class TransportTracker {
     +setStatus()
     +getStatus()
@@ -29,5 +40,10 @@ TransportPlanner --> CarTransport : uses
 TransportPlanner --> TrainTransport : uses
 CarTransport --> TransportTracker : updates
 TrainTransport --> TransportTracker : updates
+
+TransportPlanner --> planeTransport : uses
+TransportPlanner --> BoatTransport : uses
+BoatTransport --> TransportTracker : updates
+planeTransport --> TransportTracker : updates
 
 @enduml
