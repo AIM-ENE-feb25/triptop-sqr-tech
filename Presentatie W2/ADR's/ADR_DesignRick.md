@@ -32,8 +32,8 @@ Het systeem moet uitbreidbaar zijn, makkelijk te onderhouden, en goed te testen.
 ###  Optie 1: Strategy Pattern via `TransportOption` interface
 
 - `TransportOption` is een interface die de gedeelde logica van transport definieert.
-- Concrete klassen zoals `CarTransport`, `TrainTransport` en `BootTransport` implementeren deze interface.
-- `TransportPlanner` gebruikt polymorfisme om een transportoptie te kiezen en aan te spreken.
+- Concrete klassen zoals `CarTransport`, `TrainTransport` en `BoatTransport` implementeren deze interface.
+- `TransportPlanner` gebruikt polymorfisme om een transportopte te kiezen en aan te spreken.
 
 **Voordelen:**
 - Volgt *Open/Closed Principle* en *DIP*.
@@ -109,12 +109,12 @@ System_Boundary(transportSystem, "Transport System") {
 
 Rel(user, controller, "Vraagt vervoer aan via planTransport(from, to)")
 Rel(controller, interface, "Gebruikt als interface voor opties")
-Rel(controller, service, "Roept concrete optie aan (Car/Train/Boot)")
+Rel(controller, service, "Roept concrete optie aan (Car/Train/Boat)")
 Rel(service, service, "Stelt status in via TransportTracker")
 @enduml
 
 ```
 ## 5. Resultaat en vervolgstappen
-Deze oplossingsverkenning laat zien dat het Strategy Pattern de best passende optie is voor het plannen van vervoer binnen Triptop, dankzij zijn uitbreidbaarheid, testbaarheid en onderhoudsgemak.
+Deze oplossingsverkenning laat zien dat het Strategy Pattern de best passende optie is voor het plannen van vervoer binnen Triptop, omdat zijn uitbreidbaarheid, testbaarheid en onderhoudsgemak meer kwaliteit bied.
 
 Deze optie is technisch haalbaar en sluit aan op ontwerpprincipes, maar de definitieve keuze wordt in een volgende fase vastgelegd.

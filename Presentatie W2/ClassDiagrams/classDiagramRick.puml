@@ -1,6 +1,7 @@
 
 @startuml
-title Class Diagram for Transport System
+title Hoe zorgen we ervoor dat `TransportPlanner` flexibel omgaat met verschillende vormen van vervoer
+
 
 class TransportPlanner {
     +planTransport()
