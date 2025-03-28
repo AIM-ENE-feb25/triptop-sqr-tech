@@ -1,0 +1,41 @@
+@startuml
+title Stuk applicatie om nieuwe bouwstenen te maken
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+Container_Boundary(tts, "Trip Top System") {
+    Component(factory, "Bouwsteen Factory", "Spring Component", "Creates domain classes")
+    Component(repository, "Bouwsteen Repository", "Spring Component", "Stores domain classes")
+
+    Component(domain_service, "Bouwsteen Service", "Spring Component", "Manages domain classes")
+
+    Boundary(bouwstenen, "Example Bouwstenen") {
+        Component(booking_service, "Booking Service", "Spring Boot", "Manages accommodation bookings")
+        Component(transport_service, "Transport Service", "Spring Boot", "Manages transport arrangements")
+        Component(activity_service, "Activity Service", "Spring Boot", "Manages activity bookings")
+        Component(car_rental_service, "Car Rental Service", "Spring Boot", "Manages car rentals")
+    }
+
+    Component(controller, "Bouwsteen Controller", "Spring Boot", "Handles requests for domain classes")
+
+    ComponentDb(trip_db, "Trip Database", "???", "Stores trip information")
+}
+
+Rel(factory, repository, "Stores created domain classes in")
+Rel(factory, booking_service, "Creates domain classes for")
+Rel(factory, transport_service, "Creates domain classes for")
+Rel(factory, activity_service, "Creates domain classes for")
+Rel(factory, car_rental_service, "Creates domain classes for")
+
+Rel(repository, trip_db, "Stores domain classes in", "JDBC")
+
+Rel(controller, factory, "Uses to create domain classes", "???")
+Rel(controller, domain_service, "Uses to manage domain classes", "???")
+
+note right of bouwstenen
+Deze services zijn voorbeelden van hoe meer bouwstenen geïmplementeerd kunnen worden.
+end note
+
+@enduml
