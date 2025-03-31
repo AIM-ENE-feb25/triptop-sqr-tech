@@ -1,0 +1,53 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram voor het Trip Top Systeem
+
+System(tts, "Trip Top Web App", "UI Interface van Trip Top")
+
+System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
+
+  Component(bouwsteen_controller, "Bouwsteen Controller", "Spring Boot Rest Controller", "Handelt verzoeken af voor domeinklassen")
+  Component(boeking_controller, "BoekingController", "Spring Boot Rest Controller", "Regelt welke API moet worden aangeroepen")
+
+  Component(boeking_service, "Boeking Service", "Spring Boot", "Beheert de verschillende API's")
+  Component(bouwsteen_service, "Bouwsteen Service", "Spring Component", "Beheert domeinklassen")
+  Component(boeking_repo, "Boeking Repository", "Spring Boot", "Roept database aan")
+  Component(factory, "Bouwsteen Factory", "Spring Component", "Maakt domeinklassen aan")
+  Component(bs_repo, "Bouwsteen Repository", "Spring Boot", "Roept database aan voor bouwstenen")
+
+  Boundary(bouwstenen, "Voorbeeld Bouwstenen") {
+    Component(bs_activiteit, "Activiteit Bouwsteen", "Spring Boot", "Beheert activiteiten")
+    Component(bs_transport, "Transport Bouwsteen", "Spring Boot", "Beheert transportregelingen")
+  }
+}
+
+ComponentDb(db, "Database", "???", "Database voor de Triptop")
+System_Ext(api_booking, "APIBooking", "API voor Booking.com")
+System_Ext(api_..., "API...", "API voor ...")
+System_Ext(NS, "NSAPI", "API voor treinreizen")
+System_Ext(BookingAPI2, "BookingAPI2", "API voor Booking.com (voor normale pijlen)")
+
+Rel(tts, boeking_controller, "Boekt via API")
+Rel(tts, bouwsteen_controller, "Stelt trips samen")
+
+Rel(bouwsteen_service, factory, "Gebruikt om domeinklassen te maken")
+Rel(bouwsteen_controller, bouwsteen_service, "Gebruikt om domeinklassen te beheren")
+
+Rel(boeking_controller, boeking_service, "Gebruikt service")
+Rel(boeking_service, boeking_repo, "Roept repository aan")
+Rel(boeking_repo, db, "Haalt en slaat data op")
+
+Rel(boeking_service, api_booking, "Legt connectie met externe API")
+Rel(boeking_service, api_..., "Legt connectie met externe API")
+
+Rel(factory, bs_repo, "Slaat aanmaak op via")
+Rel(factory, bs_transport, "Maakt Transport bouwsteen aan")
+Rel(factory, bs_activiteit, "Maakt Activiteit bouwsteen aan")
+
+Rel(bs_repo, db, "Haalt en slaat data op")
+Rel(bs_transport, NS, "Beheert transportregelingen")
+Rel(bs_activiteit, BookingAPI2, "Beheert activiteiten")
+
+@enduml

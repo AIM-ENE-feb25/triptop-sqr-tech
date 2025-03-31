@@ -1,0 +1,52 @@
+@startuml
+title Class Diagram for Trip Top System
+
+class BouwsteenController {
+    +handleRequest(request: HttpServletRequest): String
+}
+
+class BouwsteenFactory {
+    +createBouwsteen(type: String): Bouwsteen
+}
+
+abstract class Bouwsteen {
+    +id: int
+    +name: String
+    +status: String
+    +getDetails(): String
+}
+
+class BookingService extends Bouwsteen {
+    +getBookingDetails(): String
+}
+
+class TransportService extends Bouwsteen {
+    +getTransportDetails(): String
+}
+
+class ActivityService extends Bouwsteen {
+    +getActivityDetails(): String
+}
+
+class CarRentalService extends Bouwsteen {
+    +getCarRentalDetails(): String
+}
+
+class BouwsteenRepository {
+    +save(bouwsteen: Bouwsteen): void
+    +findById(id: int): Bouwsteen
+}
+
+class BouwsteenService {
+    +manageBouwsteen(bouwsteen: Bouwsteen): void
+}
+
+
+
+BouwsteenFactory --> Bouwsteen
+BouwsteenRepository --> Bouwsteen
+BouwsteenService --> Bouwsteen
+BouwsteenController --> BouwsteenFactory
+BouwsteenController --> BouwsteenService
+
+@enduml
