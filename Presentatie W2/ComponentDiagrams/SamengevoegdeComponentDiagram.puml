@@ -2,7 +2,9 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 LAYOUT_WITH_LEGEND()
 
-Person(reiziger, "Reiziger", "Gebruikt Triptop om reizen te plannen en boeken")
+title Component Diagram voor het Trip Top Systeem
+
+System(tts, "Trip Top Web App", "UI Interface van Trip Top")
 
 System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
 
@@ -33,9 +35,9 @@ Boundary(bouwstenen, "Voorbeeld Bouwstenen") {
 
   System_Ext(api_booking, "APIBooking", "API voor Booking.com")
 
-Rel(reiziger, boeking_controller, "Boekt via API")
-Rel(reiziger, bouwsteen_controller, "Stelt trips samen")
-Rel(reiziger, transport_controller, "Plant vervoer tussen locaties")
+Rel(tts, boeking_controller, "Boekt via API")
+Rel(tts, bouwsteen_controller, "Stelt trips samen")
+Rel(tts, transport_controller, "Plant vervoer tussen locaties")
 
 Rel(boeking_controller, boeking_service, "Gebruikt service")
 Rel(boeking_service, boeking_repo, "Roept repository aan")
