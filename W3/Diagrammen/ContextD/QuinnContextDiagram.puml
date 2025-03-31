@@ -1,0 +1,25 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+SHOW_PERSON_OUTLINE()
+Person(AdminAlias, "Reis agent", "Beheert reizen in Triptop app")
+Person(GebruikerAlias, "Reiziger", "Boekt reis")
+System_Ext(containerAlias, "KLM Shuttle")
+System_Ext(containerAlias2, "NS")
+System_Ext(containerAlias3, "Takeaway")
+System_Ext(containerAlias4, "Airbnb")
+System_Ext(containerAlias5, "Sixt")
+System_Ext(containerAlias6, "GetYourGuide")
+
+
+System(systemAlias, "Triptop App", "Biedt reizen aan")
+
+Rel(AdminAlias, systemAlias, "Beheert riezen en vervoer")
+Rel(GebruikerAlias, systemAlias, "Boekt reis en vervoer")
+Rel(systemAlias, containerAlias, "Vraagt informatie over de heen -en terugreis op")
+Rel(systemAlias, containerAlias2, "Vraagt vervoer tussen overnachtingen op")
+Rel(systemAlias, containerAlias3, "Vraagt beschikbare eet -en drinkgelegenheden op")
+Rel(systemAlias, containerAlias4, "Vraagt beschikbare overnachtingen op")
+Rel(systemAlias, containerAlias5, "Vraagt beschikbare verhuurauto's op" )
+Rel(systemAlias, containerAlias6, "Vraagt excursies en activiteiten op")
+@enduml
