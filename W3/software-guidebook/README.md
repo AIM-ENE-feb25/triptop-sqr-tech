@@ -217,7 +217,7 @@ Bijvoorbeeld: in het geval van overnachtingen slaan we alleen basisgegevens op z
 -  **Afhankelijkheid van externe APIs**: Als de API niet beschikbaar is, kan bepaalde data tijdelijk niet getoond worden. Dit vereist goede fallback-logica of duidelijke meldingen aan de gebruiker.
 -  **Extra latency mogelijk**: Soms is een extra API-aanroep nodig om ontbrekende info op te halen. Dit kan invloed hebben op de snelheid van bepaalde onderdelen van de applicatie, vooral bij meerdere opeenvolgende API-aanroepen.
 
-### 8.3. ADR-003: Gebruik van Factory Method voor uitbreidbare bouwstenen
+### 8.3. ADR: Gebruik van Factory Method voor uitbreidbare bouwstenen
 
 **Datum:** 2025-03-21
 
@@ -348,7 +348,7 @@ Toch wegen de voordelen zwaarder dan de nadelen, zeker gezien de schaalbaarheid 
 - [Refactoring Guru – Adapter Pattern](https://refactoring.guru/design-patterns/adapter)
 - [Software-Design-Patterns.pptx – SOEX](https://aim-ene.github.io/soex/assets/files/Software-Design-Patterns-0d2fdea120bb6494d39f949233
 
-## 8.5. ADR-005: Verkenning van het Strategy Pattern voor vervoer tussen overnachtingen
+## 8.5. ADR: Verkenning van het Strategy Pattern voor vervoer tussen overnachtingen
 
 #### Status
 In onderzoek — 28 maart 2025  
