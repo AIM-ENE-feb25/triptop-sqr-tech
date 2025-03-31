@@ -2,7 +2,7 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 LAYOUT_WITH_LEGEND()
 
-title Component Diagram voor het Trip Top Systeem
+title Samengesteld Component Diagram
 
 System(tts, "Trip Top Web App", "UI Interface van Trip Top")
 
@@ -21,33 +21,73 @@ System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
     Component(bs_activiteit, "Activiteit Bouwsteen", "Spring Boot", "Beheert activiteiten")
     Component(bs_transport, "Transport Bouwsteen", "Spring Boot", "Beheert transportregelingen")
   }
+
+  Component(tp_controller, "TransportPlannerController", "Java", "Verwerkt gebruikersaanvragen en plant vervoer tussen overnachtingen")
+  Component(tp_service, "TransportPlannerService", "Java", "Bevat logica om vervoersstrategie te selecteren en toe te passen")
+  Component(tp_factory, "TransportFactory", "Java", "Levert juiste transportstrategie op basis van invoer")
+  Component(tp_interface, "TransportOption (interface)", "Java Interface", "Bepaalt gedrag voor getRoute(), getPrice() en book()")
+
+  Component(tp_car, "CarTransport", "Java", "Implementeert vervoer per auto")
+  Component(tp_train, "TrainTransport", "Java", "Implementeert vervoer per trein")
+  Component(tp_boat, "BoatTransport", "Java", "Implementeert vervoer per boot")
+  Component(tp_plane, "PlaneTransport", "Java", "Implementeert vervoer per vliegtuig")
+
+  Component(tp_repo, "TransportRepository", "Java", "Slaat transportstatus en boekingsgegevens op")
+  Component(tp_tracker, "TransportTrackerService", "Java", "Stuurt statuswijzigingen door en houdt voortgang bij")
 }
 
-ComponentDb(db, "Database", "???", "Database voor de Triptop")
+  ComponentDb(tp_db, "Database", "Relationale database", "Slaat de nuttige informatie op voor triptop")
+
 System_Ext(api_booking, "APIBooking", "API voor Booking.com")
 System_Ext(api_..., "API...", "API voor ...")
-System_Ext(NS, "NSAPI", "API voor treinreizen")
-System_Ext(BookingAPI2, "BookingAPI2", "API voor Booking.com (voor normale pijlen)")
+System_Ext(NS, "NS API", "Externe API")
+System_Ext(BookingAPI2, "BookingAPI2", "API voor Booking.com (activiteiten)")
+System_Ext(ferryapi, "Ferry API", "Extern systeem", "Boten")
+System_Ext(klmapi, "KLM API", "Extern systeem", "Vluchten")
 
 Rel(tts, boeking_controller, "Boekt via API")
 Rel(tts, bouwsteen_controller, "Stelt trips samen")
 
-Rel(bouwsteen_service, factory, "Gebruikt om domeinklassen te maken")
 Rel(bouwsteen_controller, bouwsteen_service, "Gebruikt om domeinklassen te beheren")
-
-Rel(boeking_controller, boeking_service, "Gebruikt service")
-Rel(boeking_service, boeking_repo, "Roept repository aan")
-Rel(boeking_repo, db, "Haalt en slaat data op")
-
-Rel(boeking_service, api_booking, "Legt connectie met externe API")
-Rel(boeking_service, api_..., "Legt connectie met externe API")
-
+Rel(bouwsteen_service, factory, "Gebruikt om domeinklassen te maken")
 Rel(factory, bs_repo, "Slaat aanmaak op via")
 Rel(factory, bs_transport, "Maakt Transport bouwsteen aan")
 Rel(factory, bs_activiteit, "Maakt Activiteit bouwsteen aan")
+Rel(bs_repo, tp_db, "Haalt en slaat data op")
 
-Rel(bs_repo, db, "Haalt en slaat data op")
+Rel(boeking_controller, boeking_service, "Gebruikt service")
+Rel(boeking_service, boeking_repo, "Roept repository aan")
+Rel(boeking_repo, tp_db, "Haalt en slaat data op")
+Rel(boeking_service, api_booking, "Legt connectie met externe API")
+Rel(boeking_service, api_..., "Legt connectie met externe API")
 Rel(bs_transport, NS, "Beheert transportregelingen")
 Rel(bs_activiteit, BookingAPI2, "Beheert activiteiten")
+
+Rel(tts, tp_controller, "Plant vervoer tussen overnachtingen")
+Rel(tp_controller, tp_service, "stuurt aanvraag naar")
+Rel(tp_service, tp_factory, "vraagt juiste strategie op via")
+Rel(tp_factory, tp_car, "levert CarTransport")
+Rel(tp_factory, tp_train, "levert TrainTransport")
+Rel(tp_factory, tp_boat, "levert BoatTransport")
+Rel(tp_factory, tp_plane, "levert PlaneTransport")
+
+Rel(tp_car, tp_interface, "implementeert")
+Rel(tp_train, tp_interface, "implementeert")
+Rel(tp_boat, tp_interface, "implementeert")
+Rel(tp_plane, tp_interface, "implementeert")
+Rel(tp_service, tp_interface, "gebruikt via interface")
+
+Rel(tp_service, tp_repo, "slaat gegevens op in")
+Rel(tp_repo, tp_db, "leest/schrijft transportdata")
+Rel(tp_service, tp_tracker, "stuurt statusupdates naar")
+
+Rel(tp_car, tp_tracker, "meldt status aan")
+Rel(tp_train, tp_tracker, "meldt status aan")
+Rel(tp_boat, tp_tracker, "meldt status aan")
+Rel(tp_plane, tp_tracker, "meldt status aan")
+
+Rel(tp_train, NS, "haalt routes op van NS API")
+Rel(tp_boat, ferryapi, "haalt info op van Ferry API")
+Rel(tp_plane, klmapi, "haalt vluchten op van KLM API")
 
 @enduml
