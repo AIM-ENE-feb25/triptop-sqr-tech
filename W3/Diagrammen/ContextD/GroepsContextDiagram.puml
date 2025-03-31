@@ -1,0 +1,29 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+SHOW_PERSON_OUTLINE()
+
+title Context Diagram Voor Trip Top
+
+Person(reiziger, "Reiziger", "Een persoon die een reis plant en beheert")
+Person(reisA, "Reis Agent", "Biedt ondersteuning voor de reiziger")
+
+System(tts, "Trip Top", "Kernsysteem voor reisplanning en beheer")
+System_Ext(op, "Overnachting Provider", "Booking.com API")
+System_Ext(vp, "Vervoer Provider", "Distance API, NSAPI")
+System_Ext(ep, "Excursie Provider", "Trip Advisor, Get Your Guide")
+System_Ext(av, "Autoverhuur Provider", "Sixt, Hertz")
+System_Ext(eNd, "Eten en Drinken Provider", "Takeaway, Eet.nu")
+System_Ext(ip, "Identity Provider", "Authenticatie dienst om ervoor te zorgen dat de reiziger niet overal een account voor nodig heeft")
+
+Rel(reiziger, tts, "Maakt gebruik van om reizen te plannen en beheren")
+Rel(reisA, tts, "Biedt ondersteuning voor de reisplannen")
+
+Rel(tts, op, "Haalt informatie op en boekt accommodatie via")
+Rel(tts, vp, "Verkrijgt routeinformatie van")
+Rel(tts, ep, "Haalt activiteiten op en zoekt activiteiten via")
+Rel(tts, av, "Haalt informatie op en huurt auto's via")
+Rel(tts, eNd, "Bestelt eten en drinken via")
+
+Rel(tts, ip, "Verifieert de identiteit van de reiziger")
+
+@enduml
