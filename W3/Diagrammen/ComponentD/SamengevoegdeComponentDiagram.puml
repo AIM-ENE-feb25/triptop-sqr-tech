@@ -2,13 +2,12 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 LAYOUT_WITH_LEGEND()
 
-title Samengesteld Component Diagram – Triptop + Transportmodule (gestroomlijnd)
+title Samengesteld Component Diagram
 
 System(tts, "Trip Top Web App", "UI Interface van Trip Top")
 
 System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
 
-  ' Controllers en services buiten transport
   Component(bouwsteen_controller, "Bouwsteen Controller", "Spring Boot Rest Controller", "Handelt verzoeken af voor domeinklassen")
   Component(boeking_controller, "BoekingController", "Spring Boot Rest Controller", "Regelt welke API moet worden aangeroepen")
 
@@ -23,7 +22,6 @@ System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
     Component(bs_transport, "Transport Bouwsteen", "Spring Boot", "Beheert transportregelingen")
   }
 
-  ' === Transportmodule zonder aparte boundary ===
   Component(tp_controller, "TransportPlannerController", "Java", "Verwerkt gebruikersaanvragen en plant vervoer tussen overnachtingen")
   Component(tp_service, "TransportPlannerService", "Java", "Bevat logica om vervoersstrategie te selecteren en toe te passen")
   Component(tp_factory, "TransportFactory", "Java", "Levert juiste transportstrategie op basis van invoer")
@@ -36,22 +34,20 @@ System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
 
   Component(tp_repo, "TransportRepository", "Java", "Slaat transportstatus en boekingsgegevens op")
   Component(tp_tracker, "TransportTrackerService", "Java", "Stuurt statuswijzigingen door en houdt voortgang bij")
-  ComponentDb(tp_db, "Database", "Relationale database", "Slaat de nuttige informatie op voor triptop")
 }
 
-' === Externe systemen ===
+  ComponentDb(tp_db, "Database", "Relationale database", "Slaat de nuttige informatie op voor triptop")
+
 System_Ext(api_booking, "APIBooking", "API voor Booking.com")
 System_Ext(api_..., "API...", "API voor ...")
-System_Ext(NS, "NS API", "Extern systeem", "Levert treinreizen")
+System_Ext(NS, "NS API", "Externe API")
 System_Ext(BookingAPI2, "BookingAPI2", "API voor Booking.com (activiteiten)")
 System_Ext(ferryapi, "Ferry API", "Extern systeem", "Boten")
 System_Ext(klmapi, "KLM API", "Extern systeem", "Vluchten")
 
-' === UI interactie ===
 Rel(tts, boeking_controller, "Boekt via API")
 Rel(tts, bouwsteen_controller, "Stelt trips samen")
 
-' === Interne relaties buiten transportmodule ===
 Rel(bouwsteen_controller, bouwsteen_service, "Gebruikt om domeinklassen te beheren")
 Rel(bouwsteen_service, factory, "Gebruikt om domeinklassen te maken")
 Rel(factory, bs_repo, "Slaat aanmaak op via")
@@ -67,7 +63,6 @@ Rel(boeking_service, api_..., "Legt connectie met externe API")
 Rel(bs_transport, NS, "Beheert transportregelingen")
 Rel(bs_activiteit, BookingAPI2, "Beheert activiteiten")
 
-' === Transportmodule relaties ===
 Rel(tts, tp_controller, "Plant vervoer tussen overnachtingen")
 Rel(tp_controller, tp_service, "stuurt aanvraag naar")
 Rel(tp_service, tp_factory, "vraagt juiste strategie op via")
