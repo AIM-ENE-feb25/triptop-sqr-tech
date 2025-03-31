@@ -1,40 +1,61 @@
-# API Data Validatie en Opslagstrategie
+# ADR 2: API Data Validatie en Opslagstrategie
 
-**Date:** 2025-03-21
+**Datum:** 2025-03-21  
 **Status:** Accepted
 
+---
+
 ## Context
-Bij het integreren van externe APIs is het belangrijk om te verifiëren 
-of de data die we ontvangen overeenkomt met 
-de verwachtingen uit ons domeindiagram. 
-Daarnaast willen we bepalen welke data opgeslagen moet worden in onze database, 
-om onnodige data te vermijden.
+Bij het gebruik van externe APIs in onze applicatie is het belangrijk dat we controleren of de data die we binnenkrijgen ook daadwerkelijk past binnen ons domeinmodel. Daarnaast willen we bewust omgaan met het opslaan van data: wat slaan we op in onze eigen database, en wat kunnen we beter ophalen op het moment dat we het nodig hebben?
+
+In het kader van **modifiability** en **data-integriteit** is het niet wenselijk om klakkeloos alles op te slaan. We willen alleen opslaan wat essentieel is voor de werking van onze applicatie.
+
+---
 
 ## Considered Options
+
 ### 1. Alle data opslaan in de database
-- **Voordelen:** Volledige dataset beschikbaar voor eventuele uitbreidingen.
-- **Nadelen:** Opslag van onnodige data, risico op dataduplicatie.
+- **Voordelen:**
+    - Alles is lokaal beschikbaar voor latere uitbreiding
+    - Minder afhankelijk van externe services bij gebruik
+- **Nadelen:**
+    - Onnodige belasting op opslag
+    - Risico op verouderde of dubbele gegevens
 
 ### 2. Alleen essentiële data opslaan
-- **Voordelen:** Efficiënt gebruik van de database, weinig tot geen dataduplicatie.
-- **Nadelen:** Mogelijke afhankelijkheid van externe API's voor ontbrekende data.
+- **Voordelen:**
+    - Minder opslagcapaciteit nodig
+    - Minder kans op inconsistente data
+- **Nadelen:**
+    - Externe API moet soms alsnog real-time worden geraadpleegd
 
-### 3. Data cachen in plaats van opslaan
-- **Voordelen:** Snellere toegang tot veelgebruikte data zonder permanente opslag.
-- **Nadelen:** Tijdelijke opslag kan leiden tot dataverlies bij cache-verversing.
+### 3. Data alleen cachen (tijdelijk bewaren)
+- **Voordelen:**
+    - Snelle toegang tot veelgebruikte data zonder dat het permanent opgeslagen wordt
+- **Nadelen:**
+    - Data kan vervallen of verouderd zijn, cache moet goed beheerd worden
+
+---
 
 ## Decision
-Na analyse is besloten om **alleen essentiële data op te slaan** in de database. Dit betekent:
-- **Reisdata (Distance API en Booking.com API)**: Alleen unieke id's, naam, locatie en prijs opslaan. Gedetailleerde info kan op aanvraag via de API worden opgehaald.
-- **E-mail en SMS-logboeken**: Uitsluitend transactie logs opslaan, geen inhoudelijke berichten.
-- **Push-notificaties**: Geen opslag, slechts tijdelijke verwerking.
-- **Gebruikersgegevens**: Alleen basisgegevens opslaan en authenticatie via een externe provider (Wiremock) beheren.
+We kiezen ervoor om **alleen essentiële data op te slaan**. Hierdoor blijft de database overzichtelijk en efficiënt ingericht. Niet-essentiële of snel veranderende informatie wordt alleen opgevraagd op het moment dat het nodig is.
+
+### Concreet betekent dit:
+- **Reisdata (zoals locaties en prijzen)**: Alleen unieke ID’s, naam, locatie en prijs worden opgeslagen. Voor extra info wordt de API geraadpleegd.
+- **E-mail/SMS-logboeken**: Alleen basisgegevens zoals verzendtijd en status worden opgeslagen, niet de inhoud zelf.
+- **Push-notificaties**: Worden direct verwerkt maar niet opgeslagen.
+- **Gebruikersgegevens**: Alleen basisinformatie (zoals naam en e-mailadres), authenticatie verloopt via een externe identity provider.
+
+---
 
 ## Consequences
-- **Efficiënte opslag**: Minder data-duplicatie en overzichtelijke data.
-- **Externe afhankelijkheid**: Sommige data moet real-time uit de API worden opgehaald, wat vertraging kan veroorzaken.
-- **Veiligheidswinst**: Minder (gevoelige) data in de database vermindert risico’s bij een datalek.
+- ✅ **Efficiënte opslag**: Alleen de data die nodig is wordt bewaard, waardoor de database overzichtelijk blijft.
+- ✅ **Veiliger systeem**: Minder gevoelige data opgeslagen betekent minder risico bij datalekken.
+- ⚠️ **Afhankelijkheid van externe APIs**: Als de API niet beschikbaar is, kan bepaalde data tijdelijk niet getoond worden.
+- ⚠️ **Extra latency mogelijk**: Soms is een extra API-aanroep nodig om ontbrekende info op te halen.
+
+---
 
 ## Conclusion
-Door alleen essentiële data op te slaan en andere informatie via externe APIs op te vragen, wordt de applicatie overzichtelijk, veilig en efficiënt. 
-Deze strategie minimaliseert onnodige data terwijl de toegang tot belangrijke data behouden blijft.
+Deze aanpak zorgt voor een goede balans tussen databeheer, prestaties en veiligheid. Door alleen op te slaan wat écht nodig is, blijft het systeem flexibel en schaalbaar. Deze beslissing ondersteunt vooral de quality attributes **modifiability**, **confidentiality**, en **interoperability**.
+
