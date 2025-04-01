@@ -9,7 +9,7 @@ In onderzoek — 28 maart 2025
 
 #### Context
 
-Triptop is een applicatie waarmee gebruikers hun vakantietrip kunnen samenstellen. Een essentieel onderdeel hiervan is het plannen van vervoer tussen overnachtingen. Gebruikers moeten kunnen kiezen uit verschillende vervoersopties zoals auto, trein, vliegtuig of boot.
+Triptop is een applicatie waarmee    gebruikers hun vakantietrip kunnen samenstellen. Een essentieel onderdeel hiervan is het plannen van vervoer tussen overnachtingen. Gebruikers moeten kunnen kiezen uit verschillende vervoersopties zoals auto, trein, vliegtuig of boot.
 
 Elke vervoersvorm heeft zijn eigen logica voor het berekenen van routes, prijzen en het boeken van tickets. Deze verschillen maken het lastig om alle vormen op één uniforme manier te behandelen in de code.
 
