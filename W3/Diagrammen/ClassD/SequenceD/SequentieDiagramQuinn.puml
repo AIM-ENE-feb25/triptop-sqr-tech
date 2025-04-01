@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor Reiziger
+participant BoekingController
+participant BoekingService
+participant BoekingRepository
+participant BookingComAdapter
+participant BookingComService
+participant TripadvisorAdapter
+participant TripadvisorService
+
+Reiziger -> BoekingController: nieuweBoeking(boeking)
+BoekingController -> BoekingService: maakBoeking(boeking)
+BoekingService -> BoekingRepository: voegToe(boeking)
+BoekingService -> BookingComAdapter: maakBoeking(boeking)
+BookingComAdapter -> BookingComService: book(boeking)
+BoekingService -> TripadvisorAdapter: maakBoeking(boeking)
+TripadvisorAdapter -> TripadvisorService: book(boeking)
+BoekingService -> BoekingController: Retournt resultaat
+BoekingController -> Reiziger: "Boeking succesvol!"
+
+@enduml

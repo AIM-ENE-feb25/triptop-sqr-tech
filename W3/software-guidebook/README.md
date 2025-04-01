@@ -71,6 +71,7 @@ Voordat deze casusomschrijving tot stand kwam, heeft de opdrachtgever de volgend
 > Beschrijf zelf de beperkingen die op voorhand bekend zijn die invloed hebben op keuzes die wel of niet gemaakt kunnen of mogen worden.
 
 ## 6. Principles
+Quinn: Dependency Inversion Principle (DIP)
 
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de software.
