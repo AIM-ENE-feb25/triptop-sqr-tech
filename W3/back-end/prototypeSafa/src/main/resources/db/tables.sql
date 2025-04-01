@@ -1,6 +1,6 @@
 CREATE TABLE BuildingBlockType
 (
-    type VARCHAR(255) NOT NULL,
+    type VARCHAR(255) PRIMARY KEY
 );
 
 CREATE TABLE BuildingBlock
@@ -9,7 +9,7 @@ CREATE TABLE BuildingBlock
     type        VARCHAR(255) NOT NULL,
     name        VARCHAR(255) NOT NULL,
     description VARCHAR(255) NULL,
-    CONSTRAINT  fk_bb_type FOREIGN KEY (type) REFERENCES BuildingBlockType (type)
+    CONSTRAINT fk_buildingblock_type FOREIGN KEY (type) REFERENCES BuildingBlockType (type)
 );
 
 CREATE TABLE Activity
@@ -18,7 +18,7 @@ CREATE TABLE Activity
     type        VARCHAR(255) NOT NULL,
     name        VARCHAR(255) NOT NULL,
     description VARCHAR(255) NULL,
-    CONSTRAINT  fk_bb_type FOREIGN KEY (type) REFERENCES BuildingBlockType (type)
+    CONSTRAINT fk_activity_type FOREIGN KEY (type) REFERENCES BuildingBlockType (type)
 );
 
 CREATE TABLE Booking
@@ -27,7 +27,7 @@ CREATE TABLE Booking
     type        VARCHAR(255) NOT NULL,
     name        VARCHAR(255) NOT NULL,
     description VARCHAR(255) NULL,
-    CONSTRAINT  fk_bb_type FOREIGN KEY (type) REFERENCES BuildingBlockType (type)
+    CONSTRAINT fk_booking_type FOREIGN KEY (type) REFERENCES BuildingBlockType (type)
 );
 
 CREATE TABLE Transport
@@ -36,5 +36,5 @@ CREATE TABLE Transport
     type        VARCHAR(255) NOT NULL,
     name        VARCHAR(255) NOT NULL,
     description VARCHAR(255) NULL,
-    CONSTRAINT  fk_bb_type FOREIGN KEY (type) REFERENCES BuildingBlockType (type)
+    CONSTRAINT fk_transport_type FOREIGN KEY (type) REFERENCES BuildingBlockType (type)
 );

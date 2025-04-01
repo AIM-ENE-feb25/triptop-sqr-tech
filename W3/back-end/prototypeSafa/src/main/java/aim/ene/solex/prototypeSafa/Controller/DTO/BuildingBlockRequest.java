@@ -1,12 +1,9 @@
 package aim.ene.solex.prototypeSafa.Controller.DTO;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class BuildingBlockRequest {
-
   private String type;
   private String name;
   private String description;

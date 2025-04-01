@@ -1,6 +1,6 @@
 package aim.ene.solex.prototypeSafa.Controller;
 
-import aim.ene.solex.prototypeSafa.DTO.BuildingBlockRequest;
+import aim.ene.solex.prototypeSafa.Controller.DTO.BuildingBlockRequest;
 import aim.ene.solex.prototypeSafa.Domain.BuildingBlock;
 import aim.ene.solex.prototypeSafa.Service.BuildingBlockService;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173")
+//@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api")
 public class BuildingBlockController {
 
