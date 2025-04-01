@@ -17,7 +17,7 @@ BoekingService -> BookingComAdapter: maakBoeking(boeking)
 BookingComAdapter -> BookingComService: book(boeking)
 BoekingService -> TripadvisorAdapter: maakBoeking(boeking)
 TripadvisorAdapter -> TripadvisorService: book(boeking)
-BoekingService -> BoekingController: Retournt resultaat
+BoekingService -> BoekingController: Returnt resultaat
 BoekingController -> Reiziger: "Boeking succesvol!"
 
 @enduml
