@@ -1,0 +1,44 @@
+@startuml
+title Sequence Diagram – Plan Transport (algemene versie, Strategy Pattern)
+
+actor Gebruiker
+
+participant TransportPlannerController
+participant TransportPlannerService
+participant TransportFactory
+participant ConcreteTransportStrategy as "TransportStrategy (bijv. Auto/Boot/Trein)"
+participant TransportService as "Service voor externe API (bijv. NS/KLM/Ferry)"
+participant TransportRepository
+database Database
+participant TransportTrackerService
+
+Gebruiker -> TransportPlannerController : planTransport("A", "B", "voorkeur")
+TransportPlannerController -> TransportPlannerService : planTransport("A", "B", "voorkeur")
+
+TransportPlannerService -> TransportFactory : getTransportStrategy("voorkeur")
+TransportFactory -> ConcreteTransportStrategy : create instance
+TransportFactory --> TransportPlannerService : TransportOption
+
+TransportPlannerService -> ConcreteTransportStrategy : getRoute("A", "B")
+ConcreteTransportStrategy -> TransportService : haal routegegevens op
+TransportService --> ConcreteTransportStrategy : List<Route>
+ConcreteTransportStrategy --> TransportPlannerService : Route
+
+TransportPlannerService -> ConcreteTransportStrategy : getPrice()
+ConcreteTransportStrategy --> TransportPlannerService : prijs
+
+TransportPlannerService -> ConcreteTransportStrategy : book()
+ConcreteTransportStrategy --> TransportPlannerService : BookingConfirmation
+
+TransportPlannerService -> TransportRepository : saveBooking(booking)
+TransportRepository -> Database : INSERT booking
+Database --> TransportRepository : OK
+TransportRepository --> TransportPlannerService : confirmed
+
+TransportPlannerService -> TransportTrackerService : updateStatus(bookingId, status)
+TransportTrackerService --> TransportPlannerService : statusUpdated
+
+TransportPlannerService --> TransportPlannerController : BookingConfirmation
+TransportPlannerController --> Gebruiker : Bevestiging + prijs + route
+
+@enduml

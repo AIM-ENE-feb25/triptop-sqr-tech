@@ -1,51 +1,60 @@
 @startuml
 title Class Diagram for Trip Top System
 
-class BouwsteenController {
+class BuildingBlockController {
     +handleRequest(request: HttpServletRequest): String
 }
 
-class BouwsteenFactory {
-    +createBouwsteen(type: String): Bouwsteen
+class BuildingBlockFactory {
+    +createFactory(type: String): BouwsteenFactory
 }
 
-class Bouwsteen {
+abstract class BuildingBlock {
     +id: int
     +name: String
-    +status: String
     {abstract} +getDetails(): String
 }
 
-class Booking extends Bouwsteen {
+class Booking extends BuildingBlock {
     +getDetails(): String
 }
 
-class Transport extends Bouwsteen {
+class Transport extends BuildingBlock {
     +getDetails(): String
 }
 
-class Activity extends Bouwsteen {
+class Activity extends BuildingBlock {
     +getDetails(): String
 }
 
-class CarRental extends Bouwsteen {
-    +getDetails(): String
+class ActivityFactory extends BuildingBlockFactory {
+    +createBouwsteen(): Activity
 }
 
-class BouwsteenRepository {
+class TransportFactory extends BuildingBlockFactory {
+    +createBouwsteen(): Transport
+}
+
+class BookingFactory extends BuildingBlockFactory {
+    +createBouwsteen(): Booking
+}
+
+class BuildingBlockRepository {
     +save(bouwsteen: Bouwsteen): void
     +delete(bouwsteen: Bouwsteen): void
     +findAll(): List<Bouwsteen>
     +findById(id: int): Bouwsteen
 }
 
-class BouwsteenService {
+class BuildingBlockService {
     +manageBouwsteen(bouwsteen: Bouwsteen): void
 }
 
-BouwsteenController --> BouwsteenService
-BouwsteenService --> BouwsteenFactory
-BouwsteenService --> BouwsteenRepository
-BouwsteenFactory --> Bouwsteen
+BuildingBlockController --> BuildingBlockService
+BuildingBlockService --> BuildingBlockFactory
+BuildingBlockService --> BuildingBlockRepository
+ActivityFactory --> Activity
+TransportFactory --> Transport
+BookingFactory --> Booking
 
 @enduml

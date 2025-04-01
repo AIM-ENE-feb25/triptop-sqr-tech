@@ -1,0 +1,16 @@
+@startuml
+actor Developer
+
+Developer -> BouwsteenFactory : createFactory("b.v. Activity")
+
+BouwsteenFactory -> NewBouwsteenFactory : createFactory()
+NewBouwsteenFactory --> BouwsteenFactory : return NewBouwsteenFactory
+
+NewBouwsteenFactory -> NewBouwsteen : createBouwsteen()
+NewBouwsteen --> NewBouwsteenFactory : return NewBouwsteen instance
+NewBouwsteenFactory --> BouwsteenFactory : return NewBouwsteen instance
+
+BouwsteenFactory --> Developer : return NewBouwsteen instance
+
+@enduml
+
