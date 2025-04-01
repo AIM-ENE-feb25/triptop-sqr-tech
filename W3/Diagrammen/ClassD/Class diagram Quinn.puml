@@ -27,7 +27,7 @@ class TripadviserService {
 
 
 class TripadviserAdapter implements IBoekingAdapter {
-    - bookingCom: BookingComService
+    - tripadviser: TripadviserService
     + maakBoeking(boeking: Boeking): bool
     + getNaam(): String
 }
