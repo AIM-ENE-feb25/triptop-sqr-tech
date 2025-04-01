@@ -1,34 +1,34 @@
 @startuml
-title Sequence Diagram – Plan Transport (met responses en database-icoon)
+title Sequence Diagram – Plan Transport (algemene versie, Strategy Pattern)
 
 actor Gebruiker
 
 participant TransportPlannerController
 participant TransportPlannerService
 participant TransportFactory
-participant TrainTransport
-participant TrainService
+participant ConcreteTransportStrategy as "TransportStrategy (bijv. Auto/Boot/Trein)"
+participant TransportService as "Service voor externe API (bijv. NS/KLM/Ferry)"
 participant TransportRepository
 database Database
 participant TransportTrackerService
 
-Gebruiker -> TransportPlannerController : planTransport("A", "B", "trein")
-TransportPlannerController -> TransportPlannerService : planTransport("A", "B", "trein")
+Gebruiker -> TransportPlannerController : planTransport("A", "B", "voorkeur")
+TransportPlannerController -> TransportPlannerService : planTransport("A", "B", "voorkeur")
 
-TransportPlannerService -> TransportFactory : getTransportStrategy("trein")
-TransportFactory -> TrainTransport : create instance
-TransportFactory --> TransportPlannerService : TransportOption (TrainTransport)
+TransportPlannerService -> TransportFactory : getTransportStrategy("voorkeur")
+TransportFactory -> ConcreteTransportStrategy : create instance
+TransportFactory --> TransportPlannerService : TransportOption
 
-TransportPlannerService -> TrainTransport : getRoute("A", "B")
-TrainTransport -> TrainService : getTrainRoutes("A", "B")
-TrainService --> TrainTransport : List<Route>
-TrainTransport --> TransportPlannerService : Route
+TransportPlannerService -> ConcreteTransportStrategy : getRoute("A", "B")
+ConcreteTransportStrategy -> TransportService : haal routegegevens op
+TransportService --> ConcreteTransportStrategy : List<Route>
+ConcreteTransportStrategy --> TransportPlannerService : Route
 
-TransportPlannerService -> TrainTransport : getPrice()
-TrainTransport --> TransportPlannerService : prijs
+TransportPlannerService -> ConcreteTransportStrategy : getPrice()
+ConcreteTransportStrategy --> TransportPlannerService : prijs
 
-TransportPlannerService -> TrainTransport : book()
-TrainTransport --> TransportPlannerService : BookingConfirmation
+TransportPlannerService -> ConcreteTransportStrategy : book()
+ConcreteTransportStrategy --> TransportPlannerService : BookingConfirmation
 
 TransportPlannerService -> TransportRepository : saveBooking(booking)
 TransportRepository -> Database : INSERT booking
