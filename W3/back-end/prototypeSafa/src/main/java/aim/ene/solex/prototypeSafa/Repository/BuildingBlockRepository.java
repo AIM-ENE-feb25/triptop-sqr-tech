@@ -1,8 +1,11 @@
 package aim.ene.solex.prototypeSafa.Repository;
 
-import org.springframework.stereotype.Repository;
+import aim.ene.solex.prototypeSafa.Domain.BuildingBlock;
+import java.util.List;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public class BuildingBlockRepository {
-
+public interface BuildingBlockRepository extends CrudRepository<BuildingBlock, Integer> {
+  List<BuildingBlock> findAll();
+  BuildingBlock save(BuildingBlock buildingBlock);
+  BuildingBlock findById(int id);
 }

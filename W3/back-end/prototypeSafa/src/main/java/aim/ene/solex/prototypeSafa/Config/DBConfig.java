@@ -8,12 +8,13 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 @Configuration
 public class DBConfig {
-	@Bean
-	public DataSource dataSource() {
-		return new EmbeddedDatabaseBuilder()
-				.setType(EmbeddedDatabaseType.H2)
-//				.addScript("classpath:db/tables.sql")
-//				.addScript("classpath:db/data.sql")
-				.build();
-	}
+
+  @Bean
+  public DataSource dataSource() {
+    return new EmbeddedDatabaseBuilder()
+        .setType(EmbeddedDatabaseType.H2)
+        .addScript("classpath:db/tables.sql")
+        .addScript("classpath:db/data.sql")
+        .build();
+  }
 }
