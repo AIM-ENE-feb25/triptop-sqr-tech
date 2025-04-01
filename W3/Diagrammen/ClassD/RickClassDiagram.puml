@@ -1,42 +1,24 @@
 @startuml
-title Class Diagram – Strategy Pattern in Transportmodule Triptop
+title Class Diagram – Strategy Pattern: Transportmodule Triptop (met services voor externe APIs)
 
-' ===== Strategy Interface =====
-interface TransportOption {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
+' <<strategy>> interface
+interface TransportOption <<strategy>> {
+  +getRoute(from: String, to: String): Route
+  +getPrice(): BigDecimal
+  +book(): BookingConfirmation
 }
 
-note right of TransportOption
-  Strategy interface:
-  definieert gedrag van verschillende
-  vervoersopties (zoals auto, trein, etc.)
-end note
-
-' ===== Concrete Strategieën =====
-class CarTransport {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
+' <<concrete strategy>> classes
+class CarTransport <<concrete strategy>> {
 }
-
-class TrainTransport {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
+class TrainTransport <<concrete strategy>> {
+  -trainService: TrainService
 }
-
-class BoatTransport {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
+class BoatTransport <<concrete strategy>> {
+  -ferryService: FerryService
 }
-
-class PlaneTransport {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
+class PlaneTransport <<concrete strategy>> {
+  -flightService: FlightService
 }
 
 CarTransport ..|> TransportOption
@@ -44,43 +26,70 @@ TrainTransport ..|> TransportOption
 BoatTransport ..|> TransportOption
 PlaneTransport ..|> TransportOption
 
-' ===== Context (Planner) =====
-class TransportPlanner {
-    -strategy: TransportOption
-    -factory: TransportFactory
-    -tracker: TransportTracker
-
-    +TransportPlanner(factory: TransportFactory, tracker: TransportTracker)
-    +planTransport(type: String, from: String, to: String): void
+' <<context>> class
+class TransportPlannerService <<context>> {
+  -factory: TransportFactory
+  -repository: TransportRepository
+  -tracker: TransportTrackerService
+  +planTransport(from: String, to: String, preference: String): BookingConfirmation
 }
 
-note left of TransportPlanner
-  Context:
-  gebruikt een concrete TransportOption
-  zonder te weten welke implementatie.
-end note
+TransportPlannerService --> TransportOption : uses
+TransportPlannerService --> TransportFactory
+TransportPlannerService --> TransportRepository
+TransportPlannerService --> TransportTrackerService
 
-' ===== Factory (voor strategiekeuze) =====
+' Factory to choose strategy
 class TransportFactory {
-    +createTransport(type: String): TransportOption
+  +getTransportStrategy(preference: String): TransportOption
 }
 
-' ===== Tracker (voor status) =====
-class TransportTracker {
-    -status: String
+TransportFactory --> CarTransport
+TransportFactory --> TrainTransport
+TransportFactory --> BoatTransport
+TransportFactory --> PlaneTransport
 
-    +setStatus(status: String): void
-    +getStatus(): String
+' Controller
+class TransportPlannerController {
+  -service: TransportPlannerService
+  +planTransport(from: String, to: String, preference: String): BookingConfirmation
 }
 
-' ===== Relaties =====
-TransportPlanner --> TransportOption : gebruikt strategie
-TransportPlanner --> TransportFactory : vraagt transport aan
-TransportPlanner --> TransportTracker : stuurt status
+TransportPlannerController --> TransportPlannerService
 
-CarTransport --> TransportTracker : stuurt status
-TrainTransport --> TransportTracker : stuurt status
-BoatTransport --> TransportTracker : stuurt status
-PlaneTransport --> TransportTracker : stuurt status
+' Repository
+class TransportRepository {
+  +saveBooking(booking: Booking): void
+  +getStatus(bookingId: String): TransportStatus
+}
+
+' Tracker
+class TransportTrackerService {
+  +updateStatus(bookingId: String, status: TransportStatus): void
+}
+
+' Services die met externe APIs praten
+class TrainService {
+  +getTrainRoutes(from: String, to: String): List<Route>
+}
+
+class FlightService {
+  +getFlights(from: String, to: String): List<Flight>
+}
+
+class FerryService {
+  +getSailings(from: String, to: String): List<Sailing>
+}
+
+' Relaties strategieën naar services
+TrainTransport --> TrainService
+PlaneTransport --> FlightService
+BoatTransport --> FerryService
+
+' Relatie met tracker
+CarTransport --> TransportTrackerService
+TrainTransport --> TransportTrackerService
+BoatTransport --> TransportTrackerService
+PlaneTransport --> TransportTrackerService
 
 @enduml

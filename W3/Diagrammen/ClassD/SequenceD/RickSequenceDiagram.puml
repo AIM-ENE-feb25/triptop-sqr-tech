@@ -1,0 +1,44 @@
+@startuml
+title Sequence Diagram – Plan Transport (met responses en database-icoon)
+
+actor Gebruiker
+
+participant TransportPlannerController
+participant TransportPlannerService
+participant TransportFactory
+participant TrainTransport
+participant TrainService
+participant TransportRepository
+database Database
+participant TransportTrackerService
+
+Gebruiker -> TransportPlannerController : planTransport("A", "B", "trein")
+TransportPlannerController -> TransportPlannerService : planTransport("A", "B", "trein")
+
+TransportPlannerService -> TransportFactory : getTransportStrategy("trein")
+TransportFactory -> TrainTransport : create instance
+TransportFactory --> TransportPlannerService : TransportOption (TrainTransport)
+
+TransportPlannerService -> TrainTransport : getRoute("A", "B")
+TrainTransport -> TrainService : getTrainRoutes("A", "B")
+TrainService --> TrainTransport : List<Route>
+TrainTransport --> TransportPlannerService : Route
+
+TransportPlannerService -> TrainTransport : getPrice()
+TrainTransport --> TransportPlannerService : prijs
+
+TransportPlannerService -> TrainTransport : book()
+TrainTransport --> TransportPlannerService : BookingConfirmation
+
+TransportPlannerService -> TransportRepository : saveBooking(booking)
+TransportRepository -> Database : INSERT booking
+Database --> TransportRepository : OK
+TransportRepository --> TransportPlannerService : confirmed
+
+TransportPlannerService -> TransportTrackerService : updateStatus(bookingId, status)
+TransportTrackerService --> TransportPlannerService : statusUpdated
+
+TransportPlannerService --> TransportPlannerController : BookingConfirmation
+TransportPlannerController --> Gebruiker : Bevestiging + prijs + route
+
+@enduml
