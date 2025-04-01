@@ -11,6 +11,8 @@ System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
 
   Component(bouwsteen_service, "Bouwsteen Service", "Spring Component", "Beheert domeinklassen")
   Component(factory, "Bouwsteen Factory", "Spring Component", "Maakt domeinklassen aan")
+  Component(act_factory, "Activiteit Factory", "Spring Component", "Maakt Activiteit aan")
+  Component(trans_factory, "Transport Factory", "Spring Component", "Maakt Transport aan")
   Component(bs_repo, "Bouwsteen Repository", "Spring Boot", "Roept database aan voor bouwstenen")
 
   Boundary(bouwstenen, "Voorbeeld Bouwstenen") {
@@ -30,8 +32,12 @@ Rel(bouwsteen_service, factory, "Gebruikt om domeinklassen te maken")
 Rel(bouwsteen_controller, bouwsteen_service, "Gebruikt om domeinklassen te beheren")
 
 Rel(factory, bs_repo, "Slaat aanmaak op via")
-Rel(factory, bs_transport, "Maakt Transport bouwsteen aan")
-Rel(factory, bs_activiteit, "Maakt Activiteit bouwsteen aan")
+Rel(factory, trans_factory, "Maakt Transport aan")
+Rel(factory, act_factory, "Maakt Activiteit aan")
+
+
+Rel(trans_factory, bs_transport, "Maakt Transport bouwsteen aan")
+Rel(act_factory, bs_activiteit, "Maakt Activiteit bouwsteen aan")
 
 Rel(bs_repo, db, "Haalt en slaat data op")
 Rel(bs_transport, NS, "Beheert transportregelingen")

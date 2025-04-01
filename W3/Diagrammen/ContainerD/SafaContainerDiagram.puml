@@ -10,9 +10,9 @@ Person(reizigerA, "Reiziger Agent", "Biedt ondersteuning voor de reiziger")
 
 System_Boundary(tts, "Trip Top System") {
     Container(web_app, "Web Applicatie", "React", "Biedt reisplanningsfunctionaliteit via webbrowser")
-    Container(mobile_app, "Mobiele app", "React Native", "Biedt reisplanningsfunctionaliteit op mobiele apparaten")
+    Container(mobile_app, "Mobiele app", "React", "Biedt reisplanningsfunctionaliteit op mobiele apparaten")
 
-    Container(api_gateway, "API Gateway", "Spring Boot (denk ik)", "Routeert API verzoeken naar de juiste microservices")
+    Container(api_gateway, "API Gateway", "Spring Boot Rest Controllers", "Routeert API verzoeken naar de juiste microservices")
 
     Container(booking_service, "Booking Service", "Spring Boot", "Beheert accommodatieboekingen")
     Container(transport_service, "Transport Service", "Spring Boot", "Beheert transportregelingen")
@@ -28,14 +28,7 @@ System_Boundary(tts, "Trip Top System") {
     Container(auth_service, "Authentication Service", "??? Niks gevonden", "Authenticeren en autoriseren van gebruikers")
 }
 
-'System_Ext(bookingCom, "Booking.com API", "DataCrawler/Tipsters API op RapidAPI")
-'System_Ext(airbnb, "Airbnb", "Externe accommodatie boekingsservice")
-'System_Ext(googleMaps, "Google Maps", "Routeplanning service")
-'System_Ext(ns, "NS", "Treinreizen service")
-'System_Ext(tripAdvisor, "Trip Advisor", "Activiteiten service")
-'System_Ext(gyg, "Get Your Guide", "Activiteiten service")
-'System_Ext(sixt, "Sixt", "Autoverhuur service")
-'System_Ext(hertz, "Hertz", "Autoverhuur service")
+System_Ext(bookingCom, "Booking.com API", "Booking.com API op RapidAPI")
 System_Ext(email_api, "Send Bulk Emails/SendGrid", "johnmfula/sendgrid API op RapidAPI")
 System_Ext(sms_api, "SMS77io", "sms77io API op RapidAPI")
 System_Ext(push_api, "Web Pusher", "supertoha API op RapidAPI")
@@ -68,16 +61,8 @@ Rel(notification_service, email_api, "Verstuurt e-mails via", "POST /send/mail")
 Rel(notification_service, sms_api, "Verstuurt SMS berichten via", "POST /sms")
 Rel(notification_service, push_api, "Verstuurt push notificaties via", "POST /push")
 
-'Rel(booking_service, bookingCom, "Haalt reisdata op via", "API")
-'Rel(booking_service, airbnb, "Boekt accommodatie via", "API")
-'Rel(transport_service, googleMaps, "Verkrijgt routeinformatie van", "API")
-'Rel(transport_service, ns, "Boekt treinreizen via", "API")
-'Rel(activity_service, tripAdvisor, "Zoekt activiteiten via", "API")
-'Rel(activity_service, gyg, "Zoekt activiteiten via", "API")
-'Rel(car_rental_service, sixt, "Huurt auto's via", "API")
-'Rel(car_rental_service, hertz, "Huurt auto's via", "API")
+Rel(booking_service, bookingCom, "Haalt reisdata op via", "API")
 
-Rel(api_gateway, ip, "Verifieert de identiteit", "???")
 Rel(auth_service, ip, "Gebruikt voor authenticatie", "???")
 Rel(auth_service, user_db, "Slaat gebruikersgegevens op", "JDBC")
 @enduml
