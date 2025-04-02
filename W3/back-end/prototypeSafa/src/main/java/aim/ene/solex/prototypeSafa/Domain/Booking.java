@@ -13,4 +13,14 @@ public class Booking extends BuildingBlock {
   public String getDetails() {
     return "Booking details";
   }
+
+  @Override
+  public String toString() {
+    return "Booking{" +
+        "id=" + getId() +
+        ", type='" + getType() + '\'' +
+        ", name='" + getName() + '\'' +
+        ", description='" + getDescription() + '\'' +
+        '}';
+  }
 }

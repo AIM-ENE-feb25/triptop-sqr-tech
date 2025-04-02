@@ -1,10 +1,11 @@
 package aim.ene.solex.prototypeSafa.Repository;
 
 import aim.ene.solex.prototypeSafa.Domain.BuildingBlock;
-import aim.ene.solex.prototypeSafa.Repository.Rowmappers.BuildingBlockRowMapper;
+import aim.ene.solex.prototypeSafa.Dao.Rowmappers.BuildingBlockRowMapper;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,17 @@ public class BuildingBlockRepositoryImpl implements BuildingBlockRepository {
   }
 
   @Override
+  public List<BuildingBlock> findAll() {
+    String sql = "SELECT * FROM BuildingBlock";
+    return jdbcTemplate.query(sql, new BuildingBlockRowMapper());
+  }
+
+  @Override
+  public <S extends BuildingBlock> S save(S entity) {
+    return null;
+  }
+
+  @Override
   public <S extends BuildingBlock> Iterable<S> saveAll(Iterable<S> entities) {
     return null;
   }
@@ -32,12 +44,6 @@ public class BuildingBlockRepositoryImpl implements BuildingBlockRepository {
   @Override
   public boolean existsById(Integer integer) {
     return false;
-  }
-
-  @Override
-  public List<BuildingBlock> findAll() {
-    String sql = "SELECT * FROM BuildingBlock";
-    return jdbcTemplate.query(sql, new BuildingBlockRowMapper());
   }
 
   @Override
@@ -75,13 +81,5 @@ public class BuildingBlockRepositoryImpl implements BuildingBlockRepository {
 
   }
 
-  @Override
-  public BuildingBlock save(BuildingBlock buildingBlock) {
-    return null;
-  }
 
-  @Override
-  public BuildingBlock findById(int id) {
-    return null;
-  }
 }

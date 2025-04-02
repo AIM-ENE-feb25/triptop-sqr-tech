@@ -1,9 +1,10 @@
 package aim.ene.solex.prototypeSafa.Factory;
 
 import aim.ene.solex.prototypeSafa.Domain.BuildingBlock;
+import aim.ene.solex.prototypeSafa.Exceptions.InvalidInputException;
 
 public abstract class BuildingBlockFactory {
-  public abstract BuildingBlock createBuildingBlock();
+  public abstract BuildingBlock createBuildingBlock(String type, String name, String description);
 
   public static BuildingBlockFactory getFactory(String type) {
     switch (type) {
@@ -14,7 +15,7 @@ public abstract class BuildingBlockFactory {
       case "Transport":
         return new TransportFactory();
       default:
-        throw new IllegalArgumentException("Unknown type: " + type);
+        throw new InvalidInputException("This factorytype doesn't exist: " + type);
     }
   }
 }

@@ -13,4 +13,14 @@ public class Transport extends BuildingBlock {
   public String getDetails() {
     return "Transport details";
   }
+
+  @Override
+  public String toString() {
+    return "Transport{" +
+        "id=" + getId() +
+        ", type='" + getType() + '\'' +
+        ", name='" + getName() + '\'' +
+        ", description='" + getDescription() + '\'' +
+        '}';
+  }
 }

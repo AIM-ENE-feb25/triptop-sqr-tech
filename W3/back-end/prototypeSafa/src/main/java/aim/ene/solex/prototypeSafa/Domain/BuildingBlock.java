@@ -22,4 +22,14 @@ public abstract class BuildingBlock {
   }
 
   public abstract String getDetails();
+
+  @Override
+  public String toString() {
+    return "BuildingBlock{" +
+        "id=" + id +
+        ", type='" + type + '\'' +
+        ", name='" + name + '\'' +
+        ", description='" + description + '\'' +
+        '}';
+  }
 }
