@@ -1,17 +1,23 @@
 package aim.ene.solex.prototypeSafa.Domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+
+@Getter
+@Setter
 public class Booking extends BuildingBlock {
+
+  @Id
+  private Integer id;
+
   public Booking() {
     super();
   }
 
   public Booking(String type, String name, String description) {
     super(type, name, description);
-  }
-
-  @Override
-  public String getDetails() {
-    return "Booking details";
   }
 
   @Override

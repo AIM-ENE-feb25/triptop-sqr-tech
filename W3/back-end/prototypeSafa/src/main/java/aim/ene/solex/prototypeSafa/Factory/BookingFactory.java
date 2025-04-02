@@ -8,6 +8,5 @@ public class BookingFactory extends BuildingBlockFactory {
   @Override
   public BuildingBlock createBuildingBlock(String type, String name, String description) {
     return new Booking(type, name, description);
-
   }
 }

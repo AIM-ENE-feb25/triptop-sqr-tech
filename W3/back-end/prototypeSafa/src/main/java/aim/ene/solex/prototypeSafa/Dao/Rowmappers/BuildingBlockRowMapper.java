@@ -12,8 +12,6 @@ public class BuildingBlockRowMapper implements RowMapper<BuildingBlock> {
     String type = rs.getString("type");
     String name = rs.getString("name");
     String description = rs.getString("description");
-    BuildingBlock buildingBlock = BuildingBlockFactory.getFactory(type).createBuildingBlock(type, name, description);
-    buildingBlock.setId(rs.getInt("id"));
-    return buildingBlock;
+    return BuildingBlockFactory.getFactory(type).createBuildingBlock(type, name, description);
   }
 }

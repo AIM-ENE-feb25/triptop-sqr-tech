@@ -1,0 +1,29 @@
+### Create Activity
+POST http://localhost:8080/api/activities
+Content-Type: application/json
+
+{
+  "type": "Activity",
+  "name": "New Activity",
+  "description": "Description for new activity"
+}
+
+### Create Booking
+POST http://localhost:8080/api/bookings
+Content-Type: application/json
+
+{
+  "type": "Booking",
+  "name": "New Booking",
+  "description": "Description for new booking"
+}
+
+### Create Transport
+POST http://localhost:8080/api/transports
+Content-Type: application/json
+
+{
+  "type": "Transport",
+  "name": "New Transport",
+  "description": "Description for new transport"
+}

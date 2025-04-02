@@ -9,7 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public abstract class BuildingBlock {
 
-  private Integer id;
   private String type;
   private String name;
   private String description;
@@ -21,12 +20,9 @@ public abstract class BuildingBlock {
     this.description = description;
   }
 
-  public abstract String getDetails();
-
   @Override
   public String toString() {
     return "BuildingBlock{" +
-        "id=" + id +
         ", type='" + type + '\'' +
         ", name='" + name + '\'' +
         ", description='" + description + '\'' +

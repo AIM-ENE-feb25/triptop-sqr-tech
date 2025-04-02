@@ -1,17 +1,11 @@
 package aim.ene.solex.prototypeSafa.Controller;
 
 import aim.ene.solex.prototypeSafa.Controller.DTO.FactoryRequest;
-import aim.ene.solex.prototypeSafa.Domain.BuildingBlock;
 import aim.ene.solex.prototypeSafa.Domain.FactoryType;
-import aim.ene.solex.prototypeSafa.Repository.BuildingBlockRepositoryImpl;
 import aim.ene.solex.prototypeSafa.Service.FactoryBuildingBlockService;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
