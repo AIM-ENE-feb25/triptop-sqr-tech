@@ -1,4 +1,4 @@
-## 8.5. ADR: Verkenning van het Strategy Pattern voor vervoer tussen overnachtingen
+## 8.5. ADR: Verkenning van het Strategy Pattern voor verschillende vervoertypes in Triptop
 
 #### Status
 In onderzoek — 28 maart 2025  
@@ -72,6 +72,8 @@ Deze optie gebruikt een `TransportFactory` die op basis van invoer (bijvoorbeeld
 We geven de voorkeur aan **Optie 1: het Strategy Pattern met een gedeelde `TransportOption` interface**. Dit patroon maakt het mogelijk om flexibel met meerdere vervoersopties om te gaan, zonder directe afhankelijkheid van concrete klassen.
 
 Elke vervoersvorm kan geïsoleerd worden ontwikkeld, getest en uitgebreid. De `TransportPlanner` blijft hierdoor schoon, overzichtelijk en toekomstbestendig. In een latere fase kan dit eventueel gecombineerd worden met een Factory voor automatische selectie van de juiste strategie.
+
+De keuze van het juiste vervoertype wordt bepaald via een configuratie-entry (transport.type) in application.properties, waardoor de concrete strategie automatisch via Spring wordt geselecteerd en geïnjecteerd in de TransportPlanner.
 
 ---
 
