@@ -19,9 +19,6 @@ public class BuildingBlockService {
 
   public BuildingBlock createBuildingBlock(String type, String name, String description) {
     BuildingBlock buildingBlock = BuildingBlockFactory.getFactory(type).createBuildingBlock(type, name, description);
-    buildingBlock.setType(type);
-    buildingBlock.setName(name);
-    buildingBlock.setDescription(description);
     return buildingBlockRepository.save(buildingBlock);
   }
 }

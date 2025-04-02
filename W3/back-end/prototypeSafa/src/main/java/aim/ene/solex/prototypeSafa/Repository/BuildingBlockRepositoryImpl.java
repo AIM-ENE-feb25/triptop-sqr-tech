@@ -28,7 +28,9 @@ public class BuildingBlockRepositoryImpl implements BuildingBlockRepository {
 
   @Override
   public <S extends BuildingBlock> S save(S entity) {
-    return null;
+    String sql = "INSERT INTO BuildingBlock (type, name, description) VALUES (?, ?, ?)";
+    jdbcTemplate.update(sql, entity.getType(), entity.getName(), entity.getDescription());
+    return entity;
   }
 
   @Override
