@@ -1,0 +1,28 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram voor het Trip Top Systeem
+
+System(tts, "Trip Top Web App", "UI Interface van Trip Top")
+
+Container_Boundary("Triptop", "Backend Applicatie")  {
+  Component(boeking_controller, "BoekingController", "Spring Boot Rest Controller", "Regelt welke API moet worden aangeroepen")
+  Component(boeking_service, "Boeking Service", "Spring Boot", "Beheert de verschillende API's")
+  Component(boeking_repo, "Boeking Repository", "Spring Boot", "Roept database aan")
+}
+
+ComponentDb(db, "Database", "???", "Database voor de Triptop")
+System_Ext(api_booking, "APIBooking", "API voor Booking.com")
+System_Ext(Tripadviser, "APITripadviser", "API voor Tripadviser")
+
+Rel(tts, boeking_controller, "Boekt via API")
+Rel(boeking_controller, boeking_service, "Gebruikt service")
+Rel(boeking_service, boeking_repo, "Roept repository aan")
+Rel(boeking_repo, db, "Haalt en slaat data op")
+Rel(boeking_service, api_booking, "Legt connectie met externe API")
+Rel(boeking_service, Tripadviser, "Legt connectie met externe API")
+
+@enduml
+
+
