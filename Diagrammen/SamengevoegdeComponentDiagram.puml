@@ -1,0 +1,91 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+LAYOUT_WITH_LEGEND()
+
+title Samengesteld Component Diagram – Triptop (inclusief Strategy Pattern: Transport)
+
+System(tts, "Trip Top Web App", "UI Interface van Trip Top")
+
+System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
+
+  ' Controllers
+  Component(bouwsteen_controller, "Bouwsteen Controller", "Spring Boot Rest Controller", "Handelt verzoeken af voor domeinklassen")
+  Component(boeking_controller, "BoekingController", "Spring Boot Rest Controller", "Regelt welke API moet worden aangeroepen")
+
+  ' Services
+  Component(boeking_service, "Boeking Service", "Spring Boot", "Beheert de verschillende API's")
+  Component(bouwsteen_service, "Bouwsteen Service", "Spring Component", "Beheert domeinklassen")
+  Component(boeking_repo, "Boeking Repository", "Spring Boot", "Roept database aan")
+  Component(factory, "Bouwsteen Factory", "Spring Component", "Maakt domeinklassen aan")
+  Component(bs_repo, "Bouwsteen Repository", "Spring Boot", "Roept database aan voor bouwstenen")
+
+  Boundary(bouwstenen, "Voorbeeld Bouwstenen") {
+    Component(bs_activiteit, "Activiteit Bouwsteen", "Spring Boot", "Beheert activiteiten")
+    Component(bs_transport, "Transport Bouwsteen", "Spring Boot", "Beheert transportregelingen")
+  }
+
+  ' Transport – Strategy Pattern structuur
+  Component(tp_controller, "TransportPlannerController", "Java", "Verwerkt gebruikersaanvragen en plant vervoer tussen overnachtingen")
+  Component(tp_service, "TransportPlannerService", "Java", "Bevat logica om vervoersstrategie te selecteren en toe te passen")
+  Component(tp_factory, "TransportFactory", "Java", "Levert juiste transportstrategie op basis van invoer")
+  Component(tp_interface, "TransportOption (interface)", "Java Interface", "Strategie-interface voor vervoer")
+
+  Component(tp_train, "TrainTransport", "Java", "Concrete strategie voor treinvervoer")
+  Component(tp_plane, "PlaneTransport", "Java", "Concrete strategie voor vliegvervoer")
+
+  Component(tp_repo, "TransportRepository", "Java", "Slaat transportstatus en boekingsgegevens op")
+  Component(tp_tracker, "TransportTrackerService", "Java", "Stuurt statuswijzigingen door en houdt voortgang bij")
+}
+
+' Database
+ComponentDb(tp_db, "Database", "Relationale database", "Slaat de nuttige informatie op voor triptop")
+
+' Externe systemen
+System_Ext(api_booking, "APIBooking", "API voor Booking.com")
+System_Ext(api_..., "API...", "API voor ...")
+System_Ext(NS, "NS API", "Externe API")
+System_Ext(BookingAPI2, "BookingAPI2", "API voor Booking.com (activiteiten)")
+System_Ext(googleflightsapi, "googleflights API", "Extern systeem", "Vluchten")
+
+' Relaties algemene bouwstenen
+Rel(tts, boeking_controller, "Boekt via API")
+Rel(tts, bouwsteen_controller, "Stelt trips samen")
+
+Rel(bouwsteen_controller, bouwsteen_service, "Gebruikt om domeinklassen te beheren")
+Rel(bouwsteen_service, factory, "Gebruikt om domeinklassen te maken")
+Rel(factory, bs_repo, "Slaat aanmaak op via")
+Rel(factory, bs_transport, "Maakt Transport bouwsteen aan")
+Rel(factory, bs_activiteit, "Maakt Activiteit bouwsteen aan")
+Rel(bs_repo, tp_db, "Haalt en slaat data op")
+
+Rel(boeking_controller, boeking_service, "Gebruikt service")
+Rel(boeking_service, boeking_repo, "Roept repository aan")
+Rel(boeking_repo, tp_db, "Haalt en slaat data op")
+Rel(boeking_service, api_booking, "Legt connectie met externe API")
+Rel(boeking_service, api_..., "Legt connectie met externe API")
+Rel(bs_transport, NS, "Beheert transportregelingen")
+Rel(bs_activiteit, BookingAPI2, "Beheert activiteiten")
+
+' Transport – Strategy Pattern relaties
+Rel(tts, tp_controller, "Plant vervoer tussen overnachtingen")
+Rel(tp_controller, tp_service, "stuurt aanvraag naar")
+Rel(tp_service, tp_factory, "vraagt juiste strategie op via")
+
+Rel(tp_factory, tp_train, "levert TrainTransport")
+Rel(tp_factory, tp_plane, "levert PlaneTransport")
+
+Rel(tp_train, tp_interface, "implementeert")
+Rel(tp_plane, tp_interface, "implementeert")
+Rel(tp_service, tp_interface, "gebruikt via interface")
+
+Rel(tp_service, tp_repo, "slaat gegevens op in")
+Rel(tp_repo, tp_db, "leest/schrijft transportdata")
+Rel(tp_service, tp_tracker, "stuurt statusupdates naar")
+
+Rel(tp_train, tp_tracker, "meldt status aan")
+Rel(tp_plane, tp_tracker, "meldt status aan")
+
+Rel(tp_train, NS, "haalt routes op van NS API")
+Rel(tp_plane, googleflightsapi, "haalt vluchten op van googleflights API")
+
+@enduml
