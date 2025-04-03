@@ -628,8 +628,17 @@ Om de software te kunnen installeren en te gebruiken moet je de volgende stappen
 6. Nu runt de applicatie op localhost:8080. Je kunt via postman de API endpoints aanroepen.
 
 ### 9.2. Operation
+De Triptop-backend is een prototype en draait lokaal via Spring Boot. Zodra je de applicatie start in IntelliJ, is deze bereikbaar op `http://localhost:8080`.
 
+Tijdens het gebruik kun je het gedrag van de applicatie volgen via:
 
+1. API-aanroepen**: Endpoints kunnen getest worden met Postman. Bijvoorbeeld:  
+  `GET http://localhost:8080/plan?from=Arnhem&to=Utrecht`
+2. **Logging**: Fouten of meldingen worden automatisch zichtbaar in de console van IntelliJ.
+3. **Externe API’s**: Koppelingen met bijvoorbeeld NS of tripadvisor zijn (voor nu) gesimuleerd of deels uitgewerkt.
+4. **Foutafhandeling**: Bij problemen geeft de API een duidelijke foutmelding terug, zoals `"Error: geen geldige locatie gevonden"` of andere opties .
+In een latere versie kunnen hier zaken zoals monitoring, logging naar bestanden en API-beveiliging aan worden toegevoegd.
+5. **Configuratie**: De applicatie maakt gebruik van een `application.properties` bestand voor configuratie-instellingen. Hierin kunnen zaken zoals API-sleutels, databaseverbindingen en andere instellingen worden beheerd.
 ### 9.3. Support
 Als er problemen zijn kan je ons altijd benaderen op de volgende mail sqrtech@wijzijnzoslim.han.nl
 
