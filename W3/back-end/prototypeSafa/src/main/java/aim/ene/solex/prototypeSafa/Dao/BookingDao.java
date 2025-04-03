@@ -16,9 +16,4 @@ public class BookingDao {
     return jdbc.queryForObject(sql, Integer.class, type) > 0;
   }
 
-  public Booking save(Booking booking) {
-    String sql = "INSERT INTO Booking (type, name, description) VALUES (?, ?, ?)";
-    jdbc.update(sql, booking.getType(), booking.getName(), booking.getDescription());
-    return booking;
-  }
 }

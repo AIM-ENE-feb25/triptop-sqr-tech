@@ -15,10 +15,4 @@ public class TransportDao {
     String sql = "SELECT COUNT(*) FROM FactoryBuildingBlock WHERE type = ?";
     return jdbc.queryForObject(sql, Integer.class, type) > 0;
   }
-
-  public Transport save(Transport transport) {
-    String sql = "INSERT INTO Transport (type, name, description) VALUES (?, ?, ?)";
-    jdbc.update(sql, transport.getType(), transport.getName(), transport.getDescription());
-    return transport;
-  }
 }
