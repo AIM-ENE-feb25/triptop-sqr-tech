@@ -112,9 +112,9 @@ kwaliteitsattributen benoemd als belangrijk:
   accessible only to those authorized to have access)
 
 ## 5. Constraints
-
 ### Hoeft niet
 
+// TODO
 ## 6. Principles
 
 Quinn: Dependency Inversion Principle (DIP)
@@ -125,6 +125,7 @@ Rick: Open Closed Principle (OCP)
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de
 > software.
 
+// TODO
 ## 7. Software Architecture
 
 ### 7.1. Containers
@@ -153,7 +154,6 @@ De data die uit de API wordt opgehaald, wordt teruggestuurd en getoond aan de ge
 
 > [!IMPORTANT]
 > Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
-
 
 ## 8. Architectural Decision Records
 
