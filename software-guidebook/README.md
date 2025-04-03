@@ -144,6 +144,11 @@ Rick: Open Closed Principle (OCP)
 
 **Ontwerpvraag Rick:** Hoe kunnen we het systeem uitbreiden met nieuwe types activiteiten of excursies zonder de bestaande code te veranderen?
 ![img2.png](RickClassDiagram.png)
+In dit ontwerp wordt het strategy pattern gebruikt om makkelijk verschillende vervoertypes (zoals trein, vliegtuig, auto) te ondersteunen. Elke type heeft z’n eigen klasse die dezelfde interface volgt. Zo kan het systeem met elk type hetzelfde omgaan.
+
+Ik heb dit opgelost door een factory te gebruiken die op basis van een voorkeur (bijvoorbeeld "train" of "flight") de juiste klasse kiest. Daardoor hoef ik niets in de bestaande code aan te passen als ik een nieuw type wil toevoegen. Ik maak gewoon een nieuwe klasse aan en voeg die toe in de factory.
+
+Het systeem is dus makkelijk uitbreidbaar zonder dat ik iets hoef te veranderen aan wat er al is.
 **Ontwerpvraag Quinn:** Hoe kunnen verschillende boekingsservices (zoals Booking.com en eigen beheer in Triptop) worden geïntegreerd?
 ![img.png](QuinnClassDiagram.png)
 Op het moment dat een reiziger een boeking wil doen roept hij/zij de BoekingController aan. De reiziger geeft een stad, aankomstdag en vertrekdag door en de controller roept in nieuweBoeking de boekingService aan. Die bevat een lijst van adapters en selecteert de gekozen adapter. Vervolgens wordt een van de adapters aangeroepen die dan via de Service connectie maakt met de API. 
@@ -494,11 +499,15 @@ dit patroon ons biedt.
 
 ## 8.5. ADR: Verkenning van het Strategy Pattern voor vervoer tussen overnachtingen
 
+### Vraagstelling
+
+**Ontwerpvraag Rick:** Hoe kunnen we het systeem uitbreiden met nieuwe types activiteiten of excursies zonder de bestaande code te veranderen?
+
 #### Status
 
 In onderzoek — 28 maart 2025  
 **Auteur:** Rick Schoenmaker  
-**Onderdeel van:** Les 3 – Vervoer tussen Overnachtingen (Triptop)
+**Onderdeel van:** Les 3  Vervoer tussen Overnachtingen (Triptop)
 
 ---
 
