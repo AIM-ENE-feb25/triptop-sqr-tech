@@ -149,6 +149,9 @@ In dit ontwerp wordt het strategy pattern gebruikt om makkelijk verschillende ve
 Ik heb dit opgelost door een factory te gebruiken die op basis van een voorkeur (bijvoorbeeld "train" of "flight") de juiste klasse kiest. Daardoor hoef ik niets in de bestaande code aan te passen als ik een nieuw type wil toevoegen. Ik maak gewoon een nieuwe klasse aan en voeg die toe in de factory.
 
 Het systeem is dus makkelijk uitbreidbaar zonder dat ik iets hoef te veranderen aan wat er al is.
+Hierbij volgt mijn sequence diagram:
+![img.png](img.png)
+
 **Ontwerpvraag Quinn:** Hoe kunnen verschillende boekingsservices (zoals Booking.com en eigen beheer in Triptop) worden geïntegreerd?
 ![img.png](QuinnClassDiagram.png)
 Op het moment dat een reiziger een boeking wil doen roept hij/zij de BoekingController aan. De reiziger geeft een stad, aankomstdag en vertrekdag door en de controller roept in nieuweBoeking de boekingService aan. Die bevat een lijst van adapters en selecteert de gekozen adapter. Vervolgens wordt een van de adapters aangeroepen die dan via de Service connectie maakt met de API. 
