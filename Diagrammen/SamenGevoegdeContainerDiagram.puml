@@ -9,36 +9,38 @@ Person(reizigerA, "Reiziger Agent", "Biedt ondersteuning voor de reiziger")
 
 System_Boundary(tts, "Trip Top System") {
     Container(fe, "Front-End", "React", "Biedt reisplanningsfunctionaliteit via webbrowser")
-    Container(fea, "Front-End", "React", "Biedt admin functionaliteit tot de reisplanningsfunctionaliteit via webbrowser")
+    Container(fea, "Front-End (Admin)", "React", "Biedt admin functionaliteit tot de reisplanningsfunctionaliteit via webbrowser")
 
-    Container(be, "Back-End", "Spring Boot", "Biedt reisplanningsfunctionaliteit via webbrowser")
+    Container(be, "Back-End", "Spring Boot", "Behandelt alle businesslogica, communicatie met externe APIs en opslag van gegevens")
 
-    Container(db, "Database", "???", "Slaat reisinformatie op")
+    Container(db, "Database", "PostgreSQL", "Slaat reisinformatie, boekingen en gebruikersdata op")
 }
 
-System_Ext(email_api, "Send Bulk Emails/SendGrid", "johnmfula/sendgrid API op RapidAPI")
-System_Ext(sms_api, "SMS77io", "sms77io API op RapidAPI")
-System_Ext(push_api, "Web Pusher", "supertoha API op RapidAPI")
-System_Ext(ip, "Identity Provider", "Wiremock API")
-System_Ext(bapi, "Booking API", "Booking API op RapidAPI")
-System_Ext(dapi, "Distance API", "Distance API op RapidAPI")
+' === Externe systemen ===
+System_Ext(bapi, "Booking API", "Booking API ")
+System_Ext(trapi, "Tripadviser API", "Tripadviser API")
 
+System_Ext(nsapi, "NS API", "Treinreisinformatie van de Nederlandse Spoorwegen")
+System_Ext(googleflightsapi, "Google Flights API", "Vluchtreisinformatie via RapidAPI")
+
+' === Gebruiker interacties ===
 Rel(reiziger, fe, "Gebruikt", "HTTPS")
 Rel(reizigerA, fea, "Gebruikt", "HTTPS")
+
+' === Front-end naar back-end ===
 Rel(fe, be, "Roept aan", "JSON/HTTPS")
 Rel(fea, be, "Roept aan", "JSON/HTTPS")
+
+' === Back-end naar database ===
 Rel(be, db, "Leest van en schrijft naar", "JDBC")
 
-Rel(be, email_api, "Verstuurt emails via", "JSON/HTTPS")
-Rel(be, sms_api, "Verstuurt sms'jes via", "JSON/HTTPS")
-Rel(be, push_api, "Verstuurt notificaties via", "JSON/HTTPS")
-Rel(be, ip, "Authenticatie via", "JSON/HTTPS")
-
-Rel(email_api, reiziger, "Verstuurt emails naar")
-Rel(sms_api, reiziger, "Verstuurt sms'jes naar")
-Rel(push_api, reiziger, "Verstuurt notificaties naar")
+' === Back-end naar externe systemen ===
+Rel(be, trapi, "Haalt hoteldata op van", "JSON/HTTPS")
 Rel(be, bapi, "Haalt verblijfdata op van", "JSON/HTTPS")
-Rel(be, dapi, "Haalt afstanden op van", "JSON/HTTPS")
-}
+Rel(be, nsapi, "Haalt treinreisinformatie op van", "JSON/HTTPS")
+Rel(be, googleflightsapi, "Haalt vluchtinformatie op van", "JSON/HTTPS")
+
+
+
 
 @enduml

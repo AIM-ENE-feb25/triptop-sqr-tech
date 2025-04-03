@@ -129,13 +129,13 @@ Rick: Open Closed Principle (OCP)
 ## 7. Software Architecture
 
 ### 7.1. Containers
-
+![img_1.png](ContainerDiagram.png)
 > [!IMPORTANT]
 > Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief
 > begeleidende tekst.
 
 ### 7.2. Components
-
+![img_2.png](ComponentDiagram.png)
 > [!IMPORTANT]
 > Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief
 > begeleidende tekst.

@@ -2,7 +2,7 @@
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 LAYOUT_WITH_LEGEND()
 
-title Samengesteld Component Diagram – Triptop (inclusief Strategy Pattern: Transport)
+title Samengesteld Component Diagram – Triptop
 
 System(tts, "Trip Top Web App", "UI Interface van Trip Top")
 
@@ -25,27 +25,26 @@ System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
   }
 
   ' Transport – Strategy Pattern structuur
-  Component(tp_controller, "TransportPlannerController", "Java", "Verwerkt gebruikersaanvragen en plant vervoer tussen overnachtingen")
-  Component(tp_service, "TransportPlannerService", "Java", "Bevat logica om vervoersstrategie te selecteren en toe te passen")
-  Component(tp_factory, "TransportFactory", "Java", "Levert juiste transportstrategie op basis van invoer")
-  Component(tp_interface, "TransportOption (interface)", "Java Interface", "Strategie-interface voor vervoer")
+  Component(tp_controller, "TransportPlannerController", "Spring Boot", "Verwerkt gebruikersaanvragen en plant vervoer tussen overnachtingen")
+  Component(tp_service, "TransportPlannerService", "Spring Boot", "Bevat logica om vervoersstrategie te selecteren en toe te passen")
+  Component(tp_factory, "TransportFactory", "Spring Boot", "Levert juiste transportstrategie op basis van invoer")
+  Component(tp_interface, "TransportOption (interface)", "Spring Boot Interface", "Strategie-interface voor vervoer")
 
-  Component(tp_train, "TrainTransport", "Java", "Concrete strategie voor treinvervoer")
-  Component(tp_plane, "PlaneTransport", "Java", "Concrete strategie voor vliegvervoer")
+  Component(tp_train, "TrainTransport", "Spring Boot", "Concrete strategie voor treinvervoer")
+  Component(tp_plane, "PlaneTransport", "Spring Boot", "Concrete strategie voor vliegvervoer")
 
-  Component(tp_repo, "TransportRepository", "Java", "Slaat transportstatus en boekingsgegevens op")
-  Component(tp_tracker, "TransportTrackerService", "Java", "Stuurt statuswijzigingen door en houdt voortgang bij")
+  Component(tp_repo, "TransportRepository", "Spring Boot", "Slaat transportstatus en boekingsgegevens op")
+  Component(tp_tracker, "TransportTrackerService", "Spring Boot", "Stuurt statuswijzigingen door en houdt voortgang bij")
 }
 
 ' Database
-ComponentDb(tp_db, "Database", "Relationale database", "Slaat de nuttige informatie op voor triptop")
+ComponentDb(tp_db, "Database", "H2 database", "Slaat de nuttige informatie op voor triptop")
 
 ' Externe systemen
 System_Ext(api_booking, "APIBooking", "API voor Booking.com")
-System_Ext(api_..., "API...", "API voor ...")
+System_Ext(TripadvisorAPI, "TripadvisorAPI", "API voor Tripadvisor")
 System_Ext(NS, "NS API", "Externe API")
-System_Ext(BookingAPI2, "BookingAPI2", "API voor Booking.com (activiteiten)")
-System_Ext(googleflightsapi, "googleflights API", "Extern systeem", "Vluchten")
+System_Ext(googleflightsapi, "googleflights API", "Externe API", "Vluchten")
 
 ' Relaties algemene bouwstenen
 Rel(tts, boeking_controller, "Boekt via API")
@@ -62,9 +61,8 @@ Rel(boeking_controller, boeking_service, "Gebruikt service")
 Rel(boeking_service, boeking_repo, "Roept repository aan")
 Rel(boeking_repo, tp_db, "Haalt en slaat data op")
 Rel(boeking_service, api_booking, "Legt connectie met externe API")
-Rel(boeking_service, api_..., "Legt connectie met externe API")
+Rel(boeking_service, "TripadvisorAPI", "Legt connectie met externe API")
 Rel(bs_transport, NS, "Beheert transportregelingen")
-Rel(bs_activiteit, BookingAPI2, "Beheert activiteiten")
 
 ' Transport – Strategy Pattern relaties
 Rel(tts, tp_controller, "Plant vervoer tussen overnachtingen")
