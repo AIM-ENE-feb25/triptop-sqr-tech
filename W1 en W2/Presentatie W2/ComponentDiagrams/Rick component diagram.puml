@@ -1,70 +1,87 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
 
-title Component Diagram – Transportmodule Triptop (Strategy Pattern)
+title Component Diagram – Transportmodule DemoApp (Strategy Pattern incl. opslag)
 
-' Actor
-Person(user, "Gebruiker", "Gebruikt Triptop om vervoer tussen overnachtingen te plannen")
+' === Actor ===
+Person(user, "Gebruiker", "Plant vervoer tussen locaties via Triptop")
 
-System_Boundary(transportSystem, "Transport System") {
+' === Bounded System: 1 Spring Boot applicatie ===
+System_Boundary(transportSystem, "Transportmodule - DemoApp") {
 
-  ' Controllers
-  Container(controller, "TransportPlannerController", "Java", "Verwerkt gebruikersaanvragen en plant vervoer tussen overnachtingen")
+  ' ===== Controller Layer =====
+  Component(controller, "TransportController", "Spring Boot REST Controller", "Verwerkt aanvragen voor transportplanning")
+  Component(trainCtrl, "TreinController", "Spring Boot REST Controller", "Verwerkt aanvragen voor treinreizen")
+  Component(flightCtrl, "VluchtController", "Spring Boot REST Controller", "Verwerkt aanvragen voor vluchten")
 
-  ' Services (businesslogica)
-  Container(service, "TransportPlannerService", "Java", "Bevat logica om vervoersstrategie te selecteren en toe te passen")
+  ' ===== Service Layer =====
+  Component(plannerService, "TransportPlanner", "Component", "Gebruikt strategie om vervoersopties te zoeken")
 
-  ' Factory
-  Container(factory, "TransportFactory", "Java", "Levert juiste transportstrategie op basis van invoer (bijv. voorkeur of afstand)")
+  ' ===== Repository + Database =====
+  Component(repository, "TransportRepository", "Component", "Slaat reis- en boekingsinformatie op")
+  ContainerDb(database, "TriptopDB", "Relationale Database", "Bevat routes, reisstatus en boekingsdata")
 
-  ' Transportstrategie-interface
-  Container(interface, "TransportOption (interface)", "Java Interface", "Bepaalt gedrag voor getRoute(), getPrice() en book()")
+  ' ===== Configuration Layer =====
+  Component(config, "AppConfig", "Spring @Configuration", "Selecteert en injecteert juiste TransportOption-strategie")
 
-  ' Concrete strategieën (implementaties)
-  Container(car, "CarTransport", "Java", "Implementeert vervoer per auto")
-  Container(train, "TrainTransport", "Java", "Implementeert vervoer per trein")
-  Container(boat, "BoatTransport", "Java", "Implementeert vervoer per boot")
-  Container(plane, "PlaneTransport", "Java", "Implementeert vervoer per vliegtuig")
+  ' ===== Strategieën & Interface =====
+  Component(strategy, "TransportOption", "Interface", "Bepaalt gedrag van alle vervoersstrategieën")
 
-  ' Opslag en tracking
-  Container(repo, "TransportRepository", "Java", "Slaat transportstatus en boekingsgegevens op")
-  Container(tracker, "TransportTrackerService", "Java", "Stuurt statuswijzigingen door en houdt voortgang bij")
+  Component(trein, "TreinTransport", "Component", "Strategie voor reizen met de trein (NS API)")
+  Component(vlucht, "VluchtTransport", "Component", "Strategie voor reizen met het vliegtuig (Google Flights API)")
+  Component(auto, "AutoTransport", "Component", "Strategie voor reizen met de auto (nog niet geïmplementeerd)")
+  Component(boot, "BootTransport", "Component", "Strategie voor reizen met de boot (nog niet geïmplementeerd)")
 
-  ' Database
-  ContainerDb(database, "Database", "Relationale database", "Slaat routes, boekingen en transportstatus op")
+  ' ===== API-integratie Services =====
+  Component(treinService, "TreinService", "Component", "Verwerkt communicatie met de NS API")
+  Component(vluchtService, "VluchtService", "Component", "Verwerkt communicatie met de Google Flights API")
+
+  ' ===== Model =====
+  Component(resultaat, "TransportOptionResultaat", "Model", "Bevat provider, tijden, beschikbaarheid etc.")
 }
 
-' Externe services (buiten het systeem!)
-Container_Ext(nsapi, "NS API", "Extern systeem", "Levert treinverbindingen en prijzen")
-Container_Ext(klmapi, "KLM API", "Extern systeem", "Levert vluchten en prijzen")
-Container_Ext(ferryapi, "Ferry API", "Extern systeem", "Levert vaartijden en tarieven voor boten")
+' ===== Externe systemen =====
+Container_Ext(nsapi, "NS API", "Extern systeem", "Levert Nederlandse treinreisinformatie")
+Container_Ext(googleflightsapi, "Google Flights API", "Extern systeem", "Levert vluchtreisinformatie via RapidAPI")
 
-' Relaties
-Rel(user, controller, "vraagt vervoer aan via planTransport(from, to)")
-Rel(controller, service, "stuurt aanvraag naar")
-Rel(service, factory, "vraagt juiste strategie op via")
-Rel(factory, car, "levert concrete strategie")
-Rel(factory, train, "levert concrete strategie")
-Rel(factory, boat, "levert concrete strategie")
-Rel(factory, plane, "levert concrete strategie")
+' ===== Gebruiker naar controller =====
+Rel(user, controller, "doet GET-aanvraag voor transportplanning")
+Rel(user, trainCtrl, "doet GET-aanvraag voor treininfo")
+Rel(user, flightCtrl, "doet GET-aanvraag voor vluchtinfo")
 
-Rel(car, interface, "implementeert")
-Rel(train, interface, "implementeert")
-Rel(boat, interface, "implementeert")
-Rel(plane, interface, "implementeert")
-Rel(service, interface, "gebruikt via interface")
+' ===== Controller naar planner/service laag =====
+Rel(controller, plannerService, "roept search(from, to) aan")
+Rel(plannerService, strategy, "gebruikt strategie via interface")
 
-Rel(service, repo, "slaat gegevens op in")
-Rel(repo, database, "leest/schrijft transportdata")
-Rel(service, tracker, "stuurt statusupdates naar")
+' ===== Strategie implementaties =====
+Rel(trein, strategy, "implementeert")
+Rel(vlucht, strategy, "implementeert")
+Rel(auto, strategy, "implementeert (in toekomst)")
+Rel(boot, strategy, "implementeert (in toekomst)")
 
-Rel(car, tracker, "meldt status aan")
-Rel(train, tracker, "meldt status aan")
-Rel(boat, tracker, "meldt status aan")
-Rel(plane, tracker, "meldt status aan")
+' ===== Config injecteert strategieën en planner =====
+Rel(config, plannerService, "maakt TransportPlanner aan")
+Rel(config, trein, "injecteert wanneer 'train'")
+Rel(config, vlucht, "injecteert wanneer 'flight'")
 
-Rel(train, nsapi, "haalt routes op van NS API")
-Rel(boat, ferryapi, "haalt info op van Ferry API")
-Rel(plane, klmapi, "haalt vluchten op van KLM API")
+' ===== Strategie gebruikt service voor API-aanroepen =====
+Rel(trein, treinService, "gebruikt NS API via")
+Rel(vlucht, vluchtService, "gebruikt Google Flights API via")
 
+' ===== Services communiceren met externe APIs =====
+Rel(treinService, nsapi, "doet HTTP-aanroep naar")
+Rel(vluchtService, googleflightsapi, "doet HTTP-aanroep naar")
+
+' ===== Opslaglaag =====
+Rel(plannerService, repository, "slaat reisinformatie op in")
+Rel(repository, database, "leest/schrijft reisdata")
+
+' ===== Resultaatmodel stroom =====
+Rel(strategy, resultaat, "retourneert lijst van")
+Rel(plannerService, resultaat, "stuurt resultaat naar controller")
+Rel(controller, resultaat, "stuurt JSON-response terug")
+
+' === Legenda ===
+' Voeg een blok toe onderaan het diagram
+SHOW_LEGEND()
 @enduml

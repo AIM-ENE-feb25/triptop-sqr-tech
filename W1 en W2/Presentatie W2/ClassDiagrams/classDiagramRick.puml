@@ -1,86 +1,71 @@
 @startuml
-title Class Diagram – Strategy Pattern in Transportmodule Triptop
+title Class Diagram – Strategy Pattern in Triptop transport opties
 
-' ===== Strategy Interface =====
+
 interface TransportOption {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
+    +searchOptions(from: String, to: String): List<TransportOptionResultaat>
 }
 
-note right of TransportOption
-  Strategy interface:
-  definieert gedrag van verschillende
-  vervoersopties (zoals auto, trein, etc.)
-end note
 
-' ===== Concrete Strategieën =====
-class CarTransport {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
+
+class TreinTransport {
+    -treinService: TreinService
+    +searchOptions(from: String, to: String): List<TransportOptionResultaat>
 }
 
-class TrainTransport {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
+class VluchtTransport {
+    -vluchtService: VluchtService
+    +searchOptions(from: String, to: String): List<TransportOptionResultaat>
 }
 
-class BoatTransport {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
-}
+TreinTransport ..|> TransportOption
+VluchtTransport ..|> TransportOption
 
-class PlaneTransport {
-    +getRoute(from: String, to: String): String
-    +getPrice(): double
-    +book(): void
-}
 
-CarTransport ..|> TransportOption
-TrainTransport ..|> TransportOption
-BoatTransport ..|> TransportOption
-PlaneTransport ..|> TransportOption
-
-' ===== Context (Planner) =====
 class TransportPlanner {
-    -strategy: TransportOption
-    -factory: TransportFactory
-    -tracker: TransportTracker
-
-    +TransportPlanner(factory: TransportFactory, tracker: TransportTracker)
-    +planTransport(type: String, from: String, to: String): void
+    -option: TransportOption
+    +TransportPlanner(option: TransportOption)
+    +search(from: String, to: String): List<TransportOptionResultaat>
 }
 
-note left of TransportPlanner
-  Context:
-  gebruikt een concrete TransportOption
-  zonder te weten welke implementatie.
-end note
 
-' ===== Factory (voor strategiekeuze) =====
-class TransportFactory {
-    +createTransport(type: String): TransportOption
+
+
+class AppConfig {
+    -transportType: String
+    +transportOption(...): TransportOption
+    +transportPlanner(...): TransportPlanner
 }
 
-' ===== Tracker (voor status) =====
-class TransportTracker {
-    -status: String
 
-    +setStatus(status: String): void
-    +getStatus(): String
+
+class TreinService {
+    -apiKey: String
+    -apiBaseUrl: String
+    +zoekTreinOpties(...)
+    +getTrainJourneyDetails(...)
 }
 
-' ===== Relaties =====
+class VluchtService {
+    -apiKey: String
+    +zoekVluchten(...)
+    +getVluchtDetails(...)
+}
+
+
+class TransportOptionResultaat {
+    -provider: String
+    -departureTime: String
+    -arrivalTime: String
+    -available: boolean
+}
+
+
 TransportPlanner --> TransportOption : gebruikt strategie
-TransportPlanner --> TransportFactory : vraagt transport aan
-TransportPlanner --> TransportTracker : stuurt status
-
-CarTransport --> TransportTracker : stuurt status
-TrainTransport --> TransportTracker : stuurt status
-BoatTransport --> TransportTracker : stuurt status
-PlaneTransport --> TransportTracker : stuurt status
+AppConfig --> TransportOption : retourneert
+AppConfig --> TransportPlanner : maakt aan
+TreinTransport --> TreinService
+VluchtTransport --> VluchtService
+TransportOption --> TransportOptionResultaat : retourneert lijst
 
 @enduml
