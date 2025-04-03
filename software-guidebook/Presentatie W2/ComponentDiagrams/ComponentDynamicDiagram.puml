@@ -1,0 +1,20 @@
+@startuml
+actor Reiziger
+
+participant TrainService
+participant TransportFactory
+participant Transport
+participant TransportRepository
+Database db
+
+Reiziger -> TrainService: buyTicket(date, start, end)
+TrainService -> TransportFactory: createBuildingBlock(type:Transport, date, start, end)
+TransportFactory -> Transport:  createBuildingBlock(type:Transport, date, start, end)
+Transport --> TransportFactory: Returns an instance of a transport
+TransportFactory --> TrainService: Returns an instance of a transport
+TrainService -> TransportRepository: save(transport)
+TransportRepository -> db: save(transport)
+TransportRepository --> TrainService: returns ok
+TrainService --> Reiziger: confirmation on ticket
+
+@enduml
