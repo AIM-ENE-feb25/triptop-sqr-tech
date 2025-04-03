@@ -1,0 +1,100 @@
+@startuml
+title Class Diagram for Prototype Safa
+
+
+class ActivityController {
+    +createActivity(request: BuildingBlockRequest): ResponseEntity<Activity>
+    +getAllActivities(): ResponseEntity<List<Activity>>
+}
+
+class TransportController{
+    +createTransport(request: BuildingBlockRequest): ResponseEntity<Transport>
+    +getAllTransports(): ResponseEntity<List<Transport>>
+}
+
+class BookingController{
+    +createBooking(request: BuildingBlockRequest): ResponseEntity<Booking>
+    +getAllBookings(): ResponseEntity<List<Booking>>
+}
+
+abstract class BuildingBlockFactory {
+    -factories : HashMap<String, BuildingBlockFactory>
+    +getFactory(type): BuildingBlockFactory
+    {abstract}+createBouwsteen(type, name, description): BuildingBlock
+}
+
+
+class ActivityFactory extends BuildingBlockFactory {
+    +createBouwsteen(type, name, description): Activity
+}
+
+class TransportFactory extends BuildingBlockFactory {
+    +createBouwsteen(type, name, description): Transport
+}
+
+class BookingFactory extends BuildingBlockFactory {
+    +createBouwsteen(type, name, description): Booking
+}
+
+abstract class BuildingBlock {
+    -type : String
+    -name: String
+    -description: String
+}
+
+class Booking extends BuildingBlock {
+  -id : int
+}
+
+class Transport extends BuildingBlock {
+  -id : int
+}
+
+class Activity extends BuildingBlock {
+  -id : int
+}
+
+class ActivityService {
+    +createActivity(type: String, name: String, description: String): Activity
+    +getAllActivities(): List<Activity>
+}
+
+class TransportService {
+    +createTransport(type: String, name: String, description: String): Transport
+    +getAllTransports(): List<Transport>
+}
+
+class BookingService {
+    +createBooking(type: String, name: String, description: String): Booking
+    +getAllBookings(): List<Booking>
+}
+
+class ActivityRepository {
+    +findAll(): List<Activity>
+}
+
+class TransportRepository {
+    +findAll(): List<Transport>
+}
+
+class BookingRepository {
+    +findAll(): List<Booking>
+}
+
+ActivityController --> ActivityService
+TransportController --> TransportService
+BookingController --> BookingService
+
+ActivityService --> ActivityFactory
+TransportService --> TransportFactory
+BookingService --> BookingFactory
+
+ActivityService --> ActivityRepository
+TransportService --> TransportRepository
+BookingService --> BookingRepository
+
+ActivityFactory --> Activity
+TransportFactory --> Transport
+BookingFactory --> Booking
+
+@enduml
