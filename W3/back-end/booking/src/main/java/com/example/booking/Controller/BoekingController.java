@@ -1,26 +1,28 @@
 package com.example.booking.Controller;
 
-import com.example.booking.Boeking;
 import com.example.booking.Service.BoekingService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("/api")
 public class BoekingController {
-    private BoekingService service;
+    private final BoekingService service;
 
     public BoekingController(BoekingService service) {
         this.service = service;
     }
 
-    public void nieuweBoeking(Boeking boeking) {
-        if (service.maakBoeking(boeking)) {
-            System.out.println("Boeking succesvol!");
+    @GetMapping("/booking")
+    public String nieuweBoeking(@RequestParam String locatie, @RequestParam String aankomst, @RequestParam String vertrek, @RequestParam String adapterKeuze) {
+        if ("BookingCom".equalsIgnoreCase(adapterKeuze)) {
+            return service.maakBoeking(locatie, aankomst, vertrek, "BookingCom");
+        } else if ("Tripadvisor".equalsIgnoreCase(adapterKeuze)) {
+            return service.maakBoeking(locatie, aankomst, vertrek, "Tripadvisor");
         } else {
-            System.out.println("Boeking mislukt!");
-        }
-    }
-
-    public void toonAlleBoekingen() {
-        for (Boeking boeking : service.haalAlleBoekingenOp()) {
-            System.out.println("Boeking ID: " + boeking.getId() + ", Klant: " + boeking.getKlantNaam());
+            return "Ongeldige keuze voor adapter.";
         }
     }
 }

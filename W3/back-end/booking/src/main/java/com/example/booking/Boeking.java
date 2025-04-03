@@ -1,14 +1,26 @@
 package com.example.booking;
 
 public class Boeking {
-    private int id;
-    private String klantNaam;
+    private String locatie;
+    private String aankomstDatum;
+    private String vertrekDatum;
 
-    public Boeking(int id, String klantNaam) {
-        this.id = id;
-        this.klantNaam = klantNaam;
+    public Boeking(String locatie, String aankomstDatum, String vertrekDatum) {
+        this.locatie = locatie;
+        this.aankomstDatum = aankomstDatum;
+        this.vertrekDatum = vertrekDatum;
     }
 
-    public int getId() { return id; }
-    public String getKlantNaam() { return klantNaam; }
+    public String getLocatie() {
+        return locatie;
+    }
+
+    public String getAankomstDatum() {
+        return aankomstDatum;
+    }
+
+    public String getVertrekDatum() {
+        return vertrekDatum;
+    }
 }
+

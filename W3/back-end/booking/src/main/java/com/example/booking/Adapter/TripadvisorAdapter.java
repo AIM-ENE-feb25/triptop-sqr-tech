@@ -3,7 +3,9 @@ package com.example.booking.Adapter;
 import com.example.booking.API.TripadvisorService;
 import com.example.booking.Boeking;
 import com.example.booking.Service.IBoekingAdapter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TripadvisorAdapter implements IBoekingAdapter {
     private TripadvisorService tripadvisor;
 
@@ -12,8 +14,13 @@ public class TripadvisorAdapter implements IBoekingAdapter {
     }
 
     @Override
-    public boolean maakBoeking(Boeking boeking) {
-        return tripadvisor.boek(boeking);
+    public String maakBoeking(Boeking boeking) {
+        String response = tripadvisor.boek(
+                boeking.getLocatie(),
+                boeking.getAankomstDatum(),
+                boeking.getVertrekDatum()
+        );
+        return response;
     }
 
     @Override

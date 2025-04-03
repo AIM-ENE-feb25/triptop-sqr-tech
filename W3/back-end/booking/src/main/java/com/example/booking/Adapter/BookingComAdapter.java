@@ -3,17 +3,24 @@ package com.example.booking.Adapter;
 import com.example.booking.API.BookingComService;
 import com.example.booking.Boeking;
 import com.example.booking.Service.IBoekingAdapter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BookingComAdapter implements IBoekingAdapter {
-    private BookingComService bookingCom;
+    private final BookingComService bookingComService;
 
-    public BookingComAdapter(BookingComService bookingCom) {
-        this.bookingCom = bookingCom;
+    public BookingComAdapter(BookingComService bookingComService) {
+        this.bookingComService = bookingComService;
     }
 
     @Override
-    public boolean maakBoeking(Boeking boeking) {
-        return bookingCom.boek(boeking);
+    public String maakBoeking(Boeking boeking) {
+        String response = bookingComService.boek(
+                boeking.getLocatie(),
+                boeking.getAankomstDatum(),
+                boeking.getVertrekDatum()
+        );
+        return response;
     }
 
     @Override

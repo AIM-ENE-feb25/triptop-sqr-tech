@@ -1,30 +1,25 @@
 package com.example.booking.Service;
 
+
 import com.example.booking.Boeking;
-import com.example.booking.Repository.BoekingRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BoekingService {
-    private BoekingRepository repository;
-    private List<IBoekingAdapter> adapters;
+    private final List<IBoekingAdapter> adapters;
 
-    public BoekingService(BoekingRepository repository, List<IBoekingAdapter> adapters) {
-        this.repository = repository;
+    public BoekingService(List<IBoekingAdapter> adapters) {
         this.adapters = adapters;
     }
 
-    public boolean maakBoeking(Boeking boeking) {
-        repository.voegToe(boeking);
+    public String maakBoeking(String locatie, String aankomst, String vertrek, String adapterKeuze) {
         for (IBoekingAdapter adapter : adapters) {
-            if (!adapter.maakBoeking(boeking)) {
-                return false;
+            if (adapter.getNaam().equalsIgnoreCase(adapterKeuze)) {
+                return adapter.maakBoeking(new Boeking(locatie, aankomst, vertrek));
             }
         }
-        return true;
-    }
-
-    public List<Boeking> haalAlleBoekingenOp() {
-        return repository.getAlleBoekingen();
+        return "Adapter niet gevonden";
     }
 }

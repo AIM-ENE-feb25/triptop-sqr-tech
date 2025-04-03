@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Booking</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery voor AJAX -->
+</head>
+<body>
+<h1>Boek een hotel via BookingCom of Tripadviser</h1>
+
+<button id="bookingComButton">Boek via BookingCom</button>
+<button id="tripadviserButton">Boek via Tripadviser</button>
+
+<div id="result">
+    <h3>Resultaat:</h3>
+    <p id="responseText">Klik op een van de knoppen om te boeken.</p>
+</div>
+
+<script>
+    // Event listener voor BookingCom knop
+    $("#bookingComButton").click(function() {
+        // Bouw de querystring handmatig
+        var queryString = "?locatie=-2092174&aankomst=2025-04-05&vertrek=2025-04-10&adapterKeuze=BookingCom";
+        $.get("/api/booking" + queryString)
+            .done(function(response) {
+                $("#responseText").text( "BookingCom:" + response);
+            })
+            .fail(function() {
+                $("#responseText").text("Fout bij het aanroepen van de BookingCom API.");
+            });
+    });
+
+    // Event listener voor Tripadviser knop
+    $("#tripadviserButton").click(function() {
+        // Bouw de querystring handmatig
+        var queryString = "?locatie=188590&aankomst=2025-04-05&vertrek=2025-07-17&adapterKeuze=Tripadvisor";
+        $.get("/api/booking" + queryString)
+            .done(function(response) {
+                $("#responseText").text("Tripadvisor:" + response);
+            })
+            .fail(function() {
+                $("#responseText").text("Fout bij het aanroepen van de Tripadviser API.");
+            });
+    });
+</script>
+</body>
+</html>
