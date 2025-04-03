@@ -1,0 +1,40 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+LAYOUT_WITH_LEGEND()
+
+title Component Diagram voor het Trip Top Systeem
+
+System(tts, "Trip Top Web App", "UI Interface van Trip Top")
+
+System_Boundary(triptop, "Triptop Vraagstukken Systeem") {
+  Component(bouwsteen_controller, "Bouwsteen Controller", "Spring Boot Rest Controller", "Handelt verzoeken af voor domeinklassen")
+
+  Component(bouwsteen_service, "Bouwsteen Service", "Spring Component", "Beheert domeinklassen")
+  Component(factory, "Bouwsteen Factory", "Spring Component", "Maakt domeinklassen aan")
+  Component(act_factory, "Activiteit Factory", "Spring Component", "Maakt Activiteit aan")
+  Component(trans_factory, "Transport Factory", "Spring Component", "Maakt Transport aan")
+  Component(bs_repo, "Bouwsteen Repository", "Spring Boot", "Roept database aan voor bouwstenen")
+
+  Boundary(bouwstenen, "Voorbeeld Bouwstenen") {
+    Component(bs_activiteit, "Activiteit Bouwsteen", "Spring Boot", "Een activiteit")
+    Component(bs_transport, "Transport Bouwsteen", "Spring Boot", "Een transport")
+  }
+}
+
+ComponentDb(db, "Database", "H2", "Database voor de Triptop")
+
+Rel(tts, bouwsteen_controller, "Stelt trips samen")
+
+Rel(bouwsteen_service, factory, "Gebruikt om domeinklassen te maken")
+Rel(bouwsteen_controller, bouwsteen_service, "Gebruikt om domeinklassen te beheren")
+
+Rel(factory, bs_repo, "Slaat aanmaak op via")
+Rel(factory, trans_factory, "Maakt Transport aan")
+Rel(factory, act_factory, "Maakt Activiteit aan")
+
+Rel(trans_factory, bs_transport, "Maakt Transport bouwsteen aan")
+Rel(act_factory, bs_activiteit, "Maakt Activiteit bouwsteen aan")
+
+Rel(bs_repo, db, "Haalt en slaat data op")
+
+@enduml

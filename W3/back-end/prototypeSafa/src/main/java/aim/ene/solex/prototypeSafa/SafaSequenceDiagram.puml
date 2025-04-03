@@ -1,0 +1,10 @@
+@startuml
+actor Developer
+
+Developer -> ActivityFactory : createBouwsteen("Activity", "Hiking", "Mountain hiking activity")
+ActivityFactory -> Activity : new Activity("Hiking", "Mountain hiking activity")
+
+Activity --> ActivityFactory : return Activity instance
+ActivityFactory --> Developer : return Activity instance
+
+@enduml
