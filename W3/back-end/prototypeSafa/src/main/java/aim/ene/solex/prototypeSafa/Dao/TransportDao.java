@@ -1,6 +1,5 @@
 package aim.ene.solex.prototypeSafa.Dao;
 
-import aim.ene.solex.prototypeSafa.Domain.Transport;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

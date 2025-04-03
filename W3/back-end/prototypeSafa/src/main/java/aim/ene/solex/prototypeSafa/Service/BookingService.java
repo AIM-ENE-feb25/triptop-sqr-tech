@@ -1,15 +1,13 @@
 package aim.ene.solex.prototypeSafa.Service;
 
 import aim.ene.solex.prototypeSafa.Dao.BookingDao;
-import aim.ene.solex.prototypeSafa.Domain.Activity;
 import aim.ene.solex.prototypeSafa.Domain.Booking;
 import aim.ene.solex.prototypeSafa.Exceptions.InvalidInputException;
 import aim.ene.solex.prototypeSafa.Factory.BuildingBlockFactory;
 import aim.ene.solex.prototypeSafa.Repository.BookingRepository;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
 @Service
 @AllArgsConstructor

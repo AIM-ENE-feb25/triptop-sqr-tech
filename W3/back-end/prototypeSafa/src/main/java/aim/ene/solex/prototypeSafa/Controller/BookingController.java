@@ -6,7 +6,11 @@ import aim.ene.solex.prototypeSafa.Service.BookingService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -21,7 +25,8 @@ public class BookingController {
 
   @PostMapping
   public ResponseEntity<Booking> createBooking(@RequestBody BuildingBlockRequest request) {
-    Booking booking = bookingService.createBooking(request.getType(), request.getName(), request.getDescription());
+    Booking booking = bookingService.createBooking(request.getType(), request.getName(),
+        request.getDescription());
     return ResponseEntity.ok(booking);
   }
 

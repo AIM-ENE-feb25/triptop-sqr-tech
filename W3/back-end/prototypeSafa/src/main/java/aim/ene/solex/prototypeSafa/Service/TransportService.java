@@ -5,10 +5,9 @@ import aim.ene.solex.prototypeSafa.Domain.Transport;
 import aim.ene.solex.prototypeSafa.Exceptions.InvalidInputException;
 import aim.ene.solex.prototypeSafa.Factory.BuildingBlockFactory;
 import aim.ene.solex.prototypeSafa.Repository.TransportRepository;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -21,7 +20,8 @@ public class TransportService {
     if (!transportDao.typeExists(type)) {
       throw new InvalidInputException("Type does not exist");
     }
-    Transport transport = (Transport) BuildingBlockFactory.getFactory(type).createBuildingBlock(type, name, description);
+    Transport transport = (Transport) BuildingBlockFactory.getFactory(type)
+        .createBuildingBlock(type, name, description);
     return transportRepository.save(transport);
   }
 
