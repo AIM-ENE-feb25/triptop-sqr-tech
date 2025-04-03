@@ -1,0 +1,68 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+LAYOUT_WITH_LEGEND()
+SHOW_PERSON_OUTLINE()
+
+title Container Diagram voor het Trip Top System
+
+Person(reiziger, "Reiziger", "Een persoon die een reis plant en beheert")
+Person(reizigerA, "Reiziger Agent", "Biedt ondersteuning voor de reiziger")
+
+System_Boundary(tts, "Trip Top System") {
+    Container(web_app, "Web Applicatie", "React", "Biedt reisplanningsfunctionaliteit via webbrowser")
+    Container(mobile_app, "Mobiele app", "React", "Biedt reisplanningsfunctionaliteit op mobiele apparaten")
+
+    Container(api_gateway, "API Gateway", "Spring Boot Rest Controllers", "Routeert API verzoeken naar de juiste microservices")
+
+    Container(booking_service, "Booking Service", "Spring Boot", "Beheert accommodatieboekingen")
+    Container(transport_service, "Transport Service", "Spring Boot", "Beheert transportregelingen")
+    Container(activity_service, "Activity Service", "Spring Boot", "Beheert activiteitenboekingen")
+    Container(car_rental_service, "Car Rental Service", "Spring Boot", "Beheert autoverhuringen")
+
+    Container(notification_service, "Notification Service", "Spring Boot", "Verstuurt notificaties via email, SMS en push")
+
+    ContainerDb(trip_db, "Trip Database", "???", "Slaat reisinformatie op")
+    ContainerDb(user_db, "User Database", "???", "Slaat gebruikersinformatie op")
+
+    Container(storage_service, "Storage Service", "??? Niks gevonden", "Opslaan reisdata")
+    Container(auth_service, "Authentication Service", "??? Niks gevonden", "Authenticeren en autoriseren van gebruikers")
+}
+
+System_Ext(bookingCom, "Booking.com API", "Booking.com API op RapidAPI")
+System_Ext(email_api, "Send Bulk Emails/SendGrid", "johnmfula/sendgrid API op RapidAPI")
+System_Ext(sms_api, "SMS77io", "sms77io API op RapidAPI")
+System_Ext(push_api, "Web Pusher", "supertoha API op RapidAPI")
+System_Ext(ip, "Identity Provider", "??? Niks gevonden")
+
+Rel(reiziger, web_app, "Gebruikt", "HTTPS")
+Rel(reiziger, mobile_app, "Gebruikt", "HTTPS")
+Rel(reizigerA, web_app, "Gebruikt voor ondersteuning", "HTTPS")
+
+Rel(web_app, api_gateway, "Roept aan", "JSON/HTTPS")
+Rel(mobile_app, api_gateway, "Roept aan", "JSON/HTTPS")
+
+Rel(api_gateway, booking_service, "Routeert verzoeken naar", "JSON/HTTPS")
+Rel(api_gateway, transport_service, "Routeert verzoeken naar", "JSON/HTTPS")
+Rel(api_gateway, activity_service, "Routeert verzoeken naar", "JSON/HTTPS")
+Rel(api_gateway, car_rental_service, "Routeert verzoeken naar", "JSON/HTTPS")
+Rel(api_gateway, auth_service, "Routeert authenticatieverzoeken naar", "JSON/HTTPS")
+
+Rel(booking_service, trip_db, "Leest van en schrijft naar", "JDBC")
+Rel(transport_service, trip_db, "Leest van en schrijft naar", "JDBC")
+Rel(activity_service, trip_db, "Leest van en schrijft naar", "JDBC")
+Rel(car_rental_service, trip_db, "Leest van en schrijft naar", "JDBC")
+Rel(storage_service, trip_db, "Beheert data opslag", "JDBC")
+
+Rel_D(booking_service, notification_service, "Stuurt boeking events", "???")
+Rel_D(transport_service, notification_service, "Stuurt transport events", "???")
+Rel_D(activity_service, notification_service, "Stuurt activiteit events", "???")
+
+Rel(notification_service, email_api, "Verstuurt e-mails via", "POST /send/mail")
+Rel(notification_service, sms_api, "Verstuurt SMS berichten via", "POST /sms")
+Rel(notification_service, push_api, "Verstuurt push notificaties via", "POST /push")
+
+Rel(booking_service, bookingCom, "Haalt reisdata op via", "API")
+
+Rel(auth_service, ip, "Gebruikt voor authenticatie", "???")
+Rel(auth_service, user_db, "Slaat gebruikersgegevens op", "JDBC")
+@enduml
