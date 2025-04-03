@@ -1,0 +1,63 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+title Class diagram voor ontwerpvraag Quinn
+
+
+
+interface IBoekingAdapter {
+    + maakBoeking(boeking: Boeking): bool
+    + getNaam(): String
+}
+
+class BookingComService {
+    + book(data: Boeking): bool
+}
+
+
+class BookingComAdapter implements IBoekingAdapter {
+    - bookingCom: BookingComService
+    + maakBoeking(boeking: Boeking): bool
+    + getNaam(): String
+}
+
+class TripadviserService {
+    + book(data: Boeking): bool
+}
+
+
+class TripadviserAdapter implements IBoekingAdapter {
+    - bookingCom: BookingComService
+    + maakBoeking(boeking: Boeking): bool
+    + getNaam(): String
+}
+
+
+class BoekingRepository {
+    - boekingen: List<Boeking>
+    + voegToe(boeking: Boeking)
+    + getAlleBoekingen(): List<Boeking>
+    + zoekBoekingOpId(id: int): Boeking
+}
+
+class BoekingService {
+    - repository: BoekingRepository
+    - adapters: List<IBoekingAdapter>
+    + maakBoeking(boeking: Boeking): bool
+    + haalAlleBoekingenOp(): List<Boeking>
+}
+
+class BoekingController {
+    - service: BoekingService
+    + nieuweBoeking(boeking: Boeking)
+    + toonAlleBoekingen()
+}
+
+TripadviserAdapter --> TripadviserService
+BookingComAdapter --> BookingComService
+
+BoekingService --> IBoekingAdapter
+BoekingService --> BoekingRepository
+BoekingService <-- BoekingController
+@enduml
+

@@ -1,0 +1,36 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Dynamic.puml
+
+title Dynamic Container Diagram - Trip Booking Flow (Trip Top System)
+
+actor "Reiziger" as reiziger
+participant "Front-End\n<b>Statische html</b>" as fe
+participant "Back-End\n<b>Spring Boot</b>" as be
+participant "Booking API\n<b>DataCrawler/Tipsters</b>" as booking_api
+participant "Distance API\n<b>Rapid API</b>" as distance_api
+participant "Email API\n<b>SendGrid</b>" as email_api
+database "Database\n<b>???</b>" as db
+
+autonumber
+reiziger -> fe: Navigeert naar reisboekingspagina
+fe -> be: GET /api/accommodations/search {bestemming, datum, personen, tijd}
+be -> booking_api: GET /search {bestemming, datum, personen, tijd}
+booking_api --> be: Retourneert beschikbare accommodaties
+be --> fe: Retourneert lijst van beschikbare accommodaties
+fe --> reiziger: Toont beschikbare accommodaties
+reiziger -> fe: Selecteert een accommodatie
+fe -> be: GET /api/routes {vertrekpunt, aankomstpunt}
+be -> distance_api: POST /distance/route/detailed {route}[{country, name},{country, name}]
+distance_api --> be: Retourneert afstand, reistijd en routegegevens
+be --> fe: Retourneert reisroute opties
+fe --> reiziger: Toont reisroute opties
+reiziger -> fe: Selecteert reisroute en bevestigt boeking
+fe -> be: POST /api/bookings {accommodationId, routeId, userData, paymentInfo}
+be -> db: Slaat complete reisgegevens op
+db --> be: Bevestigt opslag van gegevens
+be -> email_api: POST /send/mail {email, confirmationDetails}
+email_api --> be: Bevestigt verzending email
+be --> fe: Retourneert boekingsbevestiging
+fe --> reiziger: Toont boekingsbevestiging met referentienummer
+@enduml

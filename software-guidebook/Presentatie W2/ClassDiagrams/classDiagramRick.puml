@@ -1,0 +1,71 @@
+@startuml
+title Class Diagram – Strategy Pattern in Triptop transport opties
+
+
+interface TransportOption {
+    +searchOptions(from: String, to: String): List<TransportOptionResultaat>
+}
+
+
+
+class TreinTransport {
+    -treinService: TreinService
+    +searchOptions(from: String, to: String): List<TransportOptionResultaat>
+}
+
+class VluchtTransport {
+    -vluchtService: VluchtService
+    +searchOptions(from: String, to: String): List<TransportOptionResultaat>
+}
+
+TreinTransport ..|> TransportOption
+VluchtTransport ..|> TransportOption
+
+
+class TransportPlanner {
+    -option: TransportOption
+    +TransportPlanner(option: TransportOption)
+    +search(from: String, to: String): List<TransportOptionResultaat>
+}
+
+
+
+
+class AppConfig {
+    -transportType: String
+    +transportOption(...): TransportOption
+    +transportPlanner(...): TransportPlanner
+}
+
+
+
+class TreinService {
+    -apiKey: String
+    -apiBaseUrl: String
+    +zoekTreinOpties(...)
+    +getTrainJourneyDetails(...)
+}
+
+class VluchtService {
+    -apiKey: String
+    +zoekVluchten(...)
+    +getVluchtDetails(...)
+}
+
+
+class TransportOptionResultaat {
+    -provider: String
+    -departureTime: String
+    -arrivalTime: String
+    -available: boolean
+}
+
+
+TransportPlanner --> TransportOption : gebruikt strategie
+AppConfig --> TransportOption : retourneert
+AppConfig --> TransportPlanner : maakt aan
+TreinTransport --> TreinService
+VluchtTransport --> VluchtService
+TransportOption --> TransportOptionResultaat : retourneert lijst
+
+@enduml

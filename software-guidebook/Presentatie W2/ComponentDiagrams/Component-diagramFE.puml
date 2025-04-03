@@ -1,0 +1,77 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+SHOW_PERSON_OUTLINE()
+LAYOUT_WITH_LEGEND()
+
+title Component diagram voor "Front-End" container van het Triptop systeem
+
+Person(reiziger, "Reiziger", "Een persoon die een reis plant en beheert")
+
+
+System_Boundary(fes, "Front-end container") {
+
+    System(hp, "HomePagina", "Biedt reisplanningsfunctionaliteit via webbrowser")
+    System(lp, "LoginPagina", "Pagina waar een reiziger kan inloggen")
+    System(bp, "BoekingPagina", "Pagina voor het boeken van het verblijf")
+    System(ap, "AutoverhuurPagina", "Pagina voor het huren van vervoer op de verblijflocatie")
+    System(rp, "ReisplannerPagina", "Pagina voor het plannen van de reis")
+    System(mp, "MaaltijdBestelPagina", "Pagina voor het bestellen van eten/drinken op locatie")
+    System(ep, "ExcursiePagina", "Pagina voor het boeken van excursies op de verblijflocatie")
+    System(app, "App", "De basis van de frontend applicatie")
+    System(main, "Main", "Maakt de root en roept app aan")
+    System(router, "Router", "Beheert de navigatie tussen pagina's")
+
+    System(bo, "Boekingsoverzicht", "Overzichtstabel voor het boeken van een verblijf")
+
+    System(main, "Main", "Maakt de root en roept app aan")
+
+
+    System(la, "LoginAuthenticatie", "Regelt de authenticatie bij het inloggen")
+    System(lu, "Loguit", "Regelt het uitloggen van een gebruiker")
+
+
+    System(nb, "Navbar", "Standaard navbar voor bovenaan de pagina's")
+    System(fr, "Footer", "Standaard footer voor onderaan de pagina's")
+    System(he, "Header", "Standaard header voor bovenaan de pagina's")
+    System(Af, "APIFetches", "Regelt de fetches voor connectie met de backend")
+
+
+}
+    System_Ext(be, "Backend", "Spring boot backend")
+
+    Rel(reiziger, main, "Opent de webapplicatie")
+    Rel(app, nb, "Bevat een")
+    Rel(main, app, "Roept aan")
+    Rel(app, router, "Bevat de Router")
+    Rel(bp, bo, "Gebruikt")
+
+    Rel(router, hp, "Route naar")
+    Rel(router, lp, "Route naar")
+    Rel(router, bp, "Route naar")
+    Rel(router, ap, "Route naar")
+    Rel(router, rp, "Route naar")
+    Rel(router, mp, "Route naar")
+    Rel(router, ep, "Route naar")
+
+    Rel(hp, Af, "Haalt data op van")
+    Rel(lp, Af, "Haalt data op van")
+    Rel(bp, Af, "Haalt data op van")
+    Rel(ap, Af, "Haalt data op van")
+    Rel(rp, Af, "Haalt data op van")
+    Rel(mp, Af, "Haalt data op van")
+    Rel(ep, Af, "Haalt data op van")
+
+    Rel(nb, lu, "Bevat")
+    Rel(lp, la, "Gebruikt")
+
+    Rel(app, fr, "Bevat een")
+    Rel(app, he, "Bevat een")
+
+    Rel(Af, be, "Doet fetch naar en legt verbinding met")
+
+
+
+
+
+
+@enduml

@@ -1,2 +1,2 @@
-**Beste docenten**  in main de directories Safa, Rick en Quinn representeren wat we persoonlijk hebben gedaan 
+**Beste docenten** in de main branche de directories Safa, Rick en Quinn representeren wat we persoonlijk hebben gedaan 
 EN in de directory software-guidebook in main staat de software guidebook die we hebben gemaakt.
