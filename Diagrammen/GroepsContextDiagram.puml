@@ -9,7 +9,7 @@ Person(reisA, "Reis Agent", "Biedt ondersteuning voor de reiziger")
 
 System(tts, "Trip Top", "Kernsysteem voor reisplanning en beheer")
 System_Ext(op, "Overnachting Provider", "Booking.com API")
-System_Ext(vp, "Vervoer Provider", "Distance API, NSAPI")
+System_Ext(vp, "Vervoer Provider", "Distance API, NSAPI, Google flights API")
 System_Ext(ep, "Excursie Provider", "Trip Advisor, Get Your Guide")
 System_Ext(av, "Autoverhuur Provider", "Sixt, Hertz")
 System_Ext(eNd, "Eten en Drinken Provider", "Takeaway, Eet.nu")

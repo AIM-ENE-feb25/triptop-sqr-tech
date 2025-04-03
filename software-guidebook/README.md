@@ -13,15 +13,36 @@ het volgende:
 
 ## 2. Context
 
-> [!IMPORTANT]
-> Werk zelf dit hoofdstuk uit met context diagrammen en een beschrijving van de context van de
-> software.
+### 2.1 Context Diagram
+![Context Diagram](/Diagrammen/GroepContext.png)
 
 Toelichting op de context van de software inclusief System Context Diagram:
 
-* Functionaliteit
-* Gebruikers
-* Externe systemen
+* De functionaliteit van de Trip Top webapplicatie is een software systeem dat reizigers helpt bij het plannen en boeken
+  van hun reizen. Het systeem biedt een webapp waar gebruikers verschillende bouwstenen van hun reis
+  kunnen combineren, zoals vervoer, accommodatie, excursies en overnachting.
+
+* Onze software heeft 2 gebruikers: Een Reiziger en een Reis Agent
+  * De Reiziger is de persoon die een reis plant en beheert.
+  * De Reis Agent is de persoon die achter de schermen de Reiziger ondersteuning biedt.
+
+* In onze context diagram maken we gebruik van verschillende externe systemen die we ondergedeeld hebben in verschillende providers.
+  * Overnachting provider
+    * Booking.com API
+  * Vervoer provider
+    * NS API 
+    * Google Flights API
+  * Excursie provider
+    * Tripadvisor API
+    * Get Your Guide API
+  * Autoverhuurder provider
+    * Sixt API
+    * Hertz API
+  * Eten en drinken provider
+    * Takeaway API
+    * Eet.nu API
+  * Identiteits provider
+    * Wiremock API
 
 ## 3. Functional Overview
 
