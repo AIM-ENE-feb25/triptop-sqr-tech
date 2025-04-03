@@ -1,10 +1,16 @@
 @startuml
 actor Developer
 
-Developer -> ActivityFactory : createBouwsteen("Activity", "Hiking", "Mountain hiking activity")
-ActivityFactory -> Activity : new Activity("Hiking", "Mountain hiking activity")
+Developer -> ActivityController : createActivity("Activity", "Voetballen met Quinn", "Ik ga quinn vies inmaken")
+ActivityController -> ActivityService : createActivity("Activity", "Voetballen met Quinn", "Ik ga quinn vies inmaken")
+ActivityService -> ActivityFactory : createBouwsteen("Activity", "Voetballen met Quinn", "Ik ga quinn vies inmaken")
+ActivityFactory -> Activity : new Activity("Voetballen met Quinn", "Ik ga quinn vies inmaken")
 
 Activity --> ActivityFactory : return Activity instance
-ActivityFactory --> Developer : return Activity instance
+ActivityFactory --> ActivityService : return Activity instance
+ActivityService -> ActivityRepository : save(Activity)
+
+database db
+ActivityRepository -> db : save(Activity)
 
 @enduml
