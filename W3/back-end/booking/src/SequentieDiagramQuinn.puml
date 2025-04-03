@@ -1,0 +1,29 @@
+    @startuml
+actor Reiziger
+participant BoekingController
+participant BoekingService
+participant IBoekingAdapter
+participant BookingComAdapter
+participant BookingComService
+participant TripadvisorAdapter
+participant TripadvisorService
+
+Reiziger -> BoekingController: nieuweBoeking(locatie, aankomst, vertrek, adapterKeuze)
+BoekingController -> BoekingService: maakBoeking(locatie, aankomst, vertrek, adapterKeuze)
+
+alt adapterKeuze = "BookingCom"
+    BoekingService -> BookingComAdapter: maakBoeking(boeking)
+    BookingComAdapter -> BookingComService: boek(boeking)
+    BookingComService --> BookingComAdapter: JSON Response
+    BookingComAdapter --> BoekingService: Resultaat
+else adapterKeuze = "Tripadvisor"
+    BoekingService -> TripadvisorAdapter: maakBoeking(boeking)
+    TripadvisorAdapter -> TripadvisorService: boek(boeking)
+    TripadvisorService --> TripadvisorAdapter: JSON Response
+    TripadvisorAdapter --> BoekingService: Resultaat
+end
+
+BoekingService --> BoekingController: Return resultaat
+BoekingController --> Reiziger: Toont resultaat
+
+@enduml
