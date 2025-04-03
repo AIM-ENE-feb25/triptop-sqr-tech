@@ -1,5 +1,5 @@
 @startuml
-title Sequence Diagram – planTransport(from, to, preference) – Volledig met returns & DB
+title Sequence Diagram – voor triptop
 
 actor User
 participant TransportPlannerController
