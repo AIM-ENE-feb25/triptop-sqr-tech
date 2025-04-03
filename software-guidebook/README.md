@@ -120,9 +120,19 @@ Rick: Open Closed Principle (OCP)
 
 ### 7.3. Design & Code
 
+**Ontwerpvraag Rick:** Hoe kunnen we het systeem uitbreiden met nieuwe types activiteiten of excursies zonder de bestaande code te veranderen?
+![img2.png](RickClassDiagram.png)
+**Ontwerpvraag Quinn:** Hoe kunnen verschillende boekingsservices (zoals Booking.com en eigen beheer in Triptop) worden geïntegreerd?
+![img.png](QuinnClassDiagram.png)
+Op het moment dat een reiziger een boeking wil doen roept hij/zij de BoekingController aan. De reiziger geeft een stad, aankomstdag en vertrekdag door en de controller roept in nieuweBoeking de boekingService aan. Die bevat een lijst van adapters en selecteert de gekozen adapter. Vervolgens wordt een van de adapters aangeroepen die dan via de Service connectie maakt met de API. 
+De data die uit de API wordt opgehaald, wordt teruggestuurd en getoond aan de gebruiker.
+
+**Ontwerpvraag Safa** Hoe maak je de applicatie uitbreidbaar met nieuwe bouwstenen? 
+![img_1.png](SafaClassDiagram.png)
+
 > [!IMPORTANT]
-> Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's
-> inclusief begeleidende tekst.
+> Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
+
 
 ## 8. Architectural Decision Records
 
