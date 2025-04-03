@@ -126,6 +126,7 @@ Rick: Open Closed Principle (OCP)
 > software.
 
 // TODO
+
 ## 7. Software Architecture
 
 ### 7.1. Containers
@@ -141,7 +142,6 @@ Rick: Open Closed Principle (OCP)
 > begeleidende tekst.
 
 ### 7.3. Design & Code
-
 **Ontwerpvraag Rick:** Hoe kunnen we het systeem uitbreiden met nieuwe types activiteiten of excursies zonder de bestaande code te veranderen?
 ![img2.png](RickClassDiagram.png)
 In dit ontwerp wordt het strategy pattern gebruikt om makkelijk verschillende vervoertypes (zoals trein, vliegtuig, auto) te ondersteunen. Elke type heeft z’n eigen klasse die dezelfde interface volgt. Zo kan het systeem met elk type hetzelfde omgaan.
@@ -156,13 +156,11 @@ Hierbij volgt mijn sequence diagram:
 ![img.png](QuinnClassDiagram.png)
 Op het moment dat een reiziger een boeking wil doen roept hij/zij de BoekingController aan. De reiziger geeft een stad, aankomstdag en vertrekdag door en de controller roept in nieuweBoeking de boekingService aan. Die bevat een lijst van adapters en selecteert de gekozen adapter. Vervolgens wordt een van de adapters aangeroepen die dan via de Service connectie maakt met de API. 
 De data die uit de API wordt opgehaald, wordt teruggestuurd en getoond aan de gebruiker.
-![img.png](QuinnClassSequenceDiagram.png)
+![img_1.png](QuinnClassSequenceDiagram.png)
 
-**Ontwerpvraag Safa** Hoe maak je de applicatie uitbreidbaar met nieuwe bouwstenen? 
-![img_1.png](SafaClassDiagram.png)
-
-> [!IMPORTANT]
-> Voeg toe: Per ontwerpvraag een Class Diagram plus een Sequence Diagram van een aantal scenario's inclusief begeleidende tekst.
+**Ontwerpvraag Safa** Hoe maak je de applicatie uitbreidbaar met nieuwe bouwstenen? // TODO
+![img.png](SafaClassDiagram.png)
+![img_1.png](../Safa/Diagrammen/img.png)
 
 ## 8. Architectural Decision Records
 
@@ -503,15 +501,11 @@ dit patroon ons biedt.
 
 ## 8.5. ADR: Verkenning van het Strategy Pattern voor vervoer tussen overnachtingen
 
-### Vraagstelling
-
-**Ontwerpvraag Rick:** Hoe kunnen we het systeem uitbreiden met nieuwe types activiteiten of excursies zonder de bestaande code te veranderen?
-
 #### Status
 
 In onderzoek — 28 maart 2025  
 **Auteur:** Rick Schoenmaker  
-**Onderdeel van:** Les 3  Vervoer tussen Overnachtingen (Triptop)
+**Onderdeel van:** Les 3 – Vervoer tussen Overnachtingen (Triptop)
 
 ---
 
