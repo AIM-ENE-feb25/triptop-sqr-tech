@@ -1,0 +1,61 @@
+@startuml
+title Sequence Diagram – planTransport(from, to, preference) – Volledig met returns & DB
+
+actor User
+participant TransportPlannerController
+participant TransportPlannerService
+participant TransportFactory
+participant TrainTransport
+participant PlaneTransport
+participant TransportRepository
+database BookingDatabase
+participant TransportTrackerService
+participant TrainService
+participant FlightService
+
+User -> TransportPlannerController : planTransport("A", "B", preference)
+TransportPlannerController -> TransportPlannerService : planTransport("A", "B", preference)
+
+TransportPlannerService -> TransportFactory : getTransportStrategy(preference)
+TransportFactory -> TrainTransport : if preference == "train"
+TransportFactory -> PlaneTransport : if preference == "plane"
+TransportFactory --> TransportPlannerService : TransportOption
+
+' === Train Flow ===
+TransportPlannerService -> TrainTransport : getRoute("A", "B") [indien train]
+TrainTransport -> TrainService : getTrainRoutes("A", "B")
+TrainService --> TrainTransport : List<Route>
+TrainTransport --> TransportPlannerService : Route
+
+TransportPlannerService -> TrainTransport : getPrice()
+TrainTransport --> TransportPlannerService : BigDecimal
+
+TransportPlannerService -> TrainTransport : book()
+TrainTransport -> TransportTrackerService : updateStatus(bookingId, status)
+TransportTrackerService --> TrainTransport : OK
+TrainTransport --> TransportPlannerService : BookingConfirmation
+
+' === Plane Flow ===
+TransportPlannerService -> PlaneTransport : getRoute("A", "B") [indien plane]
+PlaneTransport -> FlightService : getFlights("A", "B")
+FlightService --> PlaneTransport : List<Flight>
+PlaneTransport --> TransportPlannerService : Route
+
+TransportPlannerService -> PlaneTransport : getPrice()
+PlaneTransport --> TransportPlannerService : BigDecimal
+
+TransportPlannerService -> PlaneTransport : book()
+PlaneTransport -> TransportTrackerService : updateStatus(bookingId, status)
+TransportTrackerService --> PlaneTransport : OK
+PlaneTransport --> TransportPlannerService : BookingConfirmation
+
+' === Opslaan booking ===
+TransportPlannerService -> TransportRepository : saveBooking(booking)
+TransportRepository -> BookingDatabase : INSERT booking
+BookingDatabase --> TransportRepository : OK
+TransportRepository --> TransportPlannerService : void
+
+TransportPlannerService --> TransportPlannerController : BookingConfirmation
+TransportPlannerController --> User : BookingConfirmation
+
+@enduml

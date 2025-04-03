@@ -1,0 +1,31 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+SHOW_PERSON_OUTLINE()
+Person(reiziger, "Reiziger", "Een persoon die een reis plant en beheert")
+Person(reizigerA, "Reiziger Agent", "Biedt ondersteuning voor de reiziger")
+
+System_Boundary(tts, "Trip Top System") {
+    Container(fe, "Front-End", "React", "Biedt reisplanningsfunctionaliteit via webbrowser")
+    Container(fea, "Front-End", "React", "Biedt admin functionaliteit tot de reisplanningsfunctionaliteit via webbrowser")
+
+    Container(be, "Back-End", "Spring Boot", "Biedt reisplanningsfunctionaliteit via webbrowser")
+
+    Container(db, "Database", "???", "Slaat reisinformatie op")
+}
+
+Rel(reiziger, fe, "Gebruikt", "HTTPS")
+Rel(reizigerA, fea, "Gebruikt", "HTTPS")
+Rel(fe, be, "Roept aan", "JSON/HTTPS")
+Rel(fea, be, "Roept aan", "JSON/HTTPS")
+Rel(be, db, "Leest van en schrijft naar", "JDBC")
+
+System_Ext(nsapi, "NS API", "Haalt routes op van NS")
+System_Ext(ferryapi, "Ferry API", "Biedt ferry-informatie")
+System_Ext(GoogleFlightapi, "GoogleFlights API", "Biedt vluchtinformatie")
+
+Rel(be, nsapi, "Haalt routes op van")
+Rel(be, ferryapi, "Haalt info op van")
+Rel(be, GoogleFlightapi, "Haalt vluchten op van")
+
+@enduml
