@@ -617,3 +617,20 @@ gecombineerd worden met een Factory voor automatische selectie van de juiste str
 
 > [!TIP]
 > Zelf beschrijven van wat je moet doen om de software te installeren en te kunnen runnen.
+
+### 9.1. Deployment
+Om de software te kunnen installeren en te gebruiken moet je de volgende stappen doorlopen:
+1. Zorg ervoor dat je de nieuwste versie hebt van Intellij Idea met minimaal JDK 17.
+2. Download de laatste versie van de Triptop applicatie van de GitHub repository.
+3. Open de applicatie in Intellij Idea.
+4. Zorg ervoor dat je de juiste dependencies hebt geïnstalleerd. Dit kan gedaan worden door rechtsonder op load script te drukken bij het openen van het project.
+5. Start de applicatie door op de groene play button te drukken in Intellij Idea.
+6. Nu runt de applicatie op localhost:8080. Je kunt via postman de API endpoints aanroepen.
+
+### 9.2. Operation
+
+
+### 9.3. Support
+Als er problemen zijn kan je ons altijd benaderen op de volgende mail sqrtech@wijzijnzoslim.han.nl
+
+    
