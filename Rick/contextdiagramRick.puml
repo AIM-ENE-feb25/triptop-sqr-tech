@@ -1,0 +1,46 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+SHOW_PERSON_OUTLINE()
+
+title Contextdiagram voor Trip Top
+
+Person(reiziger, "Reiziger", "Een gebruiker die een reis wil plannen of beheren")
+Person(reizigerA, "Reiziger Agent", "Ondersteunt reizigers bij het plannen van hun reizen")
+
+System(tts, "Trip Top", "Platform voor het plannen en organiseren van reizen")
+
+System_Boundary(accommodatie, "Accommodatiepartners") {
+    System_Ext(bookingCom, "Booking.com", "Externe boekingssite voor accommodaties")
+    System_Ext(airbnb, "Airbnb", "Service voor het boeken van particuliere verblijven")
+}
+
+System_Boundary(vervoer, "Vervoersdiensten") {
+    System_Ext(googleFlights, "Google flights", "vluchtplanner")
+    System_Ext(ns, "NS", "Aanbieder van treinvervoer")
+}
+
+System_Boundary(act, "Activiteitenaanbieders") {
+    System_Ext(tripAdvisor, "TripAdvisor", "Platform voor het ontdekken van activiteiten")
+    System_Ext(gyg, "GetYourGuide", "Service voor het boeken van tours en activiteiten")
+}
+
+System_Boundary(autoVerhuur, "Autoverhuur Partners") {
+    System_Ext(sixt, "Sixt", "Autoverhuurbedrijf")
+    System_Ext(hertz, "Hertz", "Internationaal autoverhuurplatform")
+}
+
+System_Ext(ip, "Identity Provider", "Zorgt voor authenticatie zodat gebruikers niet overal apart hoeven in te loggen")
+
+Rel(reiziger, tts, "Gebruikt om reizen samen te stellen en te beheren")
+Rel(reizigerA, tts, "Helpt gebruikers bij het gebruik van Trip Top")
+Rel(tts, bookingCom, "Integreert met voor het boeken van accommodaties")
+Rel(tts, airbnb, "Gebruikt voor het zoeken naar accommodaties")
+Rel(tts, googleFlights, "Haalt routegegevens op via")
+Rel(tts, ns, "Maakt reserveringen voor treinreizen via")
+Rel(tts, ip, "Controleert identiteit van de gebruiker via")
+Rel(tts, tripAdvisor, "Ontvangt informatie over activiteiten van")
+Rel(tts, gyg, "Maakt verbinding met voor activiteiten")
+Rel(tts, sixt, "Boekt huurauto's via")
+Rel(tts, hertz, "Integreert met voor autoverhuur")
+
+@enduml
