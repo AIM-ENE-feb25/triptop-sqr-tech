@@ -15,7 +15,7 @@ System_Boundary(accommodatie, "Accommodatiepartners") {
 }
 
 System_Boundary(vervoer, "Vervoersdiensten") {
-    System_Ext(googleMaps, "Google Maps", "Route- en locatieplanner")
+    System_Ext(googleFlights, "Google flights", "vluchtplanner")
     System_Ext(ns, "NS", "Aanbieder van treinvervoer")
 }
 
@@ -35,7 +35,7 @@ Rel(reiziger, tts, "Gebruikt om reizen samen te stellen en te beheren")
 Rel(reizigerA, tts, "Helpt gebruikers bij het gebruik van Trip Top")
 Rel(tts, bookingCom, "Integreert met voor het boeken van accommodaties")
 Rel(tts, airbnb, "Gebruikt voor het zoeken naar accommodaties")
-Rel(tts, googleMaps, "Haalt routegegevens op via")
+Rel(tts, googleFlights, "Haalt routegegevens op via")
 Rel(tts, ns, "Maakt reserveringen voor treinreizen via")
 Rel(tts, ip, "Controleert identiteit van de gebruiker via")
 Rel(tts, tripAdvisor, "Ontvangt informatie over activiteiten van")

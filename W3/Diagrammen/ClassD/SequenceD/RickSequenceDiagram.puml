@@ -1,44 +1,61 @@
 @startuml
-title Sequence Diagram – Plan Transport (algemene versie, Strategy Pattern)
+title Sequence Diagram – planTransport(from, to, preference) – Volledig met returns & DB
 
-actor Gebruiker
-
+actor User
 participant TransportPlannerController
 participant TransportPlannerService
 participant TransportFactory
-participant ConcreteTransportStrategy as "TransportStrategy (bijv. Auto/Boot/Trein)"
-participant TransportService as "Service voor externe API (bijv. NS/KLM/Ferry)"
+participant TrainTransport
+participant PlaneTransport
 participant TransportRepository
-database Database
+database BookingDatabase
 participant TransportTrackerService
+participant TrainService
+participant FlightService
 
-Gebruiker -> TransportPlannerController : planTransport("A", "B", "voorkeur")
-TransportPlannerController -> TransportPlannerService : planTransport("A", "B", "voorkeur")
+User -> TransportPlannerController : planTransport("A", "B", preference)
+TransportPlannerController -> TransportPlannerService : planTransport("A", "B", preference)
 
-TransportPlannerService -> TransportFactory : getTransportStrategy("voorkeur")
-TransportFactory -> ConcreteTransportStrategy : create instance
+TransportPlannerService -> TransportFactory : getTransportStrategy(preference)
+TransportFactory -> TrainTransport : if preference == "train"
+TransportFactory -> PlaneTransport : if preference == "plane"
 TransportFactory --> TransportPlannerService : TransportOption
 
-TransportPlannerService -> ConcreteTransportStrategy : getRoute("A", "B")
-ConcreteTransportStrategy -> TransportService : haal routegegevens op
-TransportService --> ConcreteTransportStrategy : List<Route>
-ConcreteTransportStrategy --> TransportPlannerService : Route
+' === Train Flow ===
+TransportPlannerService -> TrainTransport : getRoute("A", "B") [indien train]
+TrainTransport -> TrainService : getTrainRoutes("A", "B")
+TrainService --> TrainTransport : List<Route>
+TrainTransport --> TransportPlannerService : Route
 
-TransportPlannerService -> ConcreteTransportStrategy : getPrice()
-ConcreteTransportStrategy --> TransportPlannerService : prijs
+TransportPlannerService -> TrainTransport : getPrice()
+TrainTransport --> TransportPlannerService : BigDecimal
 
-TransportPlannerService -> ConcreteTransportStrategy : book()
-ConcreteTransportStrategy --> TransportPlannerService : BookingConfirmation
+TransportPlannerService -> TrainTransport : book()
+TrainTransport -> TransportTrackerService : updateStatus(bookingId, status)
+TransportTrackerService --> TrainTransport : OK
+TrainTransport --> TransportPlannerService : BookingConfirmation
 
+' === Plane Flow ===
+TransportPlannerService -> PlaneTransport : getRoute("A", "B") [indien plane]
+PlaneTransport -> FlightService : getFlights("A", "B")
+FlightService --> PlaneTransport : List<Flight>
+PlaneTransport --> TransportPlannerService : Route
+
+TransportPlannerService -> PlaneTransport : getPrice()
+PlaneTransport --> TransportPlannerService : BigDecimal
+
+TransportPlannerService -> PlaneTransport : book()
+PlaneTransport -> TransportTrackerService : updateStatus(bookingId, status)
+TransportTrackerService --> PlaneTransport : OK
+PlaneTransport --> TransportPlannerService : BookingConfirmation
+
+' === Opslaan booking ===
 TransportPlannerService -> TransportRepository : saveBooking(booking)
-TransportRepository -> Database : INSERT booking
-Database --> TransportRepository : OK
-TransportRepository --> TransportPlannerService : confirmed
-
-TransportPlannerService -> TransportTrackerService : updateStatus(bookingId, status)
-TransportTrackerService --> TransportPlannerService : statusUpdated
+TransportRepository -> BookingDatabase : INSERT booking
+BookingDatabase --> TransportRepository : OK
+TransportRepository --> TransportPlannerService : void
 
 TransportPlannerService --> TransportPlannerController : BookingConfirmation
-TransportPlannerController --> Gebruiker : Bevestiging + prijs + route
+TransportPlannerController --> User : BookingConfirmation
 
 @enduml

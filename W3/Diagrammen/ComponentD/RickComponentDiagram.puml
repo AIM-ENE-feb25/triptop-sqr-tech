@@ -1,56 +1,49 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+LAYOUT_WITH_LEGEND()
+title Component Diagram – Transportmodule Triptop (Train & Plane Strategy)
 
-title Component Diagram – Transportmodule Triptop (Strategy Pattern)
-
-' Actor
 Person(user, "Gebruiker", "Gebruikt Triptop om vervoer tussen overnachtingen te plannen")
 
-System_Boundary(transportSystem, "Transport System") {
+' Container waarbinnen de componenten bestaan
+Container_Boundary(app, "Triptop Application") {
 
   ' Controllers
-  Container(controller, "TransportPlannerController", "Java", "Verwerkt gebruikersaanvragen en plant vervoer tussen overnachtingen")
+  Component(controller, "TransportPlannerController", "Java", "Verwerkt gebruikersaanvragen en plant vervoer tussen overnachtingen")
 
   ' Services (businesslogica)
-  Container(service, "TransportPlannerService", "Java", "Bevat logica om vervoersstrategie te selecteren en toe te passen")
+  Component(service, "TransportPlannerService", "Java", "Bevat logica om vervoersstrategie te selecteren en toe te passen")
 
   ' Factory
-  Container(factory, "TransportFactory", "Java", "Levert juiste transportstrategie op basis van invoer (bijv. voorkeur of afstand)")
+  Component(factory, "TransportFactory", "Java", "Levert juiste transportstrategie op basis van invoer (bijv. voorkeur of afstand)")
 
   ' Transportstrategie-interface
-  Container(interface, "TransportOption (interface)", "Java Interface", "Bepaalt gedrag voor getRoute(), getPrice() en book()")
+  Component(interface, "TransportOption (interface)", "Java Interface", "Bepaalt gedrag voor getRoute(), getPrice() en book()")
 
   ' Concrete strategieën (implementaties)
-  Container(car, "CarTransport", "Java", "Implementeert vervoer per auto")
-  Container(train, "TrainTransport", "Java", "Implementeert vervoer per trein")
-  Container(boat, "BoatTransport", "Java", "Implementeert vervoer per boot")
-  Container(plane, "PlaneTransport", "Java", "Implementeert vervoer per vliegtuig")
+  Component(train, "TrainTransport", "Java", "Implementeert vervoer per trein")
+  Component(plane, "PlaneTransport", "Java", "Implementeert vervoer per vliegtuig")
 
   ' Opslag en tracking
-  Container(repo, "TransportRepository", "Java", "Slaat transportstatus en boekingsgegevens op")
-  Container(tracker, "TransportTrackerService", "Java", "Stuurt statuswijzigingen door en houdt voortgang bij")
-
-  ' Database
-  ContainerDb(database, "Database", "Relationale database", "Slaat routes, boekingen en transportstatus op")
+  Component(repo, "TransportRepository", "Java", "Slaat transportstatus en boekingsgegevens op")
+  Component(tracker, "TransportTrackerService", "Java", "Stuurt statuswijzigingen door en houdt voortgang bij")
 }
 
-' Externe services (buiten het systeem!)
+' Database
+ContainerDb(database, "Database", "Relationale database", "Slaat routes, boekingen en transportstatus op")
+
+' Externe services (buiten het systeem! alleen wat nodig is)
 Container_Ext(nsapi, "NS API", "Extern systeem", "Levert treinverbindingen en prijzen")
-Container_Ext(klmapi, "KLM API", "Extern systeem", "Levert vluchten en prijzen")
-Container_Ext(ferryapi, "Ferry API", "Extern systeem", "Levert vaartijden en tarieven voor boten")
+Container_Ext(googleflightsapi, "googleflights API", "Extern systeem", "Levert vluchten en prijzen")
 
 ' Relaties
 Rel(user, controller, "vraagt vervoer aan via planTransport(from, to)")
 Rel(controller, service, "stuurt aanvraag naar")
 Rel(service, factory, "vraagt juiste strategie op via")
-Rel(factory, car, "levert concrete strategie")
 Rel(factory, train, "levert concrete strategie")
-Rel(factory, boat, "levert concrete strategie")
 Rel(factory, plane, "levert concrete strategie")
 
-Rel(car, interface, "implementeert")
 Rel(train, interface, "implementeert")
-Rel(boat, interface, "implementeert")
 Rel(plane, interface, "implementeert")
 Rel(service, interface, "gebruikt via interface")
 
@@ -58,13 +51,10 @@ Rel(service, repo, "slaat gegevens op in")
 Rel(repo, database, "leest/schrijft transportdata")
 Rel(service, tracker, "stuurt statusupdates naar")
 
-Rel(car, tracker, "meldt status aan")
 Rel(train, tracker, "meldt status aan")
-Rel(boat, tracker, "meldt status aan")
 Rel(plane, tracker, "meldt status aan")
 
 Rel(train, nsapi, "haalt routes op van NS API")
-Rel(boat, ferryapi, "haalt info op van Ferry API")
-Rel(plane, klmapi, "haalt vluchten op van KLM API")
+Rel(plane, googleflightsapi, "haalt vluchten op van googleflights API")
 
 @enduml

@@ -14,7 +14,7 @@ System_Boundary(accommodatie, "Overnachting Provider") {
 }
 
 System_Boundary(vervoer, "Vervoer Provider") {
-    System_Ext(dapi, "Distance API", "API voor data om afstanden te krijgen")
+    System_Ext(dapi, "GoogleFLights API", "API voor data om vluchten te krijgen")
     System_Ext(ns, "NS", "Hulpmiddel voor treinreizen te boeken")
 }
 

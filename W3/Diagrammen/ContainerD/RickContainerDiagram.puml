@@ -22,10 +22,10 @@ Rel(be, db, "Leest van en schrijft naar", "JDBC")
 
 System_Ext(nsapi, "NS API", "Haalt routes op van NS")
 System_Ext(ferryapi, "Ferry API", "Biedt ferry-informatie")
-System_Ext(klmapi, "KLM API", "Biedt vluchtinformatie")
+System_Ext(GoogleFlightapi, "GoogleFlights API", "Biedt vluchtinformatie")
 
 Rel(be, nsapi, "Haalt routes op van")
 Rel(be, ferryapi, "Haalt info op van")
-Rel(be, klmapi, "Haalt vluchten op van")
+Rel(be, GoogleFlightapi, "Haalt vluchten op van")
 
 @enduml
