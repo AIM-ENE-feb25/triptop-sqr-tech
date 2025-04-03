@@ -18,9 +18,7 @@
 </div>
 
 <script>
-    // Event listener voor BookingCom knop
     $("#bookingComButton").click(function() {
-        // Bouw de querystring handmatig
         var queryString = "?locatie=-2092174&aankomst=2025-04-05&vertrek=2025-04-10&adapterKeuze=BookingCom";
         $.get("/api/booking" + queryString)
             .done(function(response) {
@@ -31,9 +29,7 @@
             });
     });
 
-    // Event listener voor Tripadviser knop
     $("#tripadviserButton").click(function() {
-        // Bouw de querystring handmatig
         var queryString = "?locatie=188590&aankomst=2025-04-05&vertrek=2025-07-17&adapterKeuze=Tripadvisor";
         $.get("/api/booking" + queryString)
             .done(function(response) {

@@ -1,4 +1,4 @@
-package com.example.booking;
+package com.example.booking.Domain;
 
 public class Boeking {
     private String locatie;
@@ -23,4 +23,3 @@ public class Boeking {
         return vertrekDatum;
     }
 }
-

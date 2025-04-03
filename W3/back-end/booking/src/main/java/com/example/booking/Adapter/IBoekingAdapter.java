@@ -1,6 +1,7 @@
-package com.example.booking.Service;
+package com.example.booking.Adapter;
 
-import com.example.booking.Boeking;
+
+import com.example.booking.Domain.Boeking;
 
 public interface IBoekingAdapter {
     String maakBoeking(Boeking boeking);

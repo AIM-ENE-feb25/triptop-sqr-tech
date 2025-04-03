@@ -1,8 +1,8 @@
 package com.example.booking.Adapter;
 
 import com.example.booking.API.BookingComService;
-import com.example.booking.Boeking;
-import com.example.booking.Service.IBoekingAdapter;
+
+import com.example.booking.Domain.Boeking;
 import org.springframework.stereotype.Component;
 
 @Component

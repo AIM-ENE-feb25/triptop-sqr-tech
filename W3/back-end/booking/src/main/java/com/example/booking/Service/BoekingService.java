@@ -1,7 +1,9 @@
 package com.example.booking.Service;
 
 
-import com.example.booking.Boeking;
+
+import com.example.booking.Adapter.IBoekingAdapter;
+import com.example.booking.Domain.Boeking;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +19,8 @@ public class BoekingService {
     public String maakBoeking(String locatie, String aankomst, String vertrek, String adapterKeuze) {
         for (IBoekingAdapter adapter : adapters) {
             if (adapter.getNaam().equalsIgnoreCase(adapterKeuze)) {
-                return adapter.maakBoeking(new Boeking(locatie, aankomst, vertrek));
+                Boeking boeking =  new Boeking(locatie, aankomst, vertrek);
+                return adapter.maakBoeking(boeking);
             }
         }
         return "Adapter niet gevonden";

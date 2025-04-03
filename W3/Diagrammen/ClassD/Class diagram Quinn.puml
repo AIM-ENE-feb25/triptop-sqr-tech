@@ -6,58 +6,56 @@ title Class diagram voor ontwerpvraag Quinn
 
 
 interface IBoekingAdapter {
-    + maakBoeking(boeking: Boeking): bool
+    + maakBoeking(boeking: Boeking): String
     + getNaam(): String
 }
 
 class BookingComService {
-    + book(data: Boeking): bool
+    + boek(locatie: String, aankomst: String, vertrek: String): String
 }
 
 
 class BookingComAdapter implements IBoekingAdapter {
-    - bookingCom: BookingComService
-    + maakBoeking(boeking: Boeking): bool
+    - bookingComService: BookingComService
+    + maakBoeking(boeking: Boeking): String
     + getNaam(): String
 }
 
 class TripadviserService {
-    + book(data: Boeking): bool
+    + boek(locatie: String, aankomst: String, vertrek: String): String
 }
 
 
 class TripadviserAdapter implements IBoekingAdapter {
     - tripadviser: TripadviserService
-    + maakBoeking(boeking: Boeking): bool
+    + maakBoeking(boeking: Boeking): String
     + getNaam(): String
 }
-
-
-class BoekingRepository {
-    - boekingen: List<Boeking>
-    + voegToe(boeking: Boeking)
-    + getAlleBoekingen(): List<Boeking>
-    + zoekBoekingOpId(id: int): Boeking
+class Boeking {
+    - locatie: String
+    - aankomstDatum: String
+    - vertrekDatum: String
+    + getLocatie(): String
+    + getAankomstDatum(): String
+    + getVertrekDatum(): String
 }
 
 class BoekingService {
-    - repository: BoekingRepository
     - adapters: List<IBoekingAdapter>
     + maakBoeking(boeking: Boeking): bool
-    + haalAlleBoekingenOp(): List<Boeking>
 }
 
 class BoekingController {
     - service: BoekingService
     + nieuweBoeking(boeking: Boeking)
-    + toonAlleBoekingen()
 }
 
 TripadviserAdapter --> TripadviserService
 BookingComAdapter --> BookingComService
-
-BoekingService --> IBoekingAdapter
-BoekingService --> BoekingRepository
 BoekingService <-- BoekingController
+BoekingService --> IBoekingAdapter
+BookingComAdapter --> Boeking
+TripadviserAdapter --> Boeking
+
 @enduml
 
