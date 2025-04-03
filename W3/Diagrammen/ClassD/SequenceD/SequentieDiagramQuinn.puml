@@ -4,20 +4,29 @@
 actor Reiziger
 participant BoekingController
 participant BoekingService
-participant BoekingRepository
+participant IBoekingAdapter
 participant BookingComAdapter
 participant BookingComService
 participant TripadvisorAdapter
 participant TripadvisorService
 
-Reiziger -> BoekingController: nieuweBoeking(boeking)
-BoekingController -> BoekingService: maakBoeking(boeking)
-BoekingService -> BoekingRepository: voegToe(boeking)
-BoekingService -> BookingComAdapter: maakBoeking(boeking)
-BookingComAdapter -> BookingComService: book(boeking)
-BoekingService -> TripadvisorAdapter: maakBoeking(boeking)
-TripadvisorAdapter -> TripadvisorService: book(boeking)
-BoekingService -> BoekingController: Returnt resultaat
-BoekingController -> Reiziger: "Boeking succesvol!"
+Reiziger -> BoekingController: nieuweBoeking(locatie, aankomst, vertrek, adapterKeuze)
+BoekingController -> BoekingService: maakBoeking(locatie, aankomst, vertrek, adapterKeuze)
+
+alt adapterKeuze = "BookingCom"
+    BoekingService -> BookingComAdapter: maakBoeking(boeking)
+    BookingComAdapter -> BookingComService: boek(boeking)
+    BookingComService --> BookingComAdapter: JSON Response
+    BookingComAdapter --> BoekingService: Resultaat
+else adapterKeuze = "Tripadvisor"
+    BoekingService -> TripadvisorAdapter: maakBoeking(boeking)
+    TripadvisorAdapter -> TripadvisorService: boek(boeking)
+    TripadvisorService --> TripadvisorAdapter: JSON Response
+    TripadvisorAdapter --> BoekingService: Resultaat
+end
+
+BoekingService --> BoekingController: Return resultaat
+BoekingController --> Reiziger: Toont resultaat
+
 
 @enduml
