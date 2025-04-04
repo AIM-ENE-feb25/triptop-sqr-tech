@@ -129,10 +129,16 @@ kwaliteitsattributen benoemd als belangrijk:
 
 ### 7.1. Containers
 ![img_1.png](ContainerDiagram.png)
-
+Dit is onze container diagram die laat zien hoe de algehele applicatie staat met derest van de (externe) systemen en gebruikers (reiziger en reis agent).
+De reiziger en Reis agent praat dan via de front-end met de back-end. De back-end maakt gebruik van de verschillende API's om de data op te halen en deze weer te geven aan de gebruiker.
+Bouwstenen worden in de toekomst toegevoegd aan een reis en vervolgens wordt 1 hele reis opgeslagen in de database.
 
 ### 7.2. Components
 ![img_2.png](ComponentDiagram.png)
+Dit is onze component diagram hier zie je hoe de verschillende prototypes zijn samengevoegd in 1 component diagram. 
+Hierin kan je ook terug zien wie met welke api staat verbonden. In de toekomst is het de bedoeling ook excursies ook te kunnen opslaan en overnachtingen.
+> Belangrijk hier terug te zien is dat de bouwstenen aanmaken flow hier is samengevoegd aan 1 flow die bouwsteen aanmaakt. Maar op diepere niveau zie je terug dat dit uit elkaar is gehaald.
+
 ![img_3.png](ComponentDynamicDiagram.png)
 Als de applicatie af zou zijn zou je een kaartje kunnen kopen via de NS API. De treinservice maakt vervolgens een transport bouwsteen aan via de factory.
 Tot slot wordt de bouwsteen dan opgeslagen in de database. De controller maakt gebruik van de service om de bouwsteen op te halen en deze weer te geven aan de gebruiker.
@@ -142,7 +148,6 @@ Tot slot wordt de bouwsteen dan opgeslagen in de database. De controller maakt g
 **Ontwerpvraag Rick:** Hoe kunnen we het systeem uitbreiden met nieuwe types activiteiten of excursies zonder de bestaande code te veranderen?
 ![img2.png](RickClassDiagram.png)
 In dit ontwerp wordt het strategy pattern gebruikt om makkelijk verschillende vervoertypes (zoals trein, vliegtuig, auto) te ondersteunen. Elke type heeft z’n eigen klasse die dezelfde interface volgt. Zo kan het systeem met elk type hetzelfde omgaan.
-
 Ik heb dit opgelost door een factory te gebruiken die op basis van een voorkeur (bijvoorbeeld "train" of "flight") de juiste klasse kiest. Daardoor hoef ik niets in de bestaande code aan te passen als ik een nieuw type wil toevoegen. Ik maak gewoon een nieuwe klasse aan en voeg die toe in de factory.
 
 Het systeem is dus makkelijk uitbreidbaar zonder dat ik iets hoef te veranderen aan wat er al is.
@@ -160,8 +165,6 @@ De data die uit de API wordt opgehaald, wordt teruggestuurd en getoond aan de ge
 In dit ontwerp wordt het factory method pattern gebruikt om makkelijk verschillende bouwstenen (zoals overnachtingen, vervoer, excursies) te kunnen maken. Ik maak gebruik van 2 abstracte classes. De Bouwsteen class is de abstracte klasse die de basisfunctionaliteit van een bouwsteen definieert. De BouwsteenFactory class is verantwoordelijk voor het maken van de juiste bouwsteen op basis van de input. 
 ![img_1.png](../Safa/Diagrammen/img.png)
 De sequence diagram geeft de flow weer hoe je via de factory een activity bouwsteen aanmaakt. De gebruiker geeft een activiteit door en de controller roept de factory aan. Uiteindelijk wordt de activiteit opgeslagen in de database.
-
-
 
 ## 8. Architectural Decision Records
 
@@ -321,19 +324,17 @@ opgehaald via de betreffende externe API.
   Dit kan invloed hebben op de snelheid van bepaalde onderdelen van de applicatie, vooral bij
   meerdere opeenvolgende API-aanroepen.
 
-### 8.3. ADR: Gebruik van Factory Method voor uitbreidbare bouwstenen
+### 8.3. ADR: Kiezen design pattern voor vraag: Applicatie uitbreidbaar met verschillende bouwstenen.
 
 **Datum:** 2025-03-21
+**Safa**
 
 #### Context
 
-Binnen het Triptop-project willen we een systeem ontwerpen waarin gebruikers hun reis kunnen
+Binnen het Triptop-prototype willen we een systeem ontwerpen waarin gebruikers hun reis kunnen
 opbouwen uit verschillende bouwstenen, zoals overnachtingen, vervoer, excursies, enzovoort. Eén van
 de belangrijkste eisen is dat dit systeem **gemakkelijk uitbreidbaar** moet zijn met nieuwe soorten
-bouwstenen in de toekomst, zonder dat bestaande code herschreven hoeft te worden.
-
-We willen deze uitbreidbaarheid op een nette, onderhoudbare manier realiseren. Dit betekent: lage
-koppeling tussen componenten, herbruikbaarheid van code, en het vermijden van duplicatie.
+bouwstenen in de toekomst, zonder dat bestaande code veranderd hoeft te worden.
 
 Deze ontwerpbeslissing speelt zich af in de context van het quality attribute **modifiability**,
 waarbij het belangrijk is dat nieuwe functionaliteit eenvoudig toegevoegd kan worden, zonder
@@ -363,7 +364,7 @@ We hebben verschillende design patterns overwogen om deze uitbreidbaarheid te re
 
 - **Factory Method Pattern**: Dit patroon biedt een manier om objecten te creëren zonder direct
   afhankelijk te zijn van hun concrete klassen. Nieuwe objecttypen kunnen eenvoudig toegevoegd
-  worden door een subklasse toe te voegen zonder de bestaande fabriek of clientcode aan te passen.
+  worden door een subklasse toe te voegen zonder de bestaande fabriek of src code aan te passen.
 
 ---
 
@@ -373,7 +374,7 @@ We kiezen voor het **Factory Method Pattern** om de creatie van bouwstenen te st
 maakt het mogelijk om nieuwe typen bouwstenen (zoals bijvoorbeeld een 'Wellness-arrangement' of '
 Lokale gids') toe te voegen zonder bestaande code te hoeven aanpassen.
 
-We implementeren een centrale `BouwsteenFactory`, die bepaalt welk type object wordt aangemaakt op
+We implementeren een centrale `BuildingBlockFactory`, die bepaalt welk type object wordt aangemaakt op
 basis van input (bijvoorbeeld type, locatie of ID). Elke bouwsteensoort krijgt zijn eigen klasse die
 een gedeelde interface implementeert. Deze aanpak sluit goed aan op onze behoefte aan flexibiliteit
 en schaalbaarheid.
@@ -392,16 +393,17 @@ De keuze voor het Factory Method Pattern heeft de volgende gevolgen:
 
 - **Positief**:
     - De applicatie wordt makkelijker uit te breiden met nieuwe bouwstenen.
-    - We houden de codebase modulair en overzichtelijk.
+    - We houden de src code overzichtelijk.
     - Bestaande functionaliteit blijft intact bij uitbreidingen.
 
 - **Negatief**:
-    - Er moet voor elke nieuwe bouwsteensoort een aparte klasse worden gemaakt.
+    - Er moet voor elke nieuwe bouwsteensoort een aparte klasse(controller, service en repository) worden gemaakt.
     - De introductie van extra abstracties (zoals een interface en subklassen) kan de leercurve voor
       nieuwe ontwikkelaars iets verhogen.
 
-Al met al wegen de voordelen van flexibiliteit, loskoppeling en onderhoudbaarheid zwaarder dan de
-extra complexiteit.
+### Conclusie
+
+- Terugkijkende naar deze ADR, was mijn keuze terecht. Het is niet al te moeilijke flow, om nieuwe bouwstenen toevoegen aan de applicatie. 
 
 ---
 
@@ -409,6 +411,8 @@ extra complexiteit.
 
 - [Refactoring Guru – Factory Method](https://refactoring.guru/design-patterns/factory-method)
 - [Software-Design-Patterns.pptx (SOEX)](https://aim-ene.github.io/soex/assets/files/Software-Design-Patterns-0d2fdea120bb6494d39f949233e45cc5.pptx)
+
+---
 
 ### 8.4. ADR-004: Integratie van boekingsservices via Adapter Pattern
 
