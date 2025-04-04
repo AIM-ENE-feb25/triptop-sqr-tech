@@ -21,13 +21,13 @@ class BookingComAdapter implements IBoekingAdapter {
     + getNaam(): String
 }
 
-class TripadviserService {
+class TripadvisorService {
     + boek(locatie: String, aankomst: String, vertrek: String): String
 }
 
 
-class TripadviserAdapter implements IBoekingAdapter {
-    - tripadviser: TripadviserService
+class TripadvisorAdapter implements IBoekingAdapter {
+    - tripadvisor: TripadvisorService
     + maakBoeking(boeking: Boeking): String
     + getNaam(): String
 }
@@ -50,12 +50,12 @@ class BoekingController {
     + nieuweBoeking(boeking: Boeking)
 }
 
-TripadviserAdapter --> TripadviserService
+TripadvisorAdapter --> TripadvisorService
 BookingComAdapter --> BookingComService
 BoekingService <-- BoekingController
 BoekingService --> IBoekingAdapter
 BookingComAdapter --> Boeking
-TripadviserAdapter --> Boeking
+TripadvisorAdapter --> Boeking
 
 @enduml
 
