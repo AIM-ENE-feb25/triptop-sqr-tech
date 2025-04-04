@@ -13,28 +13,23 @@ System_Boundary(tts, "Trip Top System") {
 
     Container(be, "Back-End", "Spring Boot", "Behandelt alle businesslogica, communicatie met externe APIs en opslag van gegevens")
 
-    Container(db, "Database", "PostgreSQL", "Slaat reisinformatie, boekingen en gebruikersdata op")
+    ContainerDb(db, "Database", "H2", "Slaat reisinformatie, boekingen en gebruikersdata op")
 }
 
-' === Externe systemen ===
 System_Ext(bapi, "Booking API", "Booking API ")
 System_Ext(trapi, "Tripadviser API", "Tripadviser API")
 
 System_Ext(nsapi, "NS API", "Treinreisinformatie van de Nederlandse Spoorwegen")
 System_Ext(googleflightsapi, "Google Flights API", "Vluchtreisinformatie via RapidAPI")
 
-' === Gebruiker interacties ===
 Rel(reiziger, fe, "Gebruikt", "HTTPS")
 Rel(reizigerA, fea, "Gebruikt", "HTTPS")
 
-' === Front-end naar back-end ===
 Rel(fe, be, "Roept aan", "JSON/HTTPS")
 Rel(fea, be, "Roept aan", "JSON/HTTPS")
 
-' === Back-end naar database ===
 Rel(be, db, "Leest van en schrijft naar", "JDBC")
 
-' === Back-end naar externe systemen ===
 Rel(be, trapi, "Haalt hoteldata op van", "JSON/HTTPS")
 Rel(be, bapi, "Haalt verblijfdata op van", "JSON/HTTPS")
 Rel(be, nsapi, "Haalt treinreisinformatie op van", "JSON/HTTPS")

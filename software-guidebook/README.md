@@ -114,17 +114,14 @@ kwaliteitsattributen benoemd als belangrijk:
 ## 5. Constraints
 ### Hoeft niet
 
-// TODO
 ## 6. Principles
 
 Quinn: Dependency Inversion Principle (DIP)
 Safa: Open Closed Principle (OCP)
 Rick: Open Closed Principle (OCP)
-
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de
 > software.
-
 // TODO
 
 ## 7. Software Architecture
@@ -132,14 +129,14 @@ Rick: Open Closed Principle (OCP)
 ### 7.1. Containers
 ![img_1.png](ContainerDiagram.png)
 > [!IMPORTANT]
-> Voeg toe: Container Diagram plus een Dynamic Diagram van een aantal scenario's inclusief
-> begeleidende tekst.
+
 
 ### 7.2. Components
 ![img_2.png](ComponentDiagram.png)
-> [!IMPORTANT]
-> Voeg toe: Component Diagram plus een Dynamic Diagram van een aantal scenario's inclusief
-> begeleidende tekst.
+![img_3.png](ComponentDynamicDiagram.png)
+Als de applicatie af zou zijn zou je een kaartje kunnen kopen via de NS API. De treinservice maakt vervolgens een transport bouwsteen aan via de factory.
+Tot slot wordt de bouwsteen dan opgeslagen in de database. De controller maakt gebruik van de service om de bouwsteen op te halen en deze weer te geven aan de gebruiker.
+ 
 
 ### 7.3. Design & Code
 **Ontwerpvraag Rick:** Hoe kunnen we het systeem uitbreiden met nieuwe types activiteiten of excursies zonder de bestaande code te veranderen?
@@ -161,6 +158,7 @@ De data die uit de API wordt opgehaald, wordt teruggestuurd en getoond aan de ge
 **Ontwerpvraag Safa** Hoe maak je de applicatie uitbreidbaar met nieuwe bouwstenen? // TODO
 ![img.png](SafaClassDiagram.png)
 ![img_1.png](../Safa/Diagrammen/img.png)
+//TODO
 
 ## 8. Architectural Decision Records
 
