@@ -153,7 +153,7 @@ Hierbij volgt mijn sequence diagram:
 ![img.png](img.png)
 
 **Ontwerpvraag Quinn:** Hoe kunnen verschillende boekingsservices (zoals Booking.com en eigen beheer in Triptop) worden geïntegreerd?
-![img.png](QuinnClassDiagram.png)
+![img_1.png](QuinnClassDiagram.png)
 Op het moment dat een reiziger een boeking wil doen roept hij/zij de BoekingController aan. De reiziger geeft een stad, aankomstdag en vertrekdag door en de controller roept in nieuweBoeking de boekingService aan. Die bevat een lijst van adapters en selecteert de gekozen adapter. Vervolgens wordt een van de adapters aangeroepen die dan via de Service connectie maakt met de API. 
 De data die uit de API wordt opgehaald, wordt teruggestuurd en getoond aan de gebruiker.
 ![img_1.png](QuinnClassSequenceDiagram.png)
