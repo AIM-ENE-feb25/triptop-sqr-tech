@@ -116,9 +116,14 @@ kwaliteitsattributen benoemd als belangrijk:
 
 ## 6. Principles
 
-Quinn: Dependency Inversion Principle (DIP)
-Safa: Open Closed Principle (OCP)
-Rick: Open Closed Principle (OCP)
+- Quinn: Dependency Inversion Principle (DIP)
+  - VUL AAN
+
+- Safa: Open Closed Principle (OCP)
+  - De applicatie is zo ontworpen dat het makkelijk is om nieuwe bouwstenen toe te voegen zonder bestaande code te veranderen het is zo gemaakt dat de applicatie makkelijk uitbreidbaar is met meerdere bouwstenen.
+
+- Rick: Open Closed Principle (OCP)
+  - VUL AAN
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de
 > software.
@@ -128,7 +133,6 @@ Rick: Open Closed Principle (OCP)
 
 ### 7.1. Containers
 ![img_1.png](ContainerDiagram.png)
-> [!IMPORTANT]
 
 
 ### 7.2. Components
