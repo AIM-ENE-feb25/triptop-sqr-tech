@@ -117,7 +117,7 @@ kwaliteitsattributen benoemd als belangrijk:
 ## 6. Principles
 
 - Quinn: Dependency Inversion Principle (DIP)
-  - VUL AAN
+  - Ik heb mijn prototype gebouwd door gebruik van het DIP. Ik werk met adapters en beide API's worden daardoor met behulp van de IBoekingAdapter inferface. De boekingService is nu alleen afhankelijk van de abstractie. 
 
 - Safa: Open Closed Principle (OCP)
   - De applicatie is zo ontworpen dat het makkelijk is om nieuwe bouwstenen toe te voegen zonder bestaande code te veranderen het is zo gemaakt dat de applicatie makkelijk uitbreidbaar is met meerdere bouwstenen.
