@@ -82,15 +82,15 @@ hotelketen etc.) zodat ik mijn reis helemaal kan aanpassen aan mijn wensen.
 
 ### 3.2 Domain Story Reis Boeken (AS IS)
 
-![Domain Story Reis Boeken AS IS](../../W1%20en%20W2/opdracht-diagrammen/reis-boeken-asis-coursegrained_2024-06-11.egn.svg)
+![Domain Story Reis Boeken AS IS](../opdracht-diagrammen/reis-boeken-asis-coursegrained_2024-06-11.egn.svg)
 
 ### 3.3 Domain Story Reis Boeken (TO BE)
 
-![Domain Story Reis Boeken TO BE](../../W1%20en%20W2/opdracht-diagrammen/reis-boeken-tobe-coursegrained_2024-06-11.egn.svg)
+![Domain Story Reis Boeken TO BE](../opdracht-diagrammen/reis-boeken-tobe-coursegrained_2024-06-11.egn.svg)
 
 ### 3.4 Domain Model
 
-![Domain Model](../../W1%20en%20W2/opdracht-diagrammen/Domain%20Model.png)
+![Domain Model](../opdracht-diagrammen/Domain%20Model.png)
 
 ## 4. Quality Attributes
 
@@ -120,14 +120,10 @@ kwaliteitsattributen benoemd als belangrijk:
   - Ik heb mijn prototype gebouwd door gebruik van het DIP. Ik werk met adapters en beide API's worden daardoor met behulp van de IBoekingAdapter inferface. De boekingService is nu alleen afhankelijk van de abstractie. 
 
 - Safa: Open Closed Principle (OCP)
-  - De applicatie is zo ontworpen dat het makkelijk is om nieuwe bouwstenen toe te voegen zonder bestaande code te veranderen het is zo gemaakt dat de applicatie makkelijk uitbreidbaar is met meerdere bouwstenen.
+  - De prototype is zo ontworpen dat het makkelijk is om nieuwe bouwstenen toe te voegen zonder bestaande code te veranderen het is zo gemaakt dat de applicatie makkelijk uitbreidbaar is met meerdere bouwstenen.
 
 - Rick: Open Closed Principle (OCP)
   - Je ziet dat het open/closed principle is toegepast omdat ik met een interface werk (TransportOption). Elk vervoertype (zoals trein of vlucht) implementeert die interface. Daardoor hoef ik geen bestaande code aan te passen als ik iets nieuws toevoeg. De planner werkt met de interface en weet niet welk type erachter zit. Via application.properties kies ik het type, dus uitbreiding doe ik door iets toe te voegen, niet te veranderen.
-> [!IMPORTANT]
-> Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de
-> software.
-// TODO
 
 ## 7. Software Architecture
 
@@ -159,10 +155,13 @@ Op het moment dat een reiziger een boeking wil doen roept hij/zij de BoekingCont
 De data die uit de API wordt opgehaald, wordt teruggestuurd en getoond aan de gebruiker.
 ![img_1.png](QuinnClassSequenceDiagram.png)
 
-**Ontwerpvraag Safa** Hoe maak je de applicatie uitbreidbaar met nieuwe bouwstenen? // TODO
+**Ontwerpvraag Safa** Hoe maak je de applicatie uitbreidbaar met nieuwe bouwstenen?
 ![img.png](SafaClassDiagram.png)
+In dit ontwerp wordt het factory method pattern gebruikt om makkelijk verschillende bouwstenen (zoals overnachtingen, vervoer, excursies) te kunnen maken. Ik maak gebruik van 2 abstracte classes. De Bouwsteen class is de abstracte klasse die de basisfunctionaliteit van een bouwsteen definieert. De BouwsteenFactory class is verantwoordelijk voor het maken van de juiste bouwsteen op basis van de input. 
 ![img_1.png](../Safa/Diagrammen/img.png)
-//TODO
+De sequence diagram geeft de flow weer hoe je via de factory een activity bouwsteen aanmaakt. De gebruiker geeft een activiteit door en de controller roept de factory aan. Uiteindelijk wordt de activiteit opgeslagen in de database.
+
+
 
 ## 8. Architectural Decision Records
 
@@ -624,9 +623,6 @@ gecombineerd worden met een Factory voor automatische selectie van de juiste str
 
 ## 9. Deployment, Operation and Support
 
-> [!TIP]
-> Zelf beschrijven van wat je moet doen om de software te installeren en te kunnen runnen.
-
 ### 9.1. Deployment
 Om de software te kunnen installeren en te gebruiken moet je de volgende stappen doorlopen:
 1. Zorg ervoor dat je de nieuwste versie hebt van Intellij Idea met minimaal JDK 17.
@@ -651,4 +647,4 @@ In een latere versie kunnen hier zaken zoals monitoring, logging naar bestanden 
 ### 9.3. Support
 Als er problemen zijn kan je ons altijd benaderen op de volgende mail sqrtech@wijzijnzoslim.han.nl
 
-    
+

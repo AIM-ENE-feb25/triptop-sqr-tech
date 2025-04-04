@@ -1,7 +1,7 @@
 @startuml
-actor Developer
+actor Reiziger
 
-Developer -> ActivityController : createActivity("Activity", "Voetballen met Quinn", "Ik ga quinn vies inmaken")
+Reiziger -> ActivityController : createActivity("Activity", "Voetballen met Quinn", "Ik ga quinn vies inmaken")
 ActivityController -> ActivityService : createActivity("Activity", "Voetballen met Quinn", "Ik ga quinn vies inmaken")
 ActivityService -> ActivityFactory : createBouwsteen("Activity", "Voetballen met Quinn", "Ik ga quinn vies inmaken")
 ActivityFactory -> Activity : new Activity("Voetballen met Quinn", "Ik ga quinn vies inmaken")
