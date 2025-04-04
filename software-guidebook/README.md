@@ -123,7 +123,7 @@ kwaliteitsattributen benoemd als belangrijk:
   - De applicatie is zo ontworpen dat het makkelijk is om nieuwe bouwstenen toe te voegen zonder bestaande code te veranderen het is zo gemaakt dat de applicatie makkelijk uitbreidbaar is met meerdere bouwstenen.
 
 - Rick: Open Closed Principle (OCP)
-  - VUL AAN
+  - Je ziet dat het open/closed principle is toegepast omdat ik met een interface werk (TransportOption). Elk vervoertype (zoals trein of vlucht) implementeert die interface. Daardoor hoef ik geen bestaande code aan te passen als ik iets nieuws toevoeg. De planner werkt met de interface en weet niet welk type erachter zit. Via application.properties kies ik het type, dus uitbreiding doe ik door iets toe te voegen, niet te veranderen.
 > [!IMPORTANT]
 > Beschrijf zelf de belangrijkste architecturele en design principes die zijn toegepast in de
 > software.
